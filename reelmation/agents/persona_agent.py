@@ -6,17 +6,19 @@ Downloads reels from Instagram links, transcribes the audio,
 and sends all transcriptions to the Gemini Agent to extract
 a detailed content creator persona.
 
+Module: reelmation.agents.persona_agent
+
 Usage:
     # 1. Paste links into a file (one per line):
-    python persona_extractor.py --links reels.txt --name creator_name
+    python -m reelmation.agents.persona_agent --links reels.txt --name creator_name
 
     # 2. Pass links directly as args:
-    python persona_extractor.py --name creator_name \\
+    python -m reelmation.agents.persona_agent --name creator_name \\
         https://www.instagram.com/reel/ABC123/ \\
         https://www.instagram.com/p/DEF456/
 
     # 3. Interactive mode — paste links into terminal:
-    python persona_extractor.py --name creator_name
+    python -m reelmation.agents.persona_agent --name creator_name
 
 Dependencies:
     pip install yt-dlp faster-whisper

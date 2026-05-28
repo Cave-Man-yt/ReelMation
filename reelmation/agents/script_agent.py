@@ -1,29 +1,21 @@
 """
-Gemini Agent via Antigravity-CLI Auth
-======================================
-Uses the antigravity-cli's OAuth token to call Gemini models through Google's
-Cloud Code Platform API (CCPA) — the same internal API the CLI uses.
+Script Agent — LLM-powered reel scriptwriter.
+==============================================
+Extends GeminiClient with domain-specific methods for generating
+structured reel scripts (narration + character bible + image prompts).
 
 Usage:
-    from gemini_agent import ScriptAgent
+    from reelmation.agents.script_agent import ScriptAgent
 
-    agent = ScriptAgent(
-        persona="You are a creative storyteller for social media reels.",
-        project="sustained-flare-xhpd3",  # From loadCodeAssist response
-    )
-    response = agent.ask("Write a scary 2-sentence story about a haunted house")
-    print(response)
+    agent = ScriptAgent(persona="You are a viral scriptwriter.")
+    script = agent.generate_reel_script(topic="A haunted mirror", num_sentences=12)
 """
 
 import json
-import os
-import time
-import urllib.request
-import urllib.error
-from pathlib import Path
-from datetime import datetime, timezone
-from typing import Optional
 
+from .gemini_client import GeminiClient
+
+# ── Emotion Lexicons (used for hook scoring & arc enforcement) ─────────────
 
 EMOTION_LEXICON = {
     # HIGH intensity — visceral, immediate (1.0 weight)
@@ -57,90 +49,8 @@ EMOTION_BIGRAMS = {
 EMOTION_WORDS = frozenset(EMOTION_LEXICON.keys())
 
 
-
-from .gemini_client import GeminiClient
-from reelmation.models import ReelScript, Character, Environment, Sentence
-
 class ScriptAgent(GeminiClient):
-    def generate_story(self, topic: str, style: str = "dramatic") -> str:
-        """
-        Generate a short story for a reel.
-
-        Args:
-            topic: What the story should be about.
-            style: The tone/style (dramatic, funny, scary, etc.)
-
-        Returns:
-            The generated story text.
-        """
-        prompt = (
-            f"Write a short, {style} story about: {topic}\n\n"
-            "Requirements:\n"
-            "- 3-5 sentences maximum\n"
-            "- Hook the audience from the first word\n"
-            "- Perfect for a 30-60 second social media reel\n"
-            "- Be vivid and cinematic\n"
-            "- End with a twist or powerful conclusion\n\n"
-            "Respond with ONLY the story text, no titles or explanations."
-        )
-        return self.ask_once(prompt)
-
-    def generate_image_prompts(self, story: str, num_scenes: int = 4) -> list[str]:
-        """
-        Generate ComfyUI-compatible image prompts for each scene of a story.
-
-        Args:
-            story: The story text to generate visuals for.
-            num_scenes: Number of scene images to generate.
-
-        Returns:
-            List of image generation prompts.
-        """
-        prompt = (
-            f"Given this story:\n\n\"{story}\"\n\n"
-            f"Generate exactly {num_scenes} image prompts for a text-to-image AI "
-            "(like Stable Diffusion / ComfyUI). Each prompt should describe one "
-            "scene from the story.\n\n"
-            "Requirements:\n"
-            "- Each prompt should be a detailed visual description\n"
-            "- Include lighting, mood, camera angle\n"
-            "- Cinematic quality, photorealistic style\n"
-            "- One prompt per line\n"
-            "- No numbering, no explanations\n\n"
-            "Respond with ONLY the prompts, one per line."
-        )
-        result = self.ask_once(prompt)
-        # Split into individual prompts
-        prompts = [
-            line.strip()
-            for line in result.strip().split("\n")
-            if line.strip()
-        ]
-        return prompts[:num_scenes]
-
-    def generate_narration_script(self, story: str) -> str:
-        """
-        Generate a narration script optimized for TTS (ChatTTS).
-
-        Args:
-            story: The story text to convert to narration.
-
-        Returns:
-            The narration script text.
-        """
-        prompt = (
-            f"Convert this story into a narration script optimized for "
-            f"text-to-speech:\n\n\"{story}\"\n\n"
-            "Requirements:\n"
-            "- Use natural, spoken language\n"
-            "- Add dramatic pauses with '...'\n"
-            "- Keep sentences short for better TTS output\n"
-            "- Avoid special characters that TTS can't pronounce\n"
-            "- Maintain the dramatic tone\n\n"
-            "Respond with ONLY the narration script."
-        )
-        return self.ask_once(prompt)
-
+    """LLM agent for generating structured reel scripts with 3-act narrative arcs."""
     def generate_reel_script(
         self,
         topic: str,
@@ -196,8 +106,11 @@ class ScriptAgent(GeminiClient):
         print("[ScriptAgent] Phase 1: Generating narration sentences...")
 
         phase1_prompt = (
-            f"You are a viral social media reel scriptwriter. "
-            f"Write a {style} script about: {topic}\n\n"
+            f"You are a master storyteller writing narration for a short cinematic reel. "
+            f"Write a {style} narrated story about: {topic}\n\n"
+            "GOAL: Tell a story that flows naturally and hooks the listener from the "
+            "very first sentence. The story should feel like a documentary narrator "
+            "speaking -- vivid, confident, and emotionally compelling.\n\n"
             "OUTPUT FORMAT: Respond with ONLY valid JSON, nothing else.\n\n"
             "{\n"
             '  "title": "Short catchy title",\n'
@@ -206,22 +119,30 @@ class ScriptAgent(GeminiClient):
             '    "Second narration sentence here."\n'
             "  ]\n"
             "}\n\n"
-            "RULES:\n"
-            f"- sentences array must contain EXACTLY {num_sentences} strings\n"
-            "- Each sentence MUST be between 8 and 12 words in length, optimized for punchy visual narration.\n"
+            "STORY STRUCTURE (3-act emotional arc):\n"
+            f"- Act 1 (sentences 1-{num_sentences // 3}): Set the scene. "
+            "Describe the world, the setting, the calm before the storm. "
+            "Use atmospheric, sensory language -- what you see, hear, feel. "
+            "Keep it grounded and intriguing, not dramatic yet.\n"
+            f"- Act 2 (sentences {num_sentences // 3 + 1}-{2 * num_sentences // 3}): "
+            "Raise the stakes. Something goes wrong, a conflict erupts, tension builds. "
+            "The mood shifts -- make the listener feel urgency, danger, or emotional weight.\n"
+            f"- Act 3 (sentences {2 * num_sentences // 3 + 1}-{num_sentences}): "
+            "Deliver the payoff. Resolution, twist, or powerful conclusion. "
+            "Leave the listener with goosebumps or a thought that lingers.\n\n"
+            "WRITING RULES:\n"
+            f"- EXACTLY {num_sentences} sentences in the array.\n"
+            "- Each sentence: 8-12 words. Short, punchy, visual.\n"
+            "- Sentence 1 (the hook): Must grab attention instantly. "
+            "Open with a compelling word (You, Nobody, Imagine, This, They, Every) "
+            "and create an immediate curiosity gap.\n"
+            "- Write for the EAR, not the page -- this will be spoken aloud.\n"
+            "- Every sentence should advance the plot or reveal new information.\n"
             "- No stage directions, no quotes, no parentheticals.\n"
-            "- Keep every string on a single line, no line breaks.\n"
-            "- Use only ASCII characters.\n"
-            "- HOOK SENTENCE (Sentence 1): Design it as a powerful, clean viral hook:\n"
-            "  * Must start with a power word like 'Imagine', 'Nobody', 'You', 'They', 'This', or 'Every'.\n"
-            "  * Must contain exactly 1 or 2 strong emotion words (e.g. 'terrifying', 'unbelievable', 'impossible') but NOT 3 or more.\n"
-            "  * Must create an immediate curiosity gap or shocking stat (e.g., ending in a question mark or saying 'You won\\'t believe...').\n"
-            "- CLEAR 3-ACT EMOTIONAL CONTRAST STRUCTURE:\n"
-            "  * ACT 1 (First third of script): Atmospheric & descriptive setting. Keep emotional intensity very low. Use at most 0 or 1 low-intensity words (e.g. 'mysterious', 'ancient', 'hidden', 'shadow', 'secret').\n"
-            "  * ACT 2 (Middle third of script): High emotional intensity. Build dramatic suspense or visceral conflict using strong visceral keywords (e.g. 'terrifying', 'devastating', 'horrifying', 'panic', 'desperate', 'furious'). Include 1 or 2 of these in every middle sentence.\n"
-            "  * ACT 3 (Final third of script): Resolving impact / climax. Transition to profound, inspiring, or legendary resolutions using high-value resolution keywords (e.g. 'miracle', 'beautiful', 'hope', 'love', 'glorious', 'legendary'). Include 1 or 2 in every final sentence.\n"
-            "  * This stark contrast between Act 1 (flat/calm), Act 2 (terrifying/tense), and Act 3 (miraculous/climax) is CRITICAL to maximize the score.\n"
+            "- Each sentence on a single line. ASCII characters only.\n"
+            "- Make every sentence matter. Cut filler ruthlessly.\n"
         )
+
 
         script_data = None
         for attempt in range(max_retries):
@@ -1319,65 +1240,3 @@ class ScriptAgent(GeminiClient):
         }
 
 
-# ── Quick Test ─────────────────────────────────────────────────────────────
-
-
-def main():
-    """Quick test of the Gemini Agent."""
-    print("=" * 60)
-    print("  Gemini Agent via Antigravity-CLI Auth — Quick Test")
-    print("=" * 60)
-
-    # Create agent with storyteller persona
-    agent = ScriptAgent(
-        persona=(
-            "You are a creative storyteller AI for Reelmation, "
-            "a tool that generates social media reels. "
-            "You write dramatic, cinematic short stories that work "
-            "perfectly as 30-60 second narrated video reels. "
-            "Always be vivid, concise, and end with impact."
-        )
-    )
-
-    print(f"\n✅ Agent initialized")
-    print(f"   Project: {agent.project}")
-    print(f"   Endpoint: {agent.base_url}")
-    print(f"   Persona: {agent.persona[:60]}...")
-
-    # Test 1: Simple ask
-    print("\n" + "─" * 60)
-    print("Test 1: Simple ask")
-    print("─" * 60)
-    response = agent.ask("Write a 2-sentence horror story about an old mirror.")
-    print(f"Response:\n{response}")
-
-    # Test 2: Multi-turn (should remember context)
-    print("\n" + "─" * 60)
-    print("Test 2: Multi-turn follow-up")
-    print("─" * 60)
-    response2 = agent.ask("Now make it funny instead.")
-    print(f"Response:\n{response2}")
-
-    # Test 3: Story generation for reel
-    print("\n" + "─" * 60)
-    print("Test 3: Generate story for reel")
-    print("─" * 60)
-    agent.reset_history()  # Fresh context
-    story = agent.generate_story("a time traveler stuck in a loop", "mysterious")
-    print(f"Story:\n{story}")
-
-    # Test 4: Image prompts
-    print("\n" + "─" * 60)
-    print("Test 4: Generate image prompts")
-    print("─" * 60)
-    prompts = agent.generate_image_prompts(story, num_scenes=3)
-    for i, p in enumerate(prompts, 1):
-        print(f"  Scene {i}: {p[:80]}...")
-
-    print("\n" + "=" * 60)
-    print("  All tests complete!")
-    print("=" * 60)
-
-
-if __name__ == "__main__":
-    main()

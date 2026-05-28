@@ -4,23 +4,14 @@ Text-to-Speech via Microsoft Edge Neural TTS (edge-tts) for Reelmation
 =====================================================================
 Converts text into high-quality, natural-sounding, perfectly consistent speech.
 
-Usage:
-    # CLI Basic Usage:
-    python T2Speech.py "Hello from Reelmation!" -o output.mp3
-
-    # List premium English voices:
-    python T2Speech.py --list-voices
-
-    # Adjust speed (e.g. 15% faster):
-    python T2Speech.py "Quick narration here." -o output.mp3 --rate "+15%"
+Used by:  reelmation.core.pipeline.ReelPipeline
+Module:   reelmation.media.tts_engine
 """
 
 import sys
 import os
-import argparse
 import asyncio
 import edge_tts
-from tabulate import tabulate
 
 class TextToSpeech:
     """
@@ -79,6 +70,8 @@ class TextToSpeech:
         """
         List and display premium voices in a readable table format.
         """
+        from tabulate import tabulate
+
         voices = asyncio.run(self._get_voices_async(locale_prefix))
         
         table_data = []
@@ -188,54 +181,3 @@ class TextToSpeech:
         )
         return word_boundaries
 
-
-def main():
-    parser = argparse.ArgumentParser(description="Edge Neural Text-to-Speech wrapper for Reelmation.")
-    parser.add_argument("text", nargs="?", help="Text string to synthesize to audio.")
-    parser.add_argument("-o", "--output", default="output.mp3", help="Output file destination (e.g., narration.mp3 or narration.wav).")
-    parser.add_argument("-v", "--voice", default="en-US-GuyNeural", help="Microsoft Edge neural voice ShortName. Default: en-US-GuyNeural")
-    parser.add_argument("-r", "--rate", default="+0%", help="Speaking rate change, e.g. +10% or -5%. Default: +0%")
-    parser.add_argument("-p", "--pitch", default="+0Hz", help="Voice pitch change, e.g. -5Hz or +2Hz. Default: +0Hz")
-    parser.add_argument("--list-voices", action="store_true", help="List all available English neural voices and exit.")
-    parser.add_argument("-f", "--file", help="Path to a text file containing script to read.")
-
-    args = parser.parse_args()
-
-    tts = TextToSpeech()
-
-    if args.list_voices:
-        tts.list_voices()
-        sys.exit(0)
-
-    # Determine input text
-    script_text = ""
-    if args.file:
-        try:
-            with open(args.file, 'r', encoding='utf-8') as f:
-                script_text = f.read().strip()
-        except Exception as e:
-            print(f"❌ Error reading text file: {e}")
-            sys.exit(1)
-    elif args.text:
-        script_text = args.text.strip()
-
-    if not script_text:
-        print("❌ Error: Please provide text directly or specify a file with -f / --file.")
-        parser.print_help()
-        sys.exit(1)
-
-    print(f"🎤 Synthesizing speech...")
-    try:
-        tts.generate(
-            text=script_text,
-            output_path=args.output,
-            voice=args.voice,
-            rate=args.rate,
-            pitch=args.pitch
-        )
-    except Exception as e:
-        print(f"❌ Synthesis failed: {e}")
-        sys.exit(1)
-
-if __name__ == "__main__":
-    main()

@@ -71,13 +71,22 @@ class ImageEngine:
                         if data.get("prompt_id") == prompt_id:
                             ws.close()
                             return data.get("output")
-                            
+
+                    elif msg_type == "progress":
+                        data = message.get("data", {})
+                        if data.get("prompt_id") == prompt_id:
+                            value = data.get("value", 0)
+                            max_val = data.get("max", 1)
+                            pct = int((value / max_val) * 100) if max_val else 0
+                            print(f"     ⏳ Progress: {pct}%", end="\r")
+
                     elif msg_type == "execution_error":
                         data = message.get("data", {})
                         if data.get("prompt_id") == prompt_id:
                             ws.close()
                             return None
-        except Exception:
+        except Exception as e:
+            print(f"  ❌ WebSocket error: {e}")
             ws.close()
             return None
 
@@ -101,6 +110,7 @@ class ImageEngine:
             response = self._queue_prompt(workflow)
             prompt_id = response["prompt_id"]
         except Exception as e:
+            print(f"  ❌ Failed to queue prompt: {e}")
             return None
 
         output_data = self._wait_for_image(prompt_id)
@@ -122,7 +132,8 @@ class ImageEngine:
                     with open(output_path, "wb") as f:
                         f.write(image_data)
                     return output_path
-        except Exception:
+        except Exception as e:
+            print(f"  ❌ Failed to download/save image: {e}")
             return None
 
         return None
