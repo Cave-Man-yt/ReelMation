@@ -1,0 +1,33 @@
+# Virtual Environments
+venv/
+env/
+.env
+
+# Python Caches
+__pycache__/
+*.py[cod]
+*$py.class
+.cache/
+
+# Node/Remotion
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Outputs & Generated Media
+output/
+downloads/
+asset/
+*.mp3
+*.mp4
+*.wav
+
+# Logs & Debug
+*.log
+llm_debug.log
+
+# Temp/Junk
+out.json
+Z-image-T2I.json
+reels.txt

@@ -1,0 +1,476 @@
+{
+  "audioUrl": "voiceover.mp3",
+  "brollImages": [
+    {
+      "url": "images/scene_001.png",
+      "durationInFrames": 126
+    },
+    {
+      "url": "images/scene_002.png",
+      "durationInFrames": 120
+    },
+    {
+      "url": "images/scene_003.png",
+      "durationInFrames": 132
+    },
+    {
+      "url": "images/scene_004.png",
+      "durationInFrames": 126
+    },
+    {
+      "url": "images/scene_005.png",
+      "durationInFrames": 125
+    },
+    {
+      "url": "images/scene_006.png",
+      "durationInFrames": 126
+    },
+    {
+      "url": "images/scene_007.png",
+      "durationInFrames": 119
+    },
+    {
+      "url": "images/scene_008.png",
+      "durationInFrames": 168
+    }
+  ],
+  "subtitles": [
+    {
+      "text": "How did one town pull off this unbelievable, breathtaking surprise?",
+      "startFrame": 2,
+      "endFrame": 105,
+      "words": [
+        {
+          "text": "How",
+          "startFrame": 2,
+          "endFrame": 8
+        },
+        {
+          "text": "did",
+          "startFrame": 8,
+          "endFrame": 13
+        },
+        {
+          "text": "one",
+          "startFrame": 13,
+          "endFrame": 19
+        },
+        {
+          "text": "town",
+          "startFrame": 19,
+          "endFrame": 28
+        },
+        {
+          "text": "pull",
+          "startFrame": 28,
+          "endFrame": 34
+        },
+        {
+          "text": "off",
+          "startFrame": 34,
+          "endFrame": 40
+        },
+        {
+          "text": "this",
+          "startFrame": 40,
+          "endFrame": 45
+        },
+        {
+          "text": "unbelievable",
+          "startFrame": 45,
+          "endFrame": 70
+        },
+        {
+          "text": "breathtaking",
+          "startFrame": 70,
+          "endFrame": 86
+        },
+        {
+          "text": "surprise",
+          "startFrame": 86,
+          "endFrame": 105
+        }
+      ]
+    },
+    {
+      "text": "Arthur lived a quiet, hidden life, marked by profound silence.",
+      "startFrame": 128,
+      "endFrame": 224,
+      "words": [
+        {
+          "text": "Arthur",
+          "startFrame": 128,
+          "endFrame": 140
+        },
+        {
+          "text": "lived",
+          "startFrame": 140,
+          "endFrame": 145
+        },
+        {
+          "text": "a",
+          "startFrame": 145,
+          "endFrame": 148
+        },
+        {
+          "text": "quiet",
+          "startFrame": 148,
+          "endFrame": 163
+        },
+        {
+          "text": "hidden",
+          "startFrame": 163,
+          "endFrame": 171
+        },
+        {
+          "text": "life",
+          "startFrame": 171,
+          "endFrame": 184
+        },
+        {
+          "text": "marked",
+          "startFrame": 184,
+          "endFrame": 192
+        },
+        {
+          "text": "by",
+          "startFrame": 192,
+          "endFrame": 196
+        },
+        {
+          "text": "profound",
+          "startFrame": 196,
+          "endFrame": 209
+        },
+        {
+          "text": "silence",
+          "startFrame": 209,
+          "endFrame": 224
+        }
+      ]
+    },
+    {
+      "text": "His unique gestures created a terrifying, isolating, secret world.",
+      "startFrame": 248,
+      "endFrame": 356,
+      "words": [
+        {
+          "text": "His",
+          "startFrame": 248,
+          "endFrame": 255
+        },
+        {
+          "text": "unique",
+          "startFrame": 255,
+          "endFrame": 263
+        },
+        {
+          "text": "gestures",
+          "startFrame": 263,
+          "endFrame": 278
+        },
+        {
+          "text": "created",
+          "startFrame": 278,
+          "endFrame": 290
+        },
+        {
+          "text": "a",
+          "startFrame": 290,
+          "endFrame": 292
+        },
+        {
+          "text": "terrifying",
+          "startFrame": 292,
+          "endFrame": 315
+        },
+        {
+          "text": "isolating",
+          "startFrame": 315,
+          "endFrame": 335
+        },
+        {
+          "text": "secret",
+          "startFrame": 335,
+          "endFrame": 346
+        },
+        {
+          "text": "world",
+          "startFrame": 346,
+          "endFrame": 356
+        }
+      ]
+    },
+    {
+      "text": "Heartbreaking sorrow became his isolation's crushing, daily burden.",
+      "startFrame": 380,
+      "endFrame": 482,
+      "words": [
+        {
+          "text": "Heartbreaking",
+          "startFrame": 380,
+          "endFrame": 399
+        },
+        {
+          "text": "sorrow",
+          "startFrame": 399,
+          "endFrame": 410
+        },
+        {
+          "text": "became",
+          "startFrame": 410,
+          "endFrame": 420
+        },
+        {
+          "text": "his",
+          "startFrame": 420,
+          "endFrame": 425
+        },
+        {
+          "text": "isolation's",
+          "startFrame": 425,
+          "endFrame": 444
+        },
+        {
+          "text": "crushing",
+          "startFrame": 444,
+          "endFrame": 462
+        },
+        {
+          "text": "daily",
+          "startFrame": 462,
+          "endFrame": 471
+        },
+        {
+          "text": "burden",
+          "startFrame": 471,
+          "endFrame": 482
+        }
+      ]
+    },
+    {
+      "text": "The town felt his painful struggle, a horrifying emotional burden.",
+      "startFrame": 506,
+      "endFrame": 607,
+      "words": [
+        {
+          "text": "The",
+          "startFrame": 506,
+          "endFrame": 511
+        },
+        {
+          "text": "town",
+          "startFrame": 511,
+          "endFrame": 519
+        },
+        {
+          "text": "felt",
+          "startFrame": 519,
+          "endFrame": 526
+        },
+        {
+          "text": "his",
+          "startFrame": 526,
+          "endFrame": 531
+        },
+        {
+          "text": "painful",
+          "startFrame": 531,
+          "endFrame": 543
+        },
+        {
+          "text": "struggle",
+          "startFrame": 543,
+          "endFrame": 561
+        },
+        {
+          "text": "a",
+          "startFrame": 561,
+          "endFrame": 562
+        },
+        {
+          "text": "horrifying",
+          "startFrame": 562,
+          "endFrame": 580
+        },
+        {
+          "text": "emotional",
+          "startFrame": 580,
+          "endFrame": 595
+        },
+        {
+          "text": "burden",
+          "startFrame": 595,
+          "endFrame": 607
+        }
+      ]
+    },
+    {
+      "text": "Then, a beautiful, miraculous plan emerged, truly inspiring.",
+      "startFrame": 631,
+      "endFrame": 733,
+      "words": [
+        {
+          "text": "Then",
+          "startFrame": 631,
+          "endFrame": 645
+        },
+        {
+          "text": "a",
+          "startFrame": 645,
+          "endFrame": 647
+        },
+        {
+          "text": "beautiful",
+          "startFrame": 647,
+          "endFrame": 665
+        },
+        {
+          "text": "miraculous",
+          "startFrame": 665,
+          "endFrame": 682
+        },
+        {
+          "text": "plan",
+          "startFrame": 682,
+          "endFrame": 690
+        },
+        {
+          "text": "emerged",
+          "startFrame": 690,
+          "endFrame": 706
+        },
+        {
+          "text": "truly",
+          "startFrame": 706,
+          "endFrame": 716
+        },
+        {
+          "text": "inspiring",
+          "startFrame": 716,
+          "endFrame": 733
+        }
+      ]
+    },
+    {
+      "text": "Every citizen learned a legendary new language, an act of love.",
+      "startFrame": 757,
+      "endFrame": 852,
+      "words": [
+        {
+          "text": "Every",
+          "startFrame": 757,
+          "endFrame": 767
+        },
+        {
+          "text": "citizen",
+          "startFrame": 767,
+          "endFrame": 781
+        },
+        {
+          "text": "learned",
+          "startFrame": 781,
+          "endFrame": 788
+        },
+        {
+          "text": "a",
+          "startFrame": 788,
+          "endFrame": 790
+        },
+        {
+          "text": "legendary",
+          "startFrame": 790,
+          "endFrame": 806
+        },
+        {
+          "text": "new",
+          "startFrame": 806,
+          "endFrame": 811
+        },
+        {
+          "text": "language",
+          "startFrame": 811,
+          "endFrame": 828
+        },
+        {
+          "text": "an",
+          "startFrame": 828,
+          "endFrame": 832
+        },
+        {
+          "text": "act",
+          "startFrame": 832,
+          "endFrame": 838
+        },
+        {
+          "text": "of",
+          "startFrame": 838,
+          "endFrame": 841
+        },
+        {
+          "text": "love",
+          "startFrame": 841,
+          "endFrame": 852
+        }
+      ]
+    },
+    {
+      "text": "Arthur's world was gloriously transformed, a beautiful symphony of belonging.",
+      "startFrame": 876,
+      "endFrame": 989,
+      "words": [
+        {
+          "text": "Arthur's",
+          "startFrame": 876,
+          "endFrame": 889
+        },
+        {
+          "text": "world",
+          "startFrame": 889,
+          "endFrame": 898
+        },
+        {
+          "text": "was",
+          "startFrame": 898,
+          "endFrame": 903
+        },
+        {
+          "text": "gloriously",
+          "startFrame": 903,
+          "endFrame": 920
+        },
+        {
+          "text": "transformed",
+          "startFrame": 920,
+          "endFrame": 943
+        },
+        {
+          "text": "a",
+          "startFrame": 943,
+          "endFrame": 945
+        },
+        {
+          "text": "beautiful",
+          "startFrame": 945,
+          "endFrame": 958
+        },
+        {
+          "text": "symphony",
+          "startFrame": 958,
+          "endFrame": 972
+        },
+        {
+          "text": "of",
+          "startFrame": 972,
+          "endFrame": 975
+        },
+        {
+          "text": "belonging",
+          "startFrame": 975,
+          "endFrame": 989
+        }
+      ]
+    }
+  ],
+  "totalFrames": 1044
+}
