@@ -5,9 +5,9 @@ Uses the antigravity-cli's OAuth token to call Gemini models through Google's
 Cloud Code Platform API (CCPA) — the same internal API the CLI uses.
 
 Usage:
-    from gemini_agent import GeminiAgent
+    from gemini_agent import ScriptAgent
 
-    agent = GeminiAgent(
+    agent = ScriptAgent(
         persona="You are a creative storyteller for social media reels.",
         project="sustained-flare-xhpd3",  # From loadCodeAssist response
     )
@@ -58,375 +58,10 @@ EMOTION_WORDS = frozenset(EMOTION_LEXICON.keys())
 
 
 
-class GeminiAgent:
-    """
-    An agent that uses the antigravity-cli's OAuth token to call Gemini models
-    via the Cloud Code Platform API (CCPA).
+from .gemini_client import GeminiClient
+from reelmation.models import ReelScript, Character, Environment, Sentence
 
-    The CCPA endpoint (daily-cloudcode-pa.googleapis.com) provides access to
-    Gemini models through the same auth flow used by the antigravity CLI tool.
-
-    Supports:
-    - System instructions / persona via conversation history priming
-    - Multi-turn conversations with history
-    - Automatic token expiry checking
-    - Configurable model selection
-    """
-
-    # ── Endpoints ──────────────────────────────────────────────────────────
-    # The CLI uses gRPC to cloudcode-pa.googleapis.com, but Google also
-    # exposes a REST/JSON transcoding layer on the same service.
-    ENDPOINT_DAILY = "https://daily-cloudcode-pa.googleapis.com"
-    ENDPOINT_PROD = "https://cloudcode-pa.googleapis.com"
-
-    # ── API Paths ──────────────────────────────────────────────────────────
-    PATH_GENERATE_CHAT = "/v1internal:generateChat"
-    PATH_LOAD_CODE_ASSIST = "/v1internal:loadCodeAssist"
-    PATH_FETCH_MODELS = "/v1internal:fetchAvailableModels"
-    PATH_GENERATE_CONTENT = "/v1internal:generateContent"
-
-    # ── Token Files ────────────────────────────────────────────────────────
-    TOKEN_FILE_CLI = os.path.expanduser(
-        "~/.gemini/antigravity-cli/antigravity-oauth-token"
-    )
-    TOKEN_FILE_DESKTOP = os.path.expanduser("~/.gemini/oauth_creds.json")
-
-    # ── Author Enum ────────────────────────────────────────────────────────
-    # ChatMessage.EntityType enum values:
-    #   "USER"   (or 1) = User message
-    #   "SYSTEM" (or 2) = System/model response
-    AUTHOR_USER = "USER"
-    AUTHOR_SYSTEM = "SYSTEM"
-
-    def __init__(
-        self,
-        persona: Optional[str] = None,
-        project: Optional[str] = None,
-        tier_id: str = "standard-tier",
-        endpoint: str = "daily",  # "daily" (staging) or "prod"
-        max_retries: int = 3,
-        retry_delay: float = 5.0,
-    ):
-        """
-        Initialize the Gemini Agent.
-
-        Args:
-            persona: System instruction / persona prompt. The model will be
-                     primed with this via a fake conversation turn at the
-                     start of the history.
-            project: GCP project ID. If None, auto-discovered via loadCodeAssist.
-            tier_id: Tier ID (usually "standard-tier").
-            endpoint: "daily" for staging, "prod" for production.
-            max_retries: Max retries on rate limit (429) errors.
-            retry_delay: Base delay in seconds between retries.
-        """
-        self.persona = persona
-        self.project = project
-        self.tier_id = tier_id
-        self.max_retries = max_retries
-        self.retry_delay = retry_delay
-        self.base_url = (
-            self.ENDPOINT_DAILY if endpoint == "daily" else self.ENDPOINT_PROD
-        )
-
-        # Conversation history for multi-turn
-        self._history: list[dict] = []
-
-        # Token cache
-        self._access_token: Optional[str] = None
-        self._token_expiry: Optional[datetime] = None
-
-        # Load token on init
-        self._load_token()
-
-        # Auto-discover project if not provided
-        if not self.project:
-            self._discover_project()
-
-        # Apply persona as initial history if provided
-        if self.persona:
-            self._apply_persona()
-
-    # ── Token Management ───────────────────────────────────────────────────
-
-    def _load_token(self):
-        """Load the OAuth token from the antigravity-cli token file."""
-        token_path = Path(self.TOKEN_FILE_CLI)
-        if not token_path.exists():
-            raise FileNotFoundError(
-                f"Antigravity CLI token not found at {self.TOKEN_FILE_CLI}\n"
-                "Run 'agy' and log in first to create the token."
-            )
-
-        with open(token_path) as f:
-            data = json.load(f)
-
-        token_data = data["token"]
-        self._access_token = token_data["access_token"]
-
-        # Parse expiry (handle nanosecond precision)
-        expiry_str = token_data.get("expiry", "")
-        if expiry_str:
-            import re
-
-            expiry_clean = re.sub(r"\.\d+", "", expiry_str)
-            try:
-                self._token_expiry = datetime.fromisoformat(expiry_clean)
-            except ValueError:
-                self._token_expiry = None
-
-    def _is_token_valid(self) -> bool:
-        """Check if the current token is still valid."""
-        if not self._access_token:
-            return False
-        if not self._token_expiry:
-            return True  # Can't check, assume valid
-        now = datetime.now(self._token_expiry.tzinfo)
-        # Add 60s buffer
-        return (self._token_expiry - now).total_seconds() > 60
-
-    def _ensure_token(self):
-        """Ensure we have a valid token, reload if expired."""
-        if not self._is_token_valid():
-            self._load_token()
-            if not self._is_token_valid():
-                raise RuntimeError(
-                    "Token is expired. Run 'agy' to refresh authentication."
-                )
-
-    # ── Project Discovery ──────────────────────────────────────────────────
-
-    def _discover_project(self):
-        """Auto-discover the project ID from loadCodeAssist."""
-        try:
-            result = self._api_call(self.PATH_LOAD_CODE_ASSIST, {})
-            self.project = result.get("cloudaicompanionProject", "")
-            if not self.project:
-                raise ValueError("No project found in loadCodeAssist response")
-            print(f"[GeminiAgent] Auto-discovered project: {self.project}")
-        except Exception as e:
-            raise RuntimeError(
-                f"Failed to auto-discover project: {e}\n"
-                "Please provide the project ID manually."
-            )
-
-    # ── Persona / System Instructions ──────────────────────────────────────
-
-    def _apply_persona(self):
-        """
-        Apply persona via conversation history priming.
-
-        The CCPA generateChat endpoint doesn't have a dedicated
-        systemInstruction field. Instead, we prime the model by injecting
-        a fake conversation turn where the user defines the persona and
-        the "system" acknowledges it.
-        """
-        if self.persona:
-            self._history = [
-                {
-                    "author": self.AUTHOR_USER,
-                    "content": self.persona,
-                },
-                {
-                    "author": self.AUTHOR_SYSTEM,
-                    "content": (
-                        "Understood. I will follow these instructions precisely "
-                        "for all subsequent messages."
-                    ),
-                },
-            ]
-
-    # ── Core API Call ──────────────────────────────────────────────────────
-
-    def _api_call(self, path: str, payload: dict) -> dict:
-        """Make an API call to the CCPA endpoint."""
-        self._ensure_token()
-
-        url = self.base_url + path
-        data = json.dumps(payload).encode("utf-8")
-
-        req = urllib.request.Request(
-            url,
-            data=data,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json",
-            },
-            method="POST",
-        )
-
-        for attempt in range(self.max_retries + 1):
-            try:
-                with urllib.request.urlopen(req, timeout=30.0) as response:
-                    return json.loads(response.read().decode("utf-8"))
-            except urllib.error.HTTPError as e:
-                error_body = e.read().decode("utf-8", errors="replace")
-                if e.code == 429:
-                    # Rate limited — wait and retry
-                    if attempt < self.max_retries:
-                        wait = self.retry_delay * (2**attempt)
-                        print(
-                            f"[GeminiAgent] Rate limited, "
-                            f"retrying in {wait:.0f}s... "
-                            f"(attempt {attempt + 1}/{self.max_retries})"
-                        )
-                        time.sleep(wait)
-                        # Recreate request (urlopen consumed it)
-                        req = urllib.request.Request(
-                            url,
-                            data=data,
-                            headers={
-                                "Authorization": f"Bearer {self._access_token}",
-                                "Content-Type": "application/json",
-                            },
-                            method="POST",
-                        )
-                        continue
-                    else:
-                        raise RuntimeError(
-                            f"Rate limited after {self.max_retries} retries"
-                        )
-                elif e.code == 401:
-                    # Token expired — try to reload
-                    self._load_token()
-                    req = urllib.request.Request(
-                        url,
-                        data=data,
-                        headers={
-                            "Authorization": f"Bearer {self._access_token}",
-                            "Content-Type": "application/json",
-                        },
-                        method="POST",
-                    )
-                    continue
-                else:
-                    try:
-                        error_data = json.loads(error_body)
-                        msg = error_data.get("error", {}).get("message", error_body)
-                    except json.JSONDecodeError:
-                        msg = error_body
-                    raise RuntimeError(f"API error {e.code}: {msg}")
-            except (urllib.error.URLError, TimeoutError) as e:
-                # Timeout or connection error — wait and retry
-                if attempt < self.max_retries:
-                    wait = self.retry_delay * (2**attempt)
-                    print(
-                        f"[GeminiAgent] Network error / Timeout: {e}, "
-                        f"retrying in {wait:.0f}s... "
-                        f"(attempt {attempt + 1}/{self.max_retries})"
-                    )
-                    time.sleep(wait)
-                    req = urllib.request.Request(
-                        url,
-                        data=data,
-                        headers={
-                            "Authorization": f"Bearer {self._access_token}",
-                            "Content-Type": "application/json",
-                        },
-                        method="POST",
-                    )
-                    continue
-                else:
-                    raise RuntimeError(f"Network error after retries: {e}")
-
-        raise RuntimeError("Max retries exceeded")
-
-    # ── Chat Methods ───────────────────────────────────────────────────────
-
-    def ask(self, message: str) -> str:
-        """
-        Send a message and get a response. Maintains conversation history.
-
-        Args:
-            message: The user's message.
-
-        Returns:
-            The model's response text (markdown).
-        """
-        payload = {
-            "userMessage": message,
-            "project": self.project,
-            "tierId": self.tier_id,
-        }
-
-        # Include conversation history if we have any
-        if self._history:
-            payload["history"] = self._history
-
-        result = self._api_call(self.PATH_GENERATE_CHAT, payload)
-
-        response_text = result.get("markdown", "")
-
-        # Update history with this exchange
-        self._history.append(
-            {"author": self.AUTHOR_USER, "content": message}
-        )
-        self._history.append(
-            {"author": self.AUTHOR_SYSTEM, "content": response_text}
-        )
-
-        return response_text
-
-    def ask_once(self, message: str) -> str:
-        """
-        Send a single message without maintaining history.
-        Persona is still applied if set.
-
-        Args:
-            message: The user's message.
-
-        Returns:
-            The model's response text (markdown).
-        """
-        history = []
-
-        # Apply persona if set
-        if self.persona:
-            history = [
-                {"author": self.AUTHOR_USER, "content": self.persona},
-                {
-                    "author": self.AUTHOR_SYSTEM,
-                    "content": (
-                        "Understood. I will follow these instructions precisely."
-                    ),
-                },
-            ]
-
-        payload = {
-            "userMessage": message,
-            "project": self.project,
-            "tierId": self.tier_id,
-        }
-
-        if history:
-            payload["history"] = history
-
-        result = self._api_call(self.PATH_GENERATE_CHAT, payload)
-        return result.get("markdown", "")
-
-    def reset_history(self):
-        """Clear conversation history (persona is re-applied)."""
-        self._history = []
-        if self.persona:
-            self._apply_persona()
-
-    def set_persona(self, persona: str):
-        """Update the persona and reset history."""
-        self.persona = persona
-        self.reset_history()
-
-    def get_usage(self, result: dict) -> dict:
-        """Extract usage metadata from a raw API result."""
-        usage = result.get("usageMetadata", {})
-        return {
-            "prompt_tokens": int(usage.get("promptTokenCount", 0)),
-            "completion_tokens": int(usage.get("candidatesTokenCount", 0)),
-            "total_tokens": int(usage.get("totalTokenCount", 0)),
-            "thinking_tokens": int(usage.get("thoughtsTokenCount", 0)),
-        }
-
-    # ── Convenience Methods ────────────────────────────────────────────────
-
+class ScriptAgent(GeminiClient):
     def generate_story(self, topic: str, style: str = "dramatic") -> str:
         """
         Generate a short story for a reel.
@@ -558,7 +193,7 @@ class GeminiAgent:
             f.write(f"Topic: {topic} | Style: {style} | Sentences: {num_sentences}\n")
 
         # ── Phase 1: Generate narration sentences ──────────────────────
-        print("[GeminiAgent] Phase 1: Generating narration sentences...")
+        print("[ScriptAgent] Phase 1: Generating narration sentences...")
 
         phase1_prompt = (
             f"You are a viral social media reel scriptwriter. "
@@ -613,12 +248,12 @@ class GeminiAgent:
                         raise ValueError(f"Sentence {i} is not a valid string")
 
                 script_data = data
-                print(f"[GeminiAgent] Phase 1 OK: {len(sentences)} sentences generated")
+                print(f"[ScriptAgent] Phase 1 OK: {len(sentences)} sentences generated")
                 break
 
             except (json.JSONDecodeError, ValueError) as e:
                 _log(f"Phase 1 attempt {attempt+1} FAILED: {e}")
-                print(f"[GeminiAgent] Phase 1 attempt {attempt+1}/{max_retries} failed: {e}")
+                print(f"[ScriptAgent] Phase 1 attempt {attempt+1}/{max_retries} failed: {e}")
                 if attempt >= max_retries - 1:
                     raise RuntimeError(
                         f"Phase 1 failed after {max_retries} attempts: {e}\n"
@@ -629,7 +264,7 @@ class GeminiAgent:
 
         # ── Phase 1b: Hook Optimization ────────────────────────────
         if optimize_hook:
-            print("[GeminiAgent] Phase 1b: Optimizing hook...")
+            print("[ScriptAgent] Phase 1b: Optimizing hook...")
             hook_result = self.generate_hook_variations(
                 original_hook=sentences[0],
                 topic=topic,
@@ -644,7 +279,7 @@ class GeminiAgent:
                 f"(score {hook_result['best']['score']['total']:.1f}/12)",
                 json.dumps(hook_result, indent=2),
             )
-            print(f"[GeminiAgent] Phase 1b OK: best hook = "
+            print(f"[ScriptAgent] Phase 1b OK: best hook = "
                   f"'{hook_result['best']['source']}' "
                   f"({hook_result['best']['score']['total']:.1f}/12)")
         else:
@@ -656,7 +291,7 @@ class GeminiAgent:
             }
 
         # ── Phase 1c: Emotional Arc Enforcement ────────────────────
-        print("[GeminiAgent] Phase 1c: Enforcing emotional arc contrast...")
+        print("[ScriptAgent] Phase 1c: Enforcing emotional arc contrast...")
         sentences, arc_info = self.enforce_emotional_arc(
             sentences=sentences,
             topic=topic,
@@ -669,10 +304,10 @@ class GeminiAgent:
             f"Arc enforcement: StDev {arc_info['original_stdev']:.3f} → {arc_info['final_stdev']:.3f} "
             f"({arc_info['attempts']} attempts, acts regenerated: {arc_info['acts_regenerated']})"
         )
-        print(f"[GeminiAgent] Phase 1c OK: StDev {arc_info['final_stdev']:.3f}")
+        print(f"[ScriptAgent] Phase 1c OK: StDev {arc_info['final_stdev']:.3f}")
 
         # ── Phase 1d: Sentence Length Enforcement ──────────────────
-        print("[GeminiAgent] Phase 1d: Enforcing sentence lengths...")
+        print("[ScriptAgent] Phase 1d: Enforcing sentence lengths...")
         sentences, trim_info = self.enforce_sentence_lengths(
             sentences=sentences,
             log_fn=_log,
@@ -681,12 +316,12 @@ class GeminiAgent:
         script_data["trim_enforcement"] = trim_info
         if trim_info["trimmed_count"] > 0:
             _log(f"Trimmed {trim_info['trimmed_count']} sentences: {trim_info['trimmed_indices']}")
-            print(f"[GeminiAgent] Phase 1d OK: trimmed {trim_info['trimmed_count']} over-long sentences")
+            print(f"[ScriptAgent] Phase 1d OK: trimmed {trim_info['trimmed_count']} over-long sentences")
         else:
-            print("[GeminiAgent] Phase 1d OK: all sentences within target length")
+            print("[ScriptAgent] Phase 1d OK: all sentences within target length")
 
         # ── Phase 2: Character & Environment Bible ─────────────────────
-        print("[GeminiAgent] Phase 2: Generating character & environment bible...")
+        print("[ScriptAgent] Phase 2: Generating character & environment bible...")
 
         numbered_all = "\n".join(
             f"{i+1}. {s}" for i, s in enumerate(sentences)
@@ -774,14 +409,14 @@ class GeminiAgent:
                         )
 
                 bible_data = data
-                print(f"[GeminiAgent] Phase 2 OK: "
+                print(f"[ScriptAgent] Phase 2 OK: "
                       f"{len(data['characters'])} characters, "
                       f"{len(data['environments'])} environments")
                 break
 
             except (json.JSONDecodeError, ValueError) as e:
                 _log(f"Phase 2 attempt {attempt+1} FAILED: {e}")
-                print(f"[GeminiAgent] Phase 2 attempt {attempt+1}/{max_retries} failed: {e}")
+                print(f"[ScriptAgent] Phase 2 attempt {attempt+1}/{max_retries} failed: {e}")
                 if attempt >= max_retries - 1:
                     raise RuntimeError(
                         f"Phase 2 failed after {max_retries} attempts: {e}\n"
@@ -815,7 +450,7 @@ class GeminiAgent:
         )
 
         # ── Phase 3: Generate image prompts with bible context ─────────
-        print(f"[GeminiAgent] Phase 3: Generating image prompts for {len(sentences)} sentences...")
+        print(f"[ScriptAgent] Phase 3: Generating image prompts for {len(sentences)} sentences...")
 
         # Build the bible context block that will be injected into every batch
         char_block = "\n".join(
@@ -964,7 +599,7 @@ class GeminiAgent:
         )
 
         print(
-            f"[GeminiAgent] Script complete: "
+            f"[ScriptAgent] Script complete: "
             f"{len(result['sentences'])} sentences, "
             f"{len(characters)} characters, "
             f"{len(environments)} environments, "
@@ -1101,7 +736,7 @@ class GeminiAgent:
                 cleaned = brace_match.group(1).strip()
                 
         # Apply JSON repair
-        return GeminiAgent._repair_json(cleaned)
+        return ScriptAgent._repair_json(cleaned)
 
     @staticmethod
     def _repair_json(text: str) -> str:
@@ -1694,7 +1329,7 @@ def main():
     print("=" * 60)
 
     # Create agent with storyteller persona
-    agent = GeminiAgent(
+    agent = ScriptAgent(
         persona=(
             "You are a creative storyteller AI for Reelmation, "
             "a tool that generates social media reels. "

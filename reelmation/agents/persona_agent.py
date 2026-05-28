@@ -362,13 +362,13 @@ def transcribe_all(
 
 def extract_persona(transcripts: list[dict], name: str) -> str:
     """Send all transcriptions to Gemini Agent to extract a persona."""
-    from gemini_agent import GeminiAgent
+    from reelmation.agents.gemini_client import GeminiClient
 
     print(f"\n{'─' * 60}")
     print(f"  🤖 Extracting persona via Gemini Agent")
     print(f"{'─' * 60}")
 
-    agent = GeminiAgent(
+    agent = GeminiClient(
         persona=(
             "You are an expert content analyst and persona designer. "
             "You analyze social media content to understand a creator's unique "
@@ -577,9 +577,9 @@ Examples:
     print(f"     {TRANSCRIPTS_DIR}/{name}_system_prompt.txt — Ready-to-use prompt")
     print()
     print(f"  💡 Use in your code:")
-    print(f'     from gemini_agent import GeminiAgent')
+    print(f'     from reelmation.agents.gemini_client import GeminiClient')
     print(f'     persona = open("{TRANSCRIPTS_DIR}/{name}_system_prompt.txt").read()')
-    print(f'     agent = GeminiAgent(persona=persona)')
+    print(f'     agent = GeminiClient(persona=persona)')
     print()
 
 
