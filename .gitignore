@@ -31,3 +31,7 @@ llm_debug.log
 out.json
 Z-image-T2I.json
 reels.txt
+command_gemini.txt
+*.zip
+frontend/node_modules/
+frontend/dist/
