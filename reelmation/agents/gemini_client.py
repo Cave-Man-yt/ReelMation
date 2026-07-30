@@ -28,7 +28,7 @@ class GeminiClient:
         persona: Optional[str] = None,
         project: Optional[str] = None,
         tier_id: str = "standard-tier",
-        endpoint: str = "daily",
+        endpoint: str = "prod",
         max_retries: int = 3,
         retry_delay: float = 5.0,
     ):
@@ -83,6 +83,11 @@ class GeminiClient:
                 raise RuntimeError("Token is expired. Refresh authentication.")
 
     def _discover_project(self):
+        for env_var in ["GEMINI_PROJECT", "GOOGLE_CLOUD_PROJECT", "GCP_PROJECT"]:
+            val = os.environ.get(env_var, "").strip()
+            if val:
+                self.project = val
+                return
         try:
             result = self._api_call(self.PATH_LOAD_CODE_ASSIST, {})
             self.project = result.get("cloudaicompanionProject", "")
@@ -130,7 +135,8 @@ class GeminiClient:
         raise RuntimeError("Max retries exceeded")
 
     def ask(self, message: str) -> str:
-        payload = {"userMessage": message, "project": self.project, "tierId": self.tier_id}
+        modified_message = message + "\n\nIMPORTANT: Keep your internal reasoning/thinking extremely brief (under 50 words) so that you do not exceed the response token limit. Start generating the output immediately."
+        payload = {"userMessage": modified_message, "project": self.project, "tierId": self.tier_id}
         if self._history:
             payload["history"] = self._history
             
@@ -149,7 +155,8 @@ class GeminiClient:
                 {"author": self.AUTHOR_SYSTEM, "content": "Understood. I will follow these instructions precisely."},
             ]
             
-        payload = {"userMessage": message, "project": self.project, "tierId": self.tier_id}
+        modified_message = message + "\n\nIMPORTANT: Keep your internal reasoning/thinking extremely brief (under 50 words) so that you do not exceed the response token limit. Start generating the output immediately."
+        payload = {"userMessage": modified_message, "project": self.project, "tierId": self.tier_id}
         if history:
             payload["history"] = history
             

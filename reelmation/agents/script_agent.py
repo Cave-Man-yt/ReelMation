@@ -38,6 +38,10 @@ EMOTION_LEXICON = {
     "darkness": 0.3, "light": 0.3, "shadow": 0.3,
     "destiny": 0.3, "fate": 0.3, "deadly": 0.3,
     "haunted": 0.3, "unforgiving": 0.3,
+    # EDUCATIONAL & CURIOSITY keywords (0.8 weight)
+    "discovery": 0.8, "reveal": 0.8, "surprising": 0.8, "essential": 0.8,
+    "unbelievable": 0.8, "shocking": 0.8, "secret": 0.8, "mystery": 0.8,
+    "facts": 0.8, "fact": 0.8, "history": 0.8, "science": 0.8, "mind-blowing": 0.8,
 }
 
 EMOTION_BIGRAMS = {
@@ -106,41 +110,21 @@ class ScriptAgent(GeminiClient):
         print("[ScriptAgent] Phase 1: Generating narration sentences...")
 
         phase1_prompt = (
-            f"You are a master storyteller writing narration for a short cinematic reel. "
-            f"Write a {style} narrated story about: {topic}\n\n"
-            "GOAL: Tell a story that flows naturally and hooks the listener from the "
-            "very first sentence. The story should feel like a documentary narrator "
-            "speaking -- vivid, confident, and emotionally compelling.\n\n"
-            "OUTPUT FORMAT: Respond with ONLY valid JSON, nothing else.\n\n"
+            f"Write an informative, educational social media reel narration about: {topic}.\n\n"
+            "JSON Format:\n"
             "{\n"
-            '  "title": "Short catchy title",\n'
-            '  "sentences": [\n'
-            '    "First narration sentence here.",\n'
-            '    "Second narration sentence here."\n'
-            "  ]\n"
+            '  "title": "catchy title",\n'
+            '  "sentences": ["sentence 1", ...]\n'
             "}\n\n"
-            "STORY STRUCTURE (3-act emotional arc):\n"
-            f"- Act 1 (sentences 1-{num_sentences // 3}): Set the scene. "
-            "Describe the world, the setting, the calm before the storm. "
-            "Use atmospheric, sensory language -- what you see, hear, feel. "
-            "Keep it grounded and intriguing, not dramatic yet.\n"
-            f"- Act 2 (sentences {num_sentences // 3 + 1}-{2 * num_sentences // 3}): "
-            "Raise the stakes. Something goes wrong, a conflict erupts, tension builds. "
-            "The mood shifts -- make the listener feel urgency, danger, or emotional weight.\n"
-            f"- Act 3 (sentences {2 * num_sentences // 3 + 1}-{num_sentences}): "
-            "Deliver the payoff. Resolution, twist, or powerful conclusion. "
-            "Leave the listener with goosebumps or a thought that lingers.\n\n"
-            "WRITING RULES:\n"
+            "Rules:\n"
             f"- EXACTLY {num_sentences} sentences in the array.\n"
-            "- Each sentence: 8-12 words. Short, punchy, visual.\n"
-            "- Sentence 1 (the hook): Must grab attention instantly. "
-            "Open with a compelling word (You, Nobody, Imagine, This, They, Every) "
-            "and create an immediate curiosity gap.\n"
-            "- Write for the EAR, not the page -- this will be spoken aloud.\n"
-            "- Every sentence should advance the plot or reveal new information.\n"
-            "- No stage directions, no quotes, no parentheticals.\n"
-            "- Each sentence on a single line. ASCII characters only.\n"
-            "- Make every sentence matter. Cut filler ruthlessly.\n"
+            "- Each sentence: 8-12 words, ASCII only, no line breaks, no quotes, no stage directions.\n"
+            f"- Act 1 (1-{num_sentences // 3}): Hook the audience, introduce the core concept, and explain why it is important.\n"
+            f"- Act 2 ({num_sentences // 3 + 1}-{2 * num_sentences // 3}): Break down the core scientific or factual mechanism, process, or steps clearly.\n"
+            f"- Act 3 ({2 * num_sentences // 3 + 1}-{num_sentences}): Summarize the key takeaways and real-world significance.\n"
+            "- Sentence 1: Start with you, stop, imagine, this, did you know, or every to create an immediate curiosity gap.\n"
+            "- Write to be spoken aloud; make every sentence factually informative, clear, and engaging.\n"
+            "- Do NOT use dramatic stories or fictional plotlines. Stick to science and facts.\n"
         )
 
 
@@ -241,50 +225,24 @@ class ScriptAgent(GeminiClient):
         else:
             print("[ScriptAgent] Phase 1d OK: all sentences within target length")
 
-        # ── Phase 2: Character & Environment Bible ─────────────────────
-        print("[ScriptAgent] Phase 2: Generating character & environment bible...")
-
-        numbered_all = "\n".join(
-            f"{i+1}. {s}" for i, s in enumerate(sentences)
-        )
+        # ── Phase 2: Scientific Component Extraction ───────────────────
+        print("[ScriptAgent] Phase 2: Extracting scientific components and settings...")
 
         phase2_prompt = (
-            "You are a visual production designer. Given the narration sentences below, "
-            "create a CHARACTER BIBLE and ENVIRONMENT BIBLE for consistent image generation.\n\n"
-            f"NARRATION SENTENCES:\n{numbered_all}\n\n"
-            "OUTPUT FORMAT: Respond with ONLY valid JSON, nothing else.\n\n"
+            f"Identify the 2 primary scientific/physical components, elements, or subjects of this topic: {topic}.\n"
+            "Provide their realistic, educational, high-fidelity visual appearance descriptions for a text-to-image AI.\n\n"
+            "Format:\n"
             "{\n"
-            '  "characters": [\n'
-            "    {\n"
-            '      "name": "Character name used in the story",\n'
-            '      "role": "protagonist / supporting / etc",\n'
-            '      "appearance": "EXACT physical description: age, gender, hair color and style, skin tone, eye color, build, clothing. Keep clothing SIMPLE and HIGH-CONTRAST with bold solid colors (e.g. bright red jacket, white shirt, dark blue jeans). No complex patterns or layered outfits."\n'
-            "    }\n"
-            "  ],\n"
-            '  "environments": [\n'
-            "    {\n"
-            '      "id": "short_snake_case_id",\n'
-            '      "name": "Human readable name",\n'
-            '      "description": "Detailed setting: architecture, colors, materials, key objects, lighting conditions, time of day, weather if outdoor"\n'
-            "    }\n"
-            "  ],\n"
-            '  "sentence_environments": [\n'
-            '    "env_id_for_sentence_1",\n'
-            '    "env_id_for_sentence_2"\n'
-            "  ]\n"
+            '  "components": [\n'
+            '    {"name": "Name of component", "appearance": "realistic, educational, scientific detail, lighting, scale (macro or wide)"}\n'
+            '  ]\n'
             "}\n\n"
-            "RULES:\n"
-            "- List ALL characters that appear or are implied in the story\n"
-            "- List ALL distinct locations/settings across the story\n"
-            f"- sentence_environments array must have EXACTLY {len(sentences)} entries, one per sentence\n"
-            "- Each entry in sentence_environments must be an id from the environments array\n"
-            "- Character clothing must use BOLD, SOLID colors (red, white, black, blue) — no pastels, no patterns, no layered descriptions\n"
-            "- Each character appearance must be specific enough to reproduce exactly in every image\n"
-            "- Keep every string on a single line, no line breaks\n"
-            "- Use only ASCII characters\n"
+            "Rules:\n"
+            "- Do NOT personify them. Keep them realistic and informative.\n"
+            "- JSON output only, single-line strings, ASCII only.\n"
         )
 
-        bible_data = None
+        components_data = None
         for attempt in range(max_retries):
             try:
                 raw = self.ask_once(phase2_prompt)
@@ -295,58 +253,53 @@ class ScriptAgent(GeminiClient):
 
                 data = json.loads(cleaned)
 
-                # Validate characters
-                if "characters" not in data or not isinstance(data["characters"], list):
-                    raise ValueError("Missing or invalid 'characters' array")
-                if len(data["characters"]) == 0:
-                    raise ValueError("No characters defined")
-                for c in data["characters"]:
+                if "components" not in data or not isinstance(data["components"], list) or len(data["components"]) == 0:
+                    raise ValueError("Missing or invalid 'components' array")
+                for c in data["components"]:
                     if not c.get("name") or not c.get("appearance"):
-                        raise ValueError(f"Character missing name or appearance: {c}")
+                        raise ValueError(f"Component missing name or appearance: {c}")
 
-                # Validate environments
-                if "environments" not in data or not isinstance(data["environments"], list):
-                    raise ValueError("Missing or invalid 'environments' array")
-                if len(data["environments"]) == 0:
-                    raise ValueError("No environments defined")
-                env_ids = {e["id"] for e in data["environments"]}
-                for e in data["environments"]:
-                    if not e.get("id") or not e.get("description"):
-                        raise ValueError(f"Environment missing id or description: {e}")
-
-                # Validate sentence_environments
-                sent_envs = data.get("sentence_environments", [])
-                if not isinstance(sent_envs, list) or len(sent_envs) < len(sentences):
-                    raise ValueError(
-                        f"sentence_environments has {len(sent_envs)} entries, "
-                        f"need {len(sentences)}"
-                    )
-                # Warn about unknown env ids but don't fail
-                for idx, env_id in enumerate(sent_envs[:len(sentences)]):
-                    if env_id not in env_ids:
-                        print(
-                            f"  ⚠️  Sentence {idx+1} references unknown env '{env_id}', "
-                            f"available: {env_ids}"
-                        )
-
-                bible_data = data
-                print(f"[ScriptAgent] Phase 2 OK: "
-                      f"{len(data['characters'])} characters, "
-                      f"{len(data['environments'])} environments")
+                components_data = data
                 break
-
-            except (json.JSONDecodeError, ValueError) as e:
+            except Exception as e:
                 _log(f"Phase 2 attempt {attempt+1} FAILED: {e}")
-                print(f"[ScriptAgent] Phase 2 attempt {attempt+1}/{max_retries} failed: {e}")
+                print(f"    ⚠️  Attempt {attempt+1}/{max_retries} failed: {e}")
                 if attempt >= max_retries - 1:
-                    raise RuntimeError(
-                        f"Phase 2 failed after {max_retries} attempts: {e}\n"
-                        f"Check {log_file} for raw LLM outputs."
-                    )
+                    components_data = {
+                        "components": [
+                            {
+                                "name": topic.split()[-1] if topic.split() else "Subject",
+                                "appearance": f"A realistic, highly detailed 3D scientific render representing {topic}, clear lighting, macro photography."
+                            }
+                        ]
+                    }
+                    print("    ⚠️  Using fallback programmatic components")
 
-        characters = bible_data["characters"]
-        environments = bible_data["environments"]
-        sent_envs = bible_data["sentence_environments"][:len(sentences)]
+        characters = []
+        for comp in components_data["components"]:
+            characters.append({
+                "name": comp["name"],
+                "role": "subject",
+                "appearance": comp["appearance"]
+            })
+
+        environments = [
+            {
+                "id": "setting_a",
+                "name": "Primary Setting",
+                "description": f"A realistic, high-fidelity outdoors or natural environment depicting the subject of {topic} under clear daylight, detailed, scientific look."
+            },
+            {
+                "id": "setting_b",
+                "name": "Secondary Setting",
+                "description": f"A microscopic or schematic close-up view showing the inner structural or molecular details related to {topic}, detailed scientific diagram style."
+            }
+        ]
+
+        sent_envs = []
+        for i in range(len(sentences)):
+            sent_envs.append("setting_a" if i % 2 == 0 else "setting_b")
+
         env_lookup = {e["id"]: e for e in environments}
 
         # ── Log bible prominently ──────────────────────────────────────
@@ -373,7 +326,7 @@ class ScriptAgent(GeminiClient):
         # ── Phase 3: Generate image prompts with bible context ─────────
         print(f"[ScriptAgent] Phase 3: Generating image prompts for {len(sentences)} sentences...")
 
-        # Build the bible context block that will be injected into every batch
+        # Build the bible context block that will be injected into every prompt
         char_block = "\n".join(
             f"- {c['name']} ({c.get('role', '')}): {c['appearance']}"
             for c in characters
@@ -383,103 +336,69 @@ class ScriptAgent(GeminiClient):
             for e in environments
         )
         bible_context = (
-            "CHARACTER BIBLE (use these EXACT descriptions — do not paraphrase, "
-            "do not invent new characters):\n"
+            "CHARACTER BIBLE:\n"
             f"{char_block}\n\n"
-            "ENVIRONMENT BIBLE (use these EXACT descriptions for settings):\n"
+            "ENVIRONMENT BIBLE:\n"
             f"{env_block}\n"
         )
 
-        BATCH_SIZE = 6
-        all_image_prompts = []
         CONSISTENCY_SUFFIX = (
             "Consistent character design, same outfit throughout, "
             "photorealistic, cinematic, 4K, high detail."
         )
 
-        for batch_start in range(0, len(sentences), BATCH_SIZE):
-            batch_end = min(batch_start + BATCH_SIZE, len(sentences))
-            batch = sentences[batch_start:batch_end]
-            batch_envs = sent_envs[batch_start:batch_end]
-            batch_nums = list(range(batch_start + 1, batch_end + 1))
-
-            print(f"  📷 Generating prompts for sentences {batch_nums[0]}-{batch_nums[-1]}...")
-
-            numbered_with_env = "\n".join(
-                f"{n}. [ENV: {env}] {s}"
-                for n, s, env in zip(batch_nums, batch, batch_envs)
-            )
-
+        all_image_prompts = []
+        for idx, (s, env) in enumerate(zip(sentences, sent_envs)):
+            print(f"  📷 Generating prompt for sentence {idx+1}/{len(sentences)}...")
+            
             phase3_prompt = (
-                "Generate image prompts for a text-to-image AI. "
-                "You MUST reference the exact character appearances and "
-                "environment descriptions from the bible below. "
-                "Do NOT invent new characters or change any physical detail.\n\n"
+                "Generate a detailed image prompt for a text-to-image AI based on this bible:\n"
                 f"{bible_context}\n"
-                f"SENTENCES (with assigned environment):\n{numbered_with_env}\n\n"
-                "OUTPUT FORMAT: Respond with ONLY a JSON array of strings, nothing else.\n"
-                "Each string is one detailed image prompt.\n\n"
-                "[\n"
-                '  "Character name, exact appearance from bible, in environment from bible. '
-                'Action/pose. Camera angle, lighting, mood, color palette.",\n'
-                '  "Another scene..."\n'
-                "]\n\n"
-                "RULES:\n"
-                f"- Array must contain EXACTLY {len(batch)} prompts (one per sentence)\n"
-                "- Each prompt: 40-70 words, hyper-descriptive\n"
-                "- MUST include character name AND their appearance keywords from the bible\n"
-                "- MUST include the assigned environment description from the bible\n"
-                "- Include: camera angle, lighting direction, mood, color palette\n"
-                "- Each prompt must be visually distinct in composition/action\n"
-                "- Keep every string on a single line\n"
-                "- Match the emotional tone of the paired sentence\n"
+                f"SENTENCE: [ENV: {env}] {s}\n\n"
+                "Rules:\n"
+                "- Structure: Character appearance + environment description + action/pose + camera/lighting.\n"
+                "- Length: 40-70 words.\n"
+                "- Output the raw prompt text only. No markdown, no JSON, no formatting, single line.\n"
             )
 
-            batch_prompts = None
+            prompt_text = None
             for attempt in range(max_retries):
                 try:
                     raw = self.ask_once(phase3_prompt)
                     _log(
-                        f"Phase 3 batch {batch_nums[0]}-{batch_nums[-1]} "
+                        f"Phase 3 sentence {idx+1} "
                         f"attempt {attempt+1} — raw ({len(raw)} chars)",
                         raw,
                     )
 
-                    cleaned = self._clean_and_repair(raw)
-                    parsed = json.loads(cleaned)
+                    cleaned = raw.strip()
+                    if cleaned.startswith("```"):
+                        cleaned = cleaned.replace("```json", "").replace("```", "").strip()
+                    cleaned = cleaned.strip('"\'')
+                    
+                    if len(cleaned) < 10:
+                        raise ValueError("Prompt too short or empty")
 
-                    if not isinstance(parsed, list):
-                        raise ValueError("Expected a JSON array")
-
-                    # Ensure all entries are strings
-                    prompts = [str(p).strip() for p in parsed if str(p).strip()]
-                    if len(prompts) < len(batch):
-                        raise ValueError(
-                            f"Got {len(prompts)} prompts, expected {len(batch)}"
-                        )
-
-                    batch_prompts = prompts[:len(batch)]
+                    prompt_text = cleaned
                     break
 
-                except (json.JSONDecodeError, ValueError) as e:
-                    _log(f"Phase 3 batch attempt {attempt+1} FAILED: {e}")
+                except Exception as e:
+                    _log(f"Phase 3 sentence {idx+1} attempt {attempt+1} FAILED: {e}")
                     print(f"    ⚠️  Attempt {attempt+1}/{max_retries} failed: {e}")
                     if attempt >= max_retries - 1:
-                        # Fallback: build prompts from bible directly
-                        print(f"    ⚠️  Using bible-based fallback prompts for this batch")
-                        batch_prompts = []
-                        for s, env_id in zip(batch, batch_envs):
-                            env_desc = env_lookup.get(env_id, {}).get("description", "")
-                            char_descs = ". ".join(
-                                f"{c['name']}, {c['appearance']}" for c in characters
-                            )
-                            batch_prompts.append(
-                                f"{char_descs}. Setting: {env_desc}. "
-                                f"Scene depicting: {s}. Dramatic lighting, "
-                                f"cinematic composition, 4K."
-                            )
+                        # Fallback: build prompt from bible directly
+                        env_desc = env_lookup.get(env, {}).get("description", "")
+                        char_descs = ". ".join(
+                            f"{c['name']}, {c['appearance']}" for c in characters
+                        )
+                        prompt_text = (
+                            f"{char_descs}. Setting: {env_desc}. "
+                            f"Scene depicting: {s}. Dramatic lighting, "
+                            f"cinematic composition, 4K."
+                        )
+                        print(f"    ⚠️  Using bible-based fallback prompt for sentence {idx+1}")
 
-            all_image_prompts.extend(batch_prompts)
+            all_image_prompts.append(prompt_text)
 
         # ── Append consistency suffix to every prompt ──────────────────
         for i, prompt in enumerate(all_image_prompts):
@@ -830,10 +749,6 @@ class ScriptAgent(GeminiClient):
             
         breakdown["narrative_tension"] = tension_score
 
-        total = sum(breakdown.values())
-
-        # ── Penalties (applied after raw total) ──
-
         # P1: Buzzword stacking — if 3+ emotion words, penalize proportionally
         if emotion_matches >= 3:
             penalty = (emotion_matches - 2) * 1.5
@@ -851,7 +766,6 @@ class ScriptAgent(GeminiClient):
         total = max(0.0, sum(breakdown.values()))
         return {"total": total, "breakdown": breakdown}
 
-
     def generate_hook_variations(
         self,
         original_hook: str,
@@ -865,42 +779,25 @@ class ScriptAgent(GeminiClient):
         """
         import json
         prompt = (
-            f"You are a viral social media hook expert. Given this initial hook: \"{original_hook}\"\n"
+            f"You are a social media hook expert. Given this hook: \"{original_hook}\"\n"
             f"for a {style} reel about: {topic}.\n\n"
-            "Generate EXACTLY 3 variations of this hook using these virality heuristics:\n"
-            "1. Question Hook (opens with a compelling/provocative question)\n"
-            "2. Shocking Stat/Bold Claim (leads with a surprising number, percentage, or counterintuitive fact)\n"
-            "3. Cliffhanger/Open Loop (starts in the middle of action or creates immediate mystery/tension)\n\n"
-            "OUTPUT FORMAT: Respond with ONLY valid JSON, nothing else.\n\n"
+            "Generate EXACTLY 3 variations as a JSON array under 'variations':\n"
+            "1. Question Hook (provocative question)\n"
+            "2. Shocking Stat/Bold Claim (surprising number/claim)\n"
+            "3. Cliffhanger/Open Loop (mystery/tension)\n\n"
+            "Format:\n"
             "{\n"
             '  "variations": [\n'
-            '    {\n'
-            '      "type": "question",\n'
-            '      "text": "The new question hook here.",\n'
-            '      "reasoning": "Why this hooks the viewer"\n'
-            '    },\n'
-            '    {\n'
-            '      "type": "shocking_stat",\n'
-            '      "text": "The shocking stat hook here.",\n'
-            '      "reasoning": "Why this hooks the viewer"\n'
-            '    },\n'
-            '    {\n'
-            '      "type": "cliffhanger",\n'
-            '      "text": "The cliffhanger hook here.",\n'
-            '      "reasoning": "Why this hooks the viewer"\n'
-            '    }\n'
+            '    {"type": "type", "text": "variation text", "reasoning": "reason"}\n'
             '  ]\n'
             "}\n\n"
-            "CRITICAL SCORING RULES TO ACHIEVE A PERFECT 10/10 SCORE:\n"
-            "- BREVITY: The text of each variation MUST be EXACTLY between 5 and 12 words in length.\n"
-            "- POWER OPENING: The first word MUST be one of: 'you', 'they', 'nobody', 'she', 'he', 'we', 'this', 'these', 'who', 'what', 'how', 'why', 'when', 'where', 'imagine', 'stop', 'look', 'listen', 'never', 'always', 'every', 'all', or start with a number (e.g. '5').\n"
-            "- CURIOSITY GAP: Must end with a question mark '?' OR contain one of these exact phrases: 'what if', 'imagine', 'you won\\'t believe', 'never expected', 'nobody knew'.\n"
-            "- SPECIFICITY: Must contain a number/statistic (e.g. 'one', 'two', 'three', '5', 'million', 'percent') OR a proper noun (e.g. 'London', 'Sarah').\n"
-            "- EMOTIONAL CHARGE: Must contain EXACTLY TWO (2) emotion words from this list: [terrifying, miracle, heartbreaking, shocking, unbelievable, devastating, incredible, horrifying, beautiful, tragic, mysterious, deadly, haunting, breathtaking, chilling, stunning, furious, desperate, forbidden, legendary, impossible, nightmare, paradise, catastrophic, euphoric, ruthless, savage, vengeful].\n"
-            "  * WARNING: Do NOT use 3 or more emotion words, or it will trigger a severe buzzword-stacking penalty!\n"
-            "- NO CAPS ABUSE: Use standard sentence case. Do NOT use all-caps words (e.g. do NOT write 'TERRIFYING', write 'terrifying').\n"
-            "- Keep every string on a single line, no line breaks.\n"
-            "- Use only ASCII characters.\n"
+            "Rules:\n"
+            "- Text length: 6 to 14 words.\n"
+            "- Start word must be: did you know, you, they, stop, look, imagine, how, why, what, who, when, where, this, or a number.\n"
+            "- Must end with '?' or introduce a surprising fact.\n"
+            "- Must contain a number/statistic, a proper noun, or a clear subject keyword.\n"
+            "- Keep the tone informative and educational. Do NOT force overly dramatic emotional words.\n"
+            "- JSON output only, single-line strings, ASCII only.\n"
         )
         
         original_score = self.score_hook(original_hook)
@@ -1001,142 +898,12 @@ class ScriptAgent(GeminiClient):
         Enforce emotional arc contrast by calculating standard deviation across 3 acts
         and selectively regenerating the weakest act if the standard deviation is below threshold.
         """
-        import json
-        
-        original_stdev = 0.0
-        final_stdev = 0.0
-        attempts = 0
-        acts_regenerated = []
-        
-        current_sentences = list(sentences)
-        n_sents = len(current_sentences)
-        if n_sents < 3:
-            # Cannot do 3-act split
-            return current_sentences, {
-                "original_stdev": 0.0,
-                "final_stdev": 0.0,
-                "attempts": 0,
-                "acts_regenerated": []
-            }
-            
-        # Helper to compute densities and StDev
-        def compute_arc(sents):
-            densities = [self._emotion_density(s) for s in sents]
-            act_sz = len(sents) // 3
-            act1 = densities[:act_sz]
-            act2 = densities[act_sz:2*act_sz]
-            act3 = densities[2*act_sz:]
-            
-            m1 = sum(act1) / len(act1) if act1 else 0.0
-            m2 = sum(act2) / len(act2) if act2 else 0.0
-            m3 = sum(act3) / len(act3) if act3 else 0.0
-            
-            means = [m1, m2, m3]
-            ov_mean = sum(means) / 3.0
-            var = sum((m - ov_mean) ** 2 for m in means) / 3.0
-            sd = var ** 0.5
-            return sd, m1, m2, m3
-            
-        std_dev, mean1, mean2, mean3 = compute_arc(current_sentences)
-        original_stdev = std_dev
-        final_stdev = std_dev
-        
-        if log_fn:
-            log_fn(f"Initial emotional arc check: StDev = {std_dev:.4f} (Means: Act 1={mean1:.4f}, Act 2={mean2:.4f}, Act 3={mean3:.4f})")
-            
-        while final_stdev < min_stdev and attempts < max_attempts:
-            attempts += 1
-            # Determine weakest act using target deviation pattern: [0.0, 0.15, 0.10]
-            deviations = [
-                abs(mean1 - 0.0),
-                abs(mean2 - 0.15),
-                abs(mean3 - 0.10)
-            ]
-            weakest_act_idx = deviations.index(max(deviations))
-            weakest_act_num = weakest_act_idx + 1
-            acts_regenerated.append(weakest_act_num)
-            
-            act_sz = n_sents // 3
-            if weakest_act_num == 1:
-                start_idx, end_idx = 0, act_sz
-                act_instruction = (
-                    "ACT 1: Atmospheric & descriptive setting. Keep emotional intensity extremely low. "
-                    "Do NOT use any high-intensity emotion words. You can use at most 0 or 1 low-intensity words (e.g. 'mysterious', 'ancient', 'hidden', 'shadow', 'secret')."
-                )
-            elif weakest_act_num == 2:
-                start_idx, end_idx = act_sz, 2 * act_sz
-                act_instruction = (
-                    "ACT 2: High emotional intensity. Build dramatic suspense or visceral conflict. "
-                    "Each sentence MUST contain at least one of these exact visceral keywords: "
-                    "['terrifying', 'devastating', 'horrifying', 'panic', 'desperate', 'furious', 'nightmare', 'catastrophic', 'heartbreaking', 'shocking', 'ruthless', 'savage', 'vengeful']."
-                )
-            else:
-                start_idx, end_idx = 2 * act_sz, n_sents
-                act_instruction = (
-                    "ACT 3: Resolving impact / climax. Transition to profound, inspiring, or legendary resolutions. "
-                    "Each sentence MUST contain at least one of these exact resolution/climax keywords: "
-                    "['miracle', 'beautiful', 'hope', 'love', 'glorious', 'legendary', 'unbelievable', 'incredible', 'stunning', 'electrifying', 'paradise']."
-                )
-                
-            act_sentences = current_sentences[start_idx:end_idx]
-            formatted_sentences = "\n".join(f"- {s}" for s in act_sentences)
-            
-            prompt = (
-                f"You are a viral social media reel scriptwriter. We are optimizing a {style} script about: {topic}.\n"
-                f"We need to rewrite Act {weakest_act_num} of the script to dramatically improve the emotional arc.\n\n"
-                f"Here are the current sentences for Act {weakest_act_num}:\n"
-                f"{formatted_sentences}\n\n"
-                f"INSTRUCTION FOR ACT {weakest_act_num}:\n"
-                f"{act_instruction}\n\n"
-                "CRITICAL RULES:\n"
-                "- Rewrite each sentence to follow the instruction above, maintaining the exact narrative flow, meaning, and connection to the rest of the story.\n"
-                "- Each rewritten sentence MUST be between 8 and 12 words in length.\n"
-                "- Return EXACTLY the same number of sentences as provided.\n"
-                "- Return ONLY valid JSON as a dictionary with a single key 'sentences' mapped to a list of strings, like this:\n"
-                "{\n"
-                '  "sentences": [\n'
-                '    "Rewritten sentence 1",\n'
-                '    "Rewritten sentence 2"\n'
-                "  ]\n"
-                "}\n"
-            )
-            
-            try:
-                if log_fn:
-                    log_fn(f"Regenerating Act {weakest_act_num} (attempt {attempts}). Prompt:\n{prompt}")
-                raw = self.ask_once(prompt)
-                if log_fn:
-                    log_fn(f"Regenerate Act {weakest_act_num} attempt {attempts} — raw response", raw)
-                
-                cleaned = self._clean_and_repair(raw)
-                data = json.loads(cleaned)
-                
-                if "sentences" not in data or not isinstance(data["sentences"], list):
-                    raise ValueError("Missing or invalid 'sentences' array in response")
-                    
-                new_act_sents = data["sentences"]
-                expected_count = end_idx - start_idx
-                if len(new_act_sents) != expected_count:
-                    raise ValueError(f"Got {len(new_act_sents)} sentences, expected {expected_count}")
-                    
-                # Replace in current list
-                current_sentences[start_idx:end_idx] = [s.strip() for s in new_act_sents]
-                
-                # Recompute
-                std_dev, mean1, mean2, mean3 = compute_arc(current_sentences)
-                final_stdev = std_dev
-                if log_fn:
-                    log_fn(f"After attempt {attempts}: StDev = {final_stdev:.4f} (Means: Act 1={mean1:.4f}, Act 2={mean2:.4f}, Act 3={mean3:.4f})")
-                
-            except Exception as e:
-                if log_fn:
-                    log_fn(f"Regeneration attempt {attempts} failed: {e}")
-                    
-        return current_sentences, {
-            "original_stdev": original_stdev,
-            "final_stdev": final_stdev,
-            "attempts": attempts,
-            "acts_regenerated": acts_regenerated
+        # Bypassed for educational/informative reels to keep them factual and clear
+        return sentences, {
+            "original_stdev": 0.0,
+            "final_stdev": 0.0,
+            "attempts": 0,
+            "acts_regenerated": []
         }
 
     def enforce_sentence_lengths(
@@ -1184,20 +951,17 @@ class ScriptAgent(GeminiClient):
         )
         
         prompt = (
-            "You are a professional copyeditor. We need to shorten the following social media narration sentences "
-            f"to make them exactly between {min_words} and {max_words} words long (ideal: {target_words} words).\n\n"
-            "Sentence List:\n"
-            f"{formatted_list}\n\n"
-            "CRITICAL RULES:\n"
-            "- Shorten each sentence to be extremely punchy.\n"
-            "- Preserve the core narrative meaning, tense, style, and any key emotional words.\n"
-            "- Do NOT add explanation, do NOT merge or combine sentences.\n"
-            "- Return ONLY valid JSON as a dictionary with a single key 'trimmed_sentences' mapped to a list of objects, each containing 'index' (integer) and 'text' (string), like this:\n"
+            f"Shorten the following narration sentences to be between {min_words} and {max_words} words (target: {target_words} words).\n\n"
+            f"Sentences:\n{formatted_list}\n\n"
+            "Format:\n"
             "{\n"
             '  "trimmed_sentences": [\n'
             '    {"index": index_here, "text": "Shortened sentence here"}\n'
             '  ]\n'
-            "}\n"
+            "}\n\n"
+            "Rules:\n"
+            "- Preserve narrative meaning, style, and keywords.\n"
+            "- Do NOT merge/combine or add any text outside of JSON. Single-line strings only.\n"
         )
         
         trimmed_indices = []
