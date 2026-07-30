@@ -8,7 +8,7 @@ import { VideoStudio } from './components/VideoStudio';
 import { ProcessingExperience } from './components/ProcessingExperience';
 import { ResultExportPage } from './components/ResultExportPage';
 import { AmbientLivingBackground } from './components/AmbientLivingBackground';
-import { generateVideoShort } from './services/aiService';
+import { generateVideoShortStream } from './services/aiService';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<AppView>('landing');
@@ -21,37 +21,34 @@ export default function App() {
     visualStyle: '3d_schematic',
   });
   const [generatedResult, setGeneratedResult] = useState<GeneratedShort | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [logs, setLogs] = useState<string[]>([]);
 
   const handleStartGeneration = async (input: VideoGenerationInput) => {
     setCurrentInput(input);
     setGeneratedResult(null);
+    setLogs([]);
     setCurrentView('processing');
-    setIsProcessing(true);
 
-    try {
-      const data = await generateVideoShort(input);
-      setGeneratedResult(data);
-    } catch (err) {
-      console.error('Error during generation:', err);
-      alert('Video generation failed! Please check the server console for errors.');
-      setCurrentView('studio');
-      setIsProcessing(false);
-    }
-  };
-
-  const handleProcessingComplete = () => {
-    setIsProcessing(false);
-    if (!generatedResult) {
-      setCurrentView('studio');
-      return;
-    }
-    setCurrentView('result');
+    generateVideoShortStream(
+      input,
+      (logLine) => {
+        setLogs((prev) => [...prev, logLine]);
+      },
+      (data) => {
+        setGeneratedResult(data);
+        setCurrentView('result');
+      },
+      (errMessage) => {
+        console.error('Generation error:', errMessage);
+        alert(`Pipeline Execution Error: ${errMessage}`);
+        setCurrentView('studio');
+      }
+    );
   };
 
   const handleNavigateWithSubject = (view: AppView, subject?: string) => {
     if (subject) {
-      setCurrentInput(prev => ({ ...prev, subject }));
+      setCurrentInput((prev) => ({ ...prev, subject }));
     }
     setCurrentView(view);
   };
@@ -73,9 +70,7 @@ export default function App() {
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.4 }}
             >
-              <LandingPage
-                onNavigate={handleNavigateWithSubject}
-              />
+              <LandingPage onNavigate={handleNavigateWithSubject} />
             </motion.div>
           )}
 
@@ -104,8 +99,9 @@ export default function App() {
             >
               <ProcessingExperience
                 input={currentInput}
+                logs={logs}
                 generatedData={generatedResult}
-                onComplete={handleProcessingComplete}
+                onComplete={() => setCurrentView('result')}
               />
             </motion.div>
           )}

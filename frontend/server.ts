@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import { createServer as createViteServer } from 'vite';
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 import fs from 'fs/promises';
 
 dotenv.config();
@@ -22,76 +22,114 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Primary Video Generation API Endpoint
-// Executes the Python pipeline (main.py) and returns the generated manifest + video URL
-app.post('/api/generate-short', async (req, res) => {
+// Real-Time Streaming Generation Endpoint (Server-Sent Events)
+app.post('/api/generate-short-stream', async (req, res) => {
   const { subject, format = '9:16', voiceStyle = 'energetic', visualStyle = '3d_schematic' } = req.body;
 
   if (!subject) {
     return res.status(400).json({ error: 'Subject is required' });
   }
 
-  try {
-    console.log(`\n[Reelmation] Starting Python pipeline for: "${subject}"`);
-    const startTime = Date.now();
-    
-    // Execute the python pipeline
-    const cmd = `./venv/bin/python main.py "${subject}" --no-cache`;
-    
-    const execPromise = new Promise<{stdout: string, stderr: string}>((resolve, reject) => {
-      exec(cmd, { cwd: path.join(process.cwd(), '..'), maxBuffer: 10 * 1024 * 1024 }, (error, stdout, stderr) => {
-        if (error) {
-           console.error("[Reelmation] Pipeline error:", error.message);
-           console.error("[Reelmation] Stderr:", stderr);
-           reject(error);
-        }
-        else resolve({ stdout, stderr });
-      });
-    });
-    
-    const { stdout } = await execPromise;
-    const elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
-    console.log(`[Reelmation] Pipeline completed in ${elapsedSeconds}s`);
+  // Set up SSE headers
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
 
-    // Parse the output path from stdout
-    const match = stdout.match(/output\/([^\/]+\/reel\.mp4)/);
-    if (!match) {
-      throw new Error("Could not find output mp4 path in python stdout");
+  const sendEvent = (type: string, payload: any) => {
+    res.write(`data: ${JSON.stringify({ type, payload })}\n\n`);
+  };
+
+  const rootDir = path.join(process.cwd(), '..');
+  console.log(`\n============================================================`);
+  console.log(`🎬 REELMATION API: Starting Python Pipeline for "${subject}"`);
+  console.log(`============================================================\n`);
+
+  const startTime = Date.now();
+  let stdoutAcc = '';
+
+  // Spawn python process unbuffered
+  const pythonProc = spawn('./venv/bin/python', ['main.py', subject, '--no-cache'], {
+    cwd: rootDir,
+    env: { ...process.env, PYTHONUNBUFFERED: '1' }
+  });
+
+  pythonProc.stdout.on('data', (chunk) => {
+    const text = chunk.toString();
+    stdoutAcc += text;
+    // 1. Output live to server terminal
+    process.stdout.write(text);
+    
+    // 2. Stream line-by-line to web app
+    const lines = text.split('\n');
+    for (const line of lines) {
+      if (line.trim()) {
+        sendEvent('log', line);
+      }
     }
-    
-    const relativeMp4Path = match[1];
-    const runDirName = relativeMp4Path.split('/')[0];
-    
-    // Read the generated manifest
-    const manifestPath = path.join(process.cwd(), '..', 'output', runDirName, 'reel_manifest.json');
-    const manifestContent = await fs.readFile(manifestPath, 'utf8');
-    const manifestData = JSON.parse(manifestContent);
+  });
 
-    // Extract real data from manifest
-    const sentences = manifestData.sentences || [];
-    const totalFrames = manifestData.total_frames || 0;
-    const metadataScore = manifestData.metadata_score || { total: 0, grade: 'N/A' };
-    const hookAnalysis = manifestData.hook_analysis || {};
+  pythonProc.stderr.on('data', (chunk) => {
+    const text = chunk.toString();
+    process.stderr.write(text);
+    const lines = text.split('\n');
+    for (const line of lines) {
+      if (line.trim()) {
+        sendEvent('log', `[INFO] ${line}`);
+      }
+    }
+  });
 
-    // Map manifest sentences to frontend scene format
-    const scenes = sentences.map((item: any, idx: number) => ({
-      sceneIndex: idx + 1,
-      timeStart: item.start_frame / 30,
-      timeEnd: item.end_frame / 30,
-      narration: item.text,
-      visualPrompt: item.image_prompt || "",
-      keywords: [],
-      visualType: "schematic",
-      wordCaptions: item.words ? item.words.map((w: any) => ({
-        text: w.text,
-        start: w.start_frame / 30,
-        end: w.end_frame / 30
-      })) : []
-    }));
+  pythonProc.on('error', (err) => {
+    console.error('\n❌ Failed to start Python process:', err);
+    sendEvent('error', `Failed to start Python process: ${err.message}`);
+    res.end();
+  });
+
+  pythonProc.on('close', async (code) => {
+    const elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
     
-    return res.json({
-      success: true,
-      data: {
+    if (code !== 0) {
+      console.error(`\n❌ Python process exited with code ${code}`);
+      sendEvent('error', `Pipeline execution failed (exit code ${code})`);
+      res.end();
+      return;
+    }
+
+    try {
+      console.log(`\n✅ Python pipeline completed in ${elapsedSeconds}s. Parsing output manifest...`);
+      
+      const match = stdoutAcc.match(/output\/([^\/]+\/reel\.mp4)/);
+      if (!match) {
+        throw new Error("Could not find output mp4 path in python stdout");
+      }
+      
+      const relativeMp4Path = match[1];
+      const runDirName = relativeMp4Path.split('/')[0];
+      const manifestPath = path.join(rootDir, 'output', runDirName, 'reel_manifest.json');
+      const manifestContent = await fs.readFile(manifestPath, 'utf8');
+      const manifestData = JSON.parse(manifestContent);
+
+      const sentences = manifestData.sentences || [];
+      const totalFrames = manifestData.total_frames || 0;
+      const metadataScore = manifestData.metadata_score || { total: 0, grade: 'N/A' };
+      const hookAnalysis = manifestData.hook_analysis || {};
+
+      const scenes = sentences.map((item: any, idx: number) => ({
+        sceneIndex: idx + 1,
+        timeStart: item.start_frame / 30,
+        timeEnd: item.end_frame / 30,
+        narration: item.text,
+        visualPrompt: item.image_prompt || "",
+        keywords: [],
+        visualType: "schematic",
+        wordCaptions: item.words ? item.words.map((w: any) => ({
+          text: w.text,
+          start: w.start_frame / 30,
+          end: w.end_frame / 30
+        })) : []
+      }));
+
+      const resultPayload = {
         id: `reel-${Date.now()}`,
         subject,
         title: manifestData.title || subject,
@@ -108,21 +146,20 @@ app.post('/api/generate-short', async (req, res) => {
         totalDuration: totalFrames / 30,
         scenes,
         videoUrl: `/reels/${relativeMp4Path}`
-      }
-    });
+      };
 
-  } catch (err: any) {
-    console.error('[Reelmation] Pipeline error:', err);
-    return res.status(500).json({
-      success: false,
-      error: err.message || 'Python pipeline failed',
-    });
-  }
+      sendEvent('complete', resultPayload);
+      res.end();
+    } catch (err: any) {
+      console.error('\n❌ Error parsing manifest output:', err);
+      sendEvent('error', `Failed to parse generated video manifest: ${err.message}`);
+      res.end();
+    }
+  });
 });
 
 // Vite Dev Middleware or Static File Serving for Production
 async function startServer() {
-  // Serve generated output files (mp4, images, etc.)
   app.use('/reels', express.static(path.join(process.cwd(), '../output')));
   
   if (process.env.NODE_ENV !== 'production') {
