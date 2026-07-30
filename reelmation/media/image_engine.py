@@ -16,6 +16,15 @@ class ImageEngine:
         self.client_id = str(uuid.uuid4())
         self.timeout = timeout
         self.default_workflow = os.path.join(os.path.dirname(__file__), "..", "..", "Z-image-T2I.json")
+        
+        # Self-healing address validation (checks alternative loopback binding)
+        if server_address == "127.0.0.1:8188" and not self.check_alive():
+            alt_address = "127.0.0.0:8188"
+            self.server = alt_address
+            if self.check_alive():
+                print(f"  ℹ️  ComfyUI detected on alternative loopback {alt_address}")
+            else:
+                self.server = server_address  # Revert back to default
 
     def check_alive(self) -> bool:
         """Check if ComfyUI server is reachable."""
