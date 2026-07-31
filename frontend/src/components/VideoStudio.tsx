@@ -6,7 +6,6 @@ import {
   Sparkles,
   BookOpen,
   Sliders,
-  Upload,
   Cpu,
   Zap,
   ChevronRight
@@ -22,7 +21,7 @@ export const VideoStudio: React.FC<VideoStudioProps> = ({ initialSubject = '', o
   const [knowledgeBase, setKnowledgeBase] = useState(SAMPLE_PRESETS[0].knowledge);
   const [format, setFormat] = useState<AspectRatioFormat>('9:16');
   const [voiceStyle, setVoiceStyle] = useState<VoiceStyle>('energetic');
-  const [dragActive, setDragActive] = useState(false);
+
 
   const subjectInputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -201,26 +200,7 @@ export const VideoStudio: React.FC<VideoStudioProps> = ({ initialSubject = '', o
                 className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl p-3.5 text-sm font-sans text-white placeholder-slate-500 focus:outline-none focus:border-violet-400 focus:ring-1 focus:ring-violet-400/50 focus:shadow-[0_0_20px_rgba(139,92,246,0.2)] resize-none transition-all duration-300"
               />
 
-              {/* Drag & Drop Upload Simulator */}
-              <div
-                onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
-                onDragLeave={() => setDragActive(false)}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  setDragActive(false);
-                  setKnowledgeBase('Uploaded PDF Paper: "Quantum Phase Coherence in Superconducting Circuits" - Thermal noise limits qubits to 100 microseconds...');
-                }}
-                className={`border-2 border-dashed rounded-xl p-3 text-center transition-all cursor-pointer font-mono text-xs ${
-                  dragActive
-                    ? 'border-violet-400 bg-violet-950/30 text-violet-200'
-                    : 'border-slate-800 hover:border-slate-700 text-slate-400'
-                }`}
-              >
-                <div className="flex items-center justify-center space-x-2">
-                  <Upload className="w-3.5 h-3.5 text-slate-500" />
-                  <span>Drag & Drop PDF or Research File</span>
-                </div>
-              </div>
+
             </motion.div>
           </div>
 
@@ -311,7 +291,7 @@ export const VideoStudio: React.FC<VideoStudioProps> = ({ initialSubject = '', o
               <ChevronRight className="w-5 h-5 text-cyan-200 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             <p className="text-slate-500 text-xs font-mono">
-              ⚡ Generation takes 2-5 minutes. ComfyUI must be running.
+              ⚡ Generation takes ~10 minutes. ComfyUI must be running.
             </p>
           </motion.div>
         </form>
