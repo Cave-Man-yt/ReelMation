@@ -90,7 +90,7 @@ export const HeroParticleField: React.FC = () => {
 
     // Subtle Connecting Lines between nearby points
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0xa3b1c6,
+      color: 0x31344b,
       transparent: true,
       opacity: 0.08,
       blending: THREE.NormalBlending,

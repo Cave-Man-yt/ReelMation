@@ -73,7 +73,7 @@ export const VideoStudio: React.FC<VideoStudioProps> = ({ initialSubject = '', o
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6"
-          style={{ boxShadow: '0 4px 6px -4px #a3b1c6' }}
+          style={{ boxShadow: '0 4px 8px -4px rgba(0,0,0,0.12)' }}
         >
           <div>
             <div className="flex items-center space-x-2 text-xs font-mono text-[var(--nm-accent)] uppercase tracking-widest mb-1">
@@ -238,7 +238,7 @@ export const VideoStudio: React.FC<VideoStudioProps> = ({ initialSubject = '', o
           >
             <div 
               className="flex items-center space-x-2 text-xs font-mono font-bold text-[var(--nm-text-heading)] uppercase tracking-wider pb-3"
-              style={{ boxShadow: '0 4px 6px -4px #a3b1c6' }}
+              style={{ boxShadow: '0 4px 8px -4px rgba(0,0,0,0.12)' }}
             >
               <Sliders className="w-4 h-4 text-[var(--nm-accent)]" />
               <span>3. Platform & Algorithmic Parameters</span>
@@ -321,14 +321,15 @@ export const VideoStudio: React.FC<VideoStudioProps> = ({ initialSubject = '', o
               onMouseLeave={() => setIsGenPressed(false)}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full sm:w-2/3 md:w-1/2 py-5 rounded-2xl bg-[var(--nm-bg)] text-[var(--nm-accent)] font-mono font-bold text-base transition-all duration-300 cursor-pointer flex items-center justify-center space-x-3 group"
+              className="w-full sm:w-2/3 md:w-1/2 py-5 rounded-2xl text-white font-mono font-bold text-base transition-all duration-300 cursor-pointer flex items-center justify-center space-x-3 group"
               style={{
-                boxShadow: isGenPressed ? 'var(--nm-pressed)' : 'var(--nm-raised-lg)'
+                background: isGenPressed ? '#5a2d96' : 'linear-gradient(135deg, #6c3baa, #4a6cf7)',
+                boxShadow: isGenPressed ? 'inset 3px 3px 8px rgba(0,0,0,0.3), inset -2px -2px 6px rgba(255,255,255,0.15)' : '6px 6px 16px rgba(108,59,170,0.35), -4px -4px 10px rgba(255,255,255,0.5)'
               }}
             >
-              <Zap className="w-5 h-5 text-[var(--nm-accent)] fill-current group-hover:scale-125 transition-transform" />
+              <Zap className="w-5 h-5 text-white fill-white group-hover:scale-125 transition-transform" />
               <span>GENERATE VIDEO WITH AI</span>
-              <ChevronRight className="w-5 h-5 text-[var(--nm-accent)] group-hover:translate-x-1 transition-transform" />
+              <ChevronRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
             </motion.button>
             <p className="text-[var(--nm-text-muted)] text-xs font-mono">
               ⚡ Generation takes ~10 minutes. ComfyUI must be running.

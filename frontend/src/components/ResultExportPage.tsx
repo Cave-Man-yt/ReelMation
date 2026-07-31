@@ -329,7 +329,7 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
               <div className="flex items-center justify-between">
                 <button
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className="p-2 rounded-lg bg-[var(--nm-bg)] text-[var(--nm-accent)] hover:text-[var(--nm-accent-blue)] transition-colors cursor-pointer nm-btn"
+                  className="p-2 rounded-lg bg-[var(--nm-accent)] text-white transition-colors cursor-pointer nm-btn"
                   style={{ boxShadow: isPlaying ? 'var(--nm-pressed-sm)' : 'var(--nm-raised-sm)' }}
                 >
                   {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
@@ -474,8 +474,8 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleDownload}
-                  className="w-full py-3.5 rounded-xl bg-[var(--nm-bg)] text-[var(--nm-accent)] font-bold transition-all cursor-pointer flex items-center justify-center space-x-2 nm-btn"
-                  style={{ boxShadow: 'var(--nm-raised)' }}
+                  className="w-full py-3.5 rounded-xl text-white font-bold transition-all cursor-pointer flex items-center justify-center space-x-2 nm-btn"
+                  style={{ background: 'linear-gradient(135deg, #6c3baa, #4a6cf7)', boxShadow: '4px 4px 12px rgba(108,59,170,0.35), -3px -3px 8px rgba(255,255,255,0.5)' }}
                 >
                   <Download className="w-4 h-4" />
                   <span>{downloadSuccess ? 'EXPORT PACKAGE READY!' : 'DOWNLOAD MP4 & ASSETS'}</span>
@@ -486,7 +486,7 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={handleShare}
-                    className="py-2.5 rounded-lg bg-[var(--nm-bg)] text-[var(--nm-text-muted)] hover:text-[var(--nm-accent)] transition-colors cursor-pointer flex items-center justify-center space-x-1.5 nm-btn"
+                    className="py-2.5 rounded-lg bg-[var(--nm-bg-alt)] text-[var(--nm-text-muted)] hover:text-[var(--nm-accent)] transition-colors cursor-pointer flex items-center justify-center space-x-1.5 nm-btn"
                     style={{ boxShadow: 'var(--nm-raised-sm)' }}
                   >
                     <Share2 className="w-3.5 h-3.5" />
@@ -497,7 +497,7 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => onNavigate('studio')}
-                    className="py-2.5 rounded-lg bg-[var(--nm-bg)] text-[var(--nm-text-muted)] hover:text-[var(--nm-accent)] transition-colors cursor-pointer flex items-center justify-center space-x-1.5 nm-btn"
+                    className="py-2.5 rounded-lg bg-[var(--nm-bg-alt)] text-[var(--nm-text-muted)] hover:text-[var(--nm-accent)] transition-colors cursor-pointer flex items-center justify-center space-x-1.5 nm-btn"
                     style={{ boxShadow: 'var(--nm-raised-sm)' }}
                   >
                     <RotateCcw className="w-3.5 h-3.5" />

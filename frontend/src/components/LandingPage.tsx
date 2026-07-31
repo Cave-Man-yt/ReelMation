@@ -184,10 +184,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.96 }}
               onClick={() => onNavigate('studio')}
-              className="nm-btn px-8 py-3.5 rounded-2xl font-mono text-sm font-semibold flex items-center space-x-2.5 text-[var(--nm-accent)] bg-[var(--nm-bg)]"
+              className="nm-btn px-8 py-3.5 rounded-2xl font-mono text-sm font-semibold flex items-center space-x-2.5 text-white"
+              style={{background: 'linear-gradient(135deg, #6c3baa, #4a6cf7)', boxShadow: '4px 4px 12px rgba(108,59,170,0.35), -3px -3px 8px rgba(255,255,255,0.5)'}}
             >
               <span>Launch Studio</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-white" />
             </motion.button>
           </div>
 
@@ -266,7 +267,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <motion.path
                 d="M 10 5 L 990 5"
                 fill="none"
-                stroke="var(--nm-shadow-dark, #a3b1c6)"
+                stroke="var(--nm-shadow-dark, rgba(0,0,0,0.25))"
                 strokeOpacity="0.4"
                 strokeWidth="2.5"
                 strokeDasharray="1000"
@@ -366,7 +367,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 </div>
                 <button
                   onClick={() => onNavigate('studio')}
-                  className="nm-btn w-full mt-2 py-2.5 rounded-lg text-[var(--nm-accent)] font-semibold transition-colors cursor-pointer text-center block"
+                  className="nm-btn w-full mt-2 py-2.5 rounded-lg text-white font-semibold transition-colors cursor-pointer text-center block"
+                  style={{background: 'linear-gradient(135deg, #6c3baa, #4a6cf7)', boxShadow: '4px 4px 12px rgba(108,59,170,0.35), -3px -3px 8px rgba(255,255,255,0.5)'}}
                 >
                   Launch Studio →
                 </button>
@@ -435,7 +437,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 <div className="pt-6 mt-4 flex items-center justify-between">
                   <button
                     onClick={() => onNavigate('studio', preset.subject)}
-                    className="nm-btn w-full py-2.5 rounded-xl text-[var(--nm-accent)] transition-colors cursor-pointer text-xs font-mono flex items-center justify-center gap-2"
+                    className="nm-btn w-full py-2.5 rounded-xl bg-[var(--nm-bg-alt)] hover:bg-[rgba(108,59,170,0.08)] text-[var(--nm-accent)] transition-colors cursor-pointer text-xs font-mono flex items-center justify-center gap-2"
                   >
                     <span>Create in Studio</span>
                     <ArrowRight className="w-4 h-4" />

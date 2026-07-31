@@ -11,7 +11,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
   return (
     <header 
       className="sticky top-0 z-50 w-full bg-[var(--nm-bg)] transition-all duration-300"
-      style={{boxShadow: '0 4px 12px var(--nm-shadow-dark, #a3b1c6)'}}
+      style={{boxShadow: '0 4px 14px rgba(0,0,0,0.12)'}}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo & Tag */}
@@ -87,8 +87,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onNavigate }) => {
 
           <button
             onClick={() => onNavigate('studio')}
-            className="group px-4 py-2 rounded-xl bg-[var(--nm-bg)] text-[var(--nm-accent)] text-xs font-semibold font-mono hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex items-center space-x-2"
-            style={{boxShadow: 'var(--nm-raised-sm)'}}
+            className="group px-4 py-2 rounded-xl text-white text-xs font-semibold font-mono hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex items-center space-x-2"
+            style={{background: 'linear-gradient(135deg, #6c3baa, #4a6cf7)', boxShadow: '4px 4px 12px rgba(108,59,170,0.35), -3px -3px 8px rgba(255,255,255,0.5)'}}
           >
             <span>NEW VIDEO</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
