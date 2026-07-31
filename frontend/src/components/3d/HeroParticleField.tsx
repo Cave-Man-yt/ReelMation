@@ -28,9 +28,9 @@ export const HeroParticleField: React.FC = () => {
     const colors = new Float32Array(particleCount * 3);
     const scales = new Float32Array(particleCount);
 
-    const color1 = new THREE.Color('#00F0FF'); // Electric Blue
-    const color2 = new THREE.Color('#8B5CF6'); // Deep Violet
-    const color3 = new THREE.Color('#38BDF8'); // Sky Cyan
+    const color1 = new THREE.Color('#7c5cbf'); // Muted Purple
+    const color2 = new THREE.Color('#6e8efb'); // Soft Blue
+    const color3 = new THREE.Color('#a78bfa'); // Lavender
 
     for (let i = 0; i < particleCount; i++) {
       // Create a layered ring / organic distribution
@@ -65,8 +65,8 @@ export const HeroParticleField: React.FC = () => {
     if (ctx) {
       const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
       grad.addColorStop(0, 'rgba(255,255,255,1)');
-      grad.addColorStop(0.3, 'rgba(0,240,255,0.8)');
-      grad.addColorStop(0.7, 'rgba(139,92,246,0.3)');
+      grad.addColorStop(0.3, 'rgba(124,92,191,0.6)');
+      grad.addColorStop(0.7, 'rgba(110,142,251,0.3)');
       grad.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = grad;
       ctx.beginPath();
@@ -80,7 +80,8 @@ export const HeroParticleField: React.FC = () => {
       vertexColors: true,
       map: texture,
       transparent: true,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.7,
+      blending: THREE.NormalBlending,
       depthWrite: false,
     });
 
@@ -89,10 +90,10 @@ export const HeroParticleField: React.FC = () => {
 
     // Subtle Connecting Lines between nearby points
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0x2563eb,
+      color: 0xa3b1c6,
       transparent: true,
-      opacity: 0.12,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.08,
+      blending: THREE.NormalBlending,
     });
 
     const lineGeometry = new THREE.BufferGeometry();

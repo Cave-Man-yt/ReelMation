@@ -93,7 +93,7 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
     const height = canvas.height;
 
     // Clear background
-    ctx.fillStyle = '#050B16';
+    ctx.fillStyle = '#1a1a2e';
     ctx.fillRect(0, 0, width, height);
 
     // Current Scene Calculation
@@ -102,7 +102,7 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
     ) || shortData.scenes[0];
 
     // Background Grid
-    ctx.strokeStyle = '#1E293B';
+    ctx.strokeStyle = '#2a2a4a';
     ctx.lineWidth = 1;
     for (let x = 0; x < width; x += 40) {
       ctx.beginPath();
@@ -125,17 +125,17 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
     if (currentScene.visualType === 'schematic' || currentScene.visualType === 'atom') {
       // Spinning Bloch Sphere / Qubit Atom
       ctx.lineWidth = 2;
-      ctx.strokeStyle = '#00F0FF';
+      ctx.strokeStyle = '#7c5cbf';
       ctx.beginPath();
       ctx.arc(centerX, centerY, 90, 0, Math.PI * 2);
       ctx.stroke();
 
-      ctx.strokeStyle = '#8B5CF6';
+      ctx.strokeStyle = '#6e8efb';
       ctx.beginPath();
       ctx.ellipse(centerX, centerY, 90, 35, t * 0.5, 0, Math.PI * 2);
       ctx.stroke();
 
-      ctx.fillStyle = '#38BDF8';
+      ctx.fillStyle = '#a78bfa';
       ctx.beginPath();
       ctx.arc(centerX + Math.cos(t) * 90, centerY + Math.sin(t) * 35, 12, 0, Math.PI * 2);
       ctx.fill();
@@ -149,7 +149,7 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
         { x: centerX, y: centerY }
       ];
 
-      ctx.strokeStyle = '#38BDF8';
+      ctx.strokeStyle = '#a78bfa';
       ctx.lineWidth = 2;
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
@@ -161,14 +161,14 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
       }
 
       nodes.forEach((n, idx) => {
-        ctx.fillStyle = idx === 4 ? '#00F0FF' : '#8B5CF6';
+        ctx.fillStyle = idx === 4 ? '#7c5cbf' : '#6e8efb';
         ctx.beginPath();
         ctx.arc(n.x, n.y, 14 + Math.sin(t + idx) * 3, 0, Math.PI * 2);
         ctx.fill();
       });
     } else {
       // Bar Chart / Exponential Curve
-      ctx.strokeStyle = '#00F0FF';
+      ctx.strokeStyle = '#7c5cbf';
       ctx.lineWidth = 4;
       ctx.beginPath();
       ctx.moveTo(centerX - 100, centerY + 80);
@@ -221,7 +221,7 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="min-h-[calc(100vh-4rem)] bg-[#050B16] text-slate-100 p-4 sm:p-6 lg:p-8"
+      className="min-h-[calc(100vh-4rem)] bg-[var(--nm-bg)] text-[var(--nm-text)] p-4 sm:p-6 lg:p-8"
     >
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Top Export Header Bar */}
@@ -229,20 +229,24 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-slate-950/90 border border-slate-800/90 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 backdrop-blur-xl shadow-2xl"
+          className="bg-[var(--nm-bg)] rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+          style={{ boxShadow: 'var(--nm-raised)' }}
         >
           <div>
-            <div className="flex items-center space-x-2 text-xs font-mono text-cyan-400 uppercase tracking-widest mb-1">
+            <div className="flex items-center space-x-2 text-xs font-mono text-[var(--nm-accent)] uppercase tracking-widest mb-1">
               <Sparkles className="w-4 h-4" />
               <span>Media Export Interface</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold font-mono text-white">
+            <h1 className="text-xl sm:text-2xl font-bold font-mono text-[var(--nm-text-heading)]">
               {shortData.title}
             </h1>
           </div>
 
           {/* Format Switcher Pills */}
-          <div className="flex items-center space-x-2 bg-slate-900 border border-slate-800 p-1 rounded-xl text-xs font-mono">
+          <div 
+            className="flex items-center space-x-2 bg-[var(--nm-bg)] p-1 rounded-xl text-xs font-mono"
+            style={{ boxShadow: 'var(--nm-pressed-sm)' }}
+          >
             {(['9:16', '1:1', '16:9'] as AspectRatioFormat[]).map((f) => (
               <motion.button
                 key={f}
@@ -251,9 +255,10 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
                 onClick={() => setSelectedFormat(f)}
                 className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
                   selectedFormat === f
-                    ? 'bg-cyan-950 border border-cyan-600 text-cyan-300 font-bold shadow-[0_0_12px_rgba(0,240,255,0.2)]'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'text-[var(--nm-accent)] font-bold'
+                    : 'text-[var(--nm-text-muted)] hover:text-[var(--nm-text-heading)]'
                 }`}
+                style={selectedFormat === f ? { boxShadow: 'var(--nm-pressed-sm)' } : undefined}
               >
                 {f}
               </motion.button>
@@ -268,17 +273,19 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 bg-slate-950/90 border border-slate-800/90 rounded-2xl p-6 flex flex-col items-center justify-between space-y-4 shadow-2xl backdrop-blur-xl"
+            className="lg:col-span-7 bg-[var(--nm-bg)] rounded-2xl p-6 flex flex-col items-center justify-between space-y-4"
+            style={{ boxShadow: 'var(--nm-raised)' }}
           >
             {/* Aspect Ratio Video Container */}
             <div
-              className={`relative bg-black rounded-2xl border border-slate-800 overflow-hidden flex flex-col items-center justify-center transition-all duration-300 ${
+              className={`relative bg-[#1a1a2e] rounded-2xl overflow-hidden flex flex-col items-center justify-center transition-all duration-300 ${
                 selectedFormat === '9:16'
                   ? 'w-[300px] h-[530px]'
                   : selectedFormat === '1:1'
                   ? 'w-[420px] h-[420px]'
                   : 'w-full max-w-[560px] h-[315px]'
               }`}
+              style={{ boxShadow: 'var(--nm-pressed)' }}
             >
               {/* Dynamic Scene Canvas or MP4 Video */}
               {shortData.videoUrl ? (
@@ -294,13 +301,19 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
 
                   {/* TikTok / Shorts Kinetic Subtitle Overlay */}
                   <div className="absolute bottom-12 inset-x-4 text-center pointer-events-none">
-                    <span className="inline-block px-4 py-2 rounded-xl bg-slate-950/80 backdrop-blur-md border border-cyan-500/80 font-mono font-extrabold text-base sm:text-lg text-cyan-300 shadow-2xl tracking-wide uppercase animate-pulse">
+                    <span 
+                      className="inline-block px-4 py-2 rounded-xl bg-[var(--nm-bg)] font-mono font-extrabold text-base sm:text-lg text-[var(--nm-accent)] tracking-wide uppercase nm-animate-pulse"
+                      style={{ boxShadow: 'var(--nm-raised-sm)' }}
+                    >
                       {currentCaptionWord}
                     </span>
                   </div>
 
                   {/* Brand Watermark Badge */}
-                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded bg-slate-950/70 border border-slate-800 text-[10px] font-mono text-cyan-400 backdrop-blur-sm">
+                  <div 
+                    className="absolute top-4 right-4 px-2.5 py-1 rounded-lg bg-[var(--nm-bg)] text-[10px] font-mono text-[var(--nm-accent)]"
+                    style={{ boxShadow: 'var(--nm-pressed-sm)' }}
+                  >
                     REELMATION AI
                   </div>
                 </>
@@ -309,18 +322,22 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
 
             {/* Video Playback Controls Bar */}
             {!shortData.videoUrl && (
-            <div className="w-full bg-slate-900/80 border border-slate-800/80 rounded-xl p-3 space-y-2 font-mono text-xs">
-              <div className="flex items-center justify-between text-slate-400">
+            <div 
+              className="w-full bg-[var(--nm-bg)] rounded-xl p-3 space-y-2 font-mono text-xs"
+              style={{ boxShadow: 'var(--nm-raised-sm)' }}
+            >
+              <div className="flex items-center justify-between">
                 <button
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className="p-2 rounded-lg bg-cyan-950 border border-cyan-700 text-cyan-300 hover:bg-cyan-900 transition-colors cursor-pointer"
+                  className="p-2 rounded-lg bg-[var(--nm-bg)] text-[var(--nm-accent)] hover:text-[var(--nm-accent-blue)] transition-colors cursor-pointer nm-btn"
+                  style={{ boxShadow: isPlaying ? 'var(--nm-pressed-sm)' : 'var(--nm-raised-sm)' }}
                 >
                   {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
                 </button>
 
                 {/* Timeline Scrubber */}
                 <div className="flex-1 mx-4 flex items-center space-x-2">
-                  <span className="text-[10px] text-slate-400">{currentTime.toFixed(1)}s</span>
+                  <span className="text-[10px] text-[var(--nm-text-muted)]">{currentTime.toFixed(1)}s</span>
                   <input
                     type="range"
                     min="0"
@@ -328,14 +345,15 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
                     step="0.1"
                     value={currentTime}
                     onChange={(e) => setCurrentTime(Number(e.target.value))}
-                    className="w-full accent-cyan-400 cursor-pointer"
+                    className="nm-range w-full cursor-pointer"
                   />
-                  <span className="text-[10px] text-slate-400">{duration}s</span>
+                  <span className="text-[10px] text-[var(--nm-text-muted)]">{duration}s</span>
                 </div>
 
                 <button
                   onClick={() => setIsMuted(!isMuted)}
-                  className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white cursor-pointer"
+                  className="p-2 rounded-lg bg-[var(--nm-bg)] text-[var(--nm-text-muted)] hover:text-[var(--nm-text)] cursor-pointer nm-btn"
+                  style={{ boxShadow: isMuted ? 'var(--nm-pressed-sm)' : 'var(--nm-raised-sm)' }}
                 >
                   {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
@@ -353,40 +371,51 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
           >
             {/* Metadata Metric Cards with Count-Up Animations */}
             <div className="grid grid-cols-2 gap-3 font-mono">
-              <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 shadow-lg">
-                <span className="text-[10px] text-slate-400 uppercase">Retention Score</span>
-                <p className="text-lg font-bold text-emerald-400">
+              <div 
+                className="p-3.5 rounded-xl bg-[var(--nm-bg)]"
+                style={{ boxShadow: 'var(--nm-raised-sm)' }}
+              >
+                <span className="text-[10px] text-[var(--nm-text-muted)] uppercase">Retention Score</span>
+                <p className="text-lg font-bold text-[var(--nm-accent)]">
                   <AnimatedCounter value={shortData.retentionScore || 97.2} suffix="%" />
                 </p>
               </div>
-              <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 shadow-lg">
-                <span className="text-[10px] text-slate-400 uppercase">Processing Time</span>
-                <p className="text-lg font-bold text-cyan-400">
+              <div 
+                className="p-3.5 rounded-xl bg-[var(--nm-bg)]"
+                style={{ boxShadow: 'var(--nm-raised-sm)' }}
+              >
+                <span className="text-[10px] text-[var(--nm-text-muted)] uppercase">Processing Time</span>
+                <p className="text-lg font-bold text-[var(--nm-accent)]">
                   <AnimatedCounter value={shortData.processingTimeSeconds || 7.4} suffix="s" />
                 </p>
               </div>
             </div>
 
             {/* Side Panel Tabs */}
-            <div className="bg-slate-950/90 border border-slate-800/90 rounded-2xl p-5 space-y-4 backdrop-blur-xl shadow-2xl">
-              <div className="flex border-b border-slate-800 pb-2 text-xs font-mono space-x-4">
+            <div 
+              className="bg-[var(--nm-bg)] rounded-2xl p-5 space-y-4"
+              style={{ boxShadow: 'var(--nm-raised)' }}
+            >
+              <div className="flex pb-2 text-xs font-mono space-x-2">
                 <button
                   onClick={() => setActiveTab('script')}
-                  className={`pb-2 transition-all cursor-pointer ${
+                  className={`px-4 py-2 rounded-lg transition-all cursor-pointer ${
                     activeTab === 'script'
-                      ? 'border-b-2 border-cyan-400 text-cyan-300 font-bold'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'text-[var(--nm-accent)] font-bold nm-tab active'
+                      : 'text-[var(--nm-text-muted)] hover:text-[var(--nm-text)] nm-tab'
                   }`}
+                  style={activeTab === 'script' ? { boxShadow: 'var(--nm-pressed-sm)' } : {}}
                 >
                   Script Breakdown
                 </button>
                 <button
                   onClick={() => setActiveTab('metadata')}
-                  className={`pb-2 transition-all cursor-pointer ${
+                  className={`px-4 py-2 rounded-lg transition-all cursor-pointer ${
                     activeTab === 'metadata'
-                      ? 'border-b-2 border-cyan-400 text-cyan-300 font-bold'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'text-[var(--nm-accent)] font-bold nm-tab active'
+                      : 'text-[var(--nm-text-muted)] hover:text-[var(--nm-text)] nm-tab'
                   }`}
+                  style={activeTab === 'metadata' ? { boxShadow: 'var(--nm-pressed-sm)' } : {}}
                 >
                   Parameters
                 </button>
@@ -401,15 +430,16 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 * idx }}
-                      className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs space-y-1.5"
+                      className="p-3 rounded-xl bg-[var(--nm-bg)] text-xs space-y-1.5"
+                      style={{ boxShadow: 'var(--nm-raised-sm)' }}
                     >
-                      <div className="flex justify-between items-center font-mono text-[10px] text-cyan-400">
+                      <div className="flex justify-between items-center font-mono text-[10px] text-[var(--nm-accent)]">
                         <span>SCENE 0{scene.sceneIndex}</span>
                         <span>{scene.timeStart}s - {scene.timeEnd}s</span>
                       </div>
-                      <p className="text-slate-200 font-sans">{scene.narration}</p>
-                      <div className="text-[10px] font-mono text-slate-400">
-                        Prompt: <span className="text-slate-300">{scene.visualPrompt}</span>
+                      <p className="text-[var(--nm-text)] font-sans">{scene.narration}</p>
+                      <div className="text-[10px] font-mono text-[var(--nm-text-muted)]">
+                        Prompt: <span className="text-[var(--nm-text)]">{scene.visualPrompt}</span>
                       </div>
                     </motion.div>
                   ))}
@@ -418,22 +448,22 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
 
               {/* Tab Content 2: Technical Parameters */}
               {activeTab === 'metadata' && (
-                <div className="space-y-2 text-xs font-mono text-slate-300">
-                  <div className="flex justify-between py-1 border-b border-slate-800">
-                    <span className="text-slate-500">Subject:</span>
-                    <span className="truncate max-w-[180px]">{shortData.subject}</span>
+                <div className="space-y-2 text-xs font-mono">
+                  <div className="flex justify-between py-2 border-b border-[var(--nm-bg-dark)]">
+                    <span className="text-[var(--nm-text-muted)]">Subject:</span>
+                    <span className="text-[var(--nm-text)] truncate max-w-[180px]">{shortData.subject}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800">
-                    <span className="text-slate-500">Duration:</span>
-                    <span>{shortData.totalDuration} Seconds</span>
+                  <div className="flex justify-between py-2 border-b border-[var(--nm-bg-dark)]">
+                    <span className="text-[var(--nm-text-muted)]">Duration:</span>
+                    <span className="text-[var(--nm-text)]">{shortData.totalDuration} Seconds</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800">
-                    <span className="text-slate-500">Resolution:</span>
-                    <span>1080x1920 (60 FPS)</span>
+                  <div className="flex justify-between py-2 border-b border-[var(--nm-bg-dark)]">
+                    <span className="text-[var(--nm-text-muted)]">Resolution:</span>
+                    <span className="text-[var(--nm-text)]">1080x1920 (60 FPS)</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800">
-                    <span className="text-slate-500">Voice Tone:</span>
-                    <span className="capitalize">{shortData.voiceStyle}</span>
+                  <div className="flex justify-between py-2 border-b border-[var(--nm-bg-dark)]">
+                    <span className="text-[var(--nm-text-muted)]">Voice Tone:</span>
+                    <span className="text-[var(--nm-text)] capitalize">{shortData.voiceStyle}</span>
                   </div>
                 </div>
               )}
@@ -441,23 +471,25 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
               {/* Action Buttons with Sequential Spring Motion */}
               <div className="pt-4 space-y-3 font-mono text-xs">
                 <motion.button
-                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleDownload}
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 text-white font-bold shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all cursor-pointer flex items-center justify-center space-x-2"
+                  className="w-full py-3.5 rounded-xl bg-[var(--nm-bg)] text-[var(--nm-accent)] font-bold transition-all cursor-pointer flex items-center justify-center space-x-2 nm-btn"
+                  style={{ boxShadow: 'var(--nm-raised)' }}
                 >
                   <Download className="w-4 h-4" />
                   <span>{downloadSuccess ? 'EXPORT PACKAGE READY!' : 'DOWNLOAD MP4 & ASSETS'}</span>
                 </motion.button>
 
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={handleShare}
-                    className="py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer flex items-center justify-center space-x-1.5"
+                    className="py-2.5 rounded-lg bg-[var(--nm-bg)] text-[var(--nm-text-muted)] hover:text-[var(--nm-accent)] transition-colors cursor-pointer flex items-center justify-center space-x-1.5 nm-btn"
+                    style={{ boxShadow: 'var(--nm-raised-sm)' }}
                   >
-                    <Share2 className="w-3.5 h-3.5 text-cyan-400" />
+                    <Share2 className="w-3.5 h-3.5" />
                     <span>{copiedLink ? 'LINK COPIED' : 'SHARE LINK'}</span>
                   </motion.button>
 
@@ -465,9 +497,10 @@ export const ResultExportPage: React.FC<ResultExportPageProps> = ({ shortData, o
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => onNavigate('studio')}
-                    className="py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer flex items-center justify-center space-x-1.5"
+                    className="py-2.5 rounded-lg bg-[var(--nm-bg)] text-[var(--nm-text-muted)] hover:text-[var(--nm-accent)] transition-colors cursor-pointer flex items-center justify-center space-x-1.5 nm-btn"
+                    style={{ boxShadow: 'var(--nm-raised-sm)' }}
                   >
-                    <RotateCcw className="w-3.5 h-3.5 text-violet-400" />
+                    <RotateCcw className="w-3.5 h-3.5" />
                     <span>CREATE NEW</span>
                   </motion.button>
                 </div>

@@ -23,11 +23,11 @@ interface ProcessingExperienceProps {
 }
 
 const PHASE_CONFIG = [
-  { id: 1, label: 'Script', icon: Brain, color: '#00F0FF' },
-  { id: 2, label: 'Voice', icon: Zap, color: '#38BDF8' },
-  { id: 3, label: 'Images', icon: Layers, color: '#3B82F6' },
-  { id: 4, label: 'Manifest', icon: Activity, color: '#8B5CF6' },
-  { id: 5, label: 'Render', icon: Video, color: '#D946EF' },
+  { id: 1, label: 'Script', icon: Brain, color: 'var(--nm-accent)' },
+  { id: 2, label: 'Voice', icon: Zap, color: 'var(--nm-accent-blue)' },
+  { id: 3, label: 'Images', icon: Layers, color: 'var(--nm-accent-light)' },
+  { id: 4, label: 'Manifest', icon: Activity, color: 'var(--nm-accent-green)' },
+  { id: 5, label: 'Render', icon: Video, color: 'var(--nm-accent)' },
 ];
 
 export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
@@ -94,7 +94,7 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
   const currentPhaseConfig = PHASE_CONFIG.find(p => p.id === pipelineState.currentPhase) || PHASE_CONFIG[0];
 
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] bg-[#050B16] text-slate-100 overflow-hidden">
+    <div className="relative min-h-[calc(100vh-4rem)] bg-[var(--nm-bg)] text-[var(--nm-text)] overflow-hidden">
       {/* === Full-Screen Neural Network Canvas Background === */}
       <div className="absolute inset-0 z-0">
         <NeuralNetworkLoading
@@ -114,38 +114,53 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
           transition={{ duration: 0.6, delay: 0.2 }}
           className="pointer-events-auto"
         >
-          <div className="bg-slate-950/70 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xl">
+          <div 
+            className="bg-[var(--nm-bg)] rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+            style={{ boxShadow: 'var(--nm-raised)' }}
+          >
             <div className="flex items-center space-x-3">
-              <div className="p-2.5 rounded-xl bg-cyan-950/80 border border-cyan-800/60">
+              <div 
+                className="p-2.5 rounded-xl bg-[var(--nm-bg)]"
+                style={{ boxShadow: 'var(--nm-pressed-sm)' }}
+              >
                 {isComplete ? (
-                  <Sparkles className="w-5 h-5 text-cyan-400" />
+                  <Sparkles className="w-5 h-5 text-[var(--nm-accent)]" />
                 ) : (
-                  <Loader2 className="w-5 h-5 animate-spin text-cyan-400" />
+                  <Loader2 className="w-5 h-5 animate-spin text-[var(--nm-accent)]" />
                 )}
               </div>
               <div>
-                <h2 className="text-sm font-bold font-mono text-white flex items-center gap-2">
+                <h2 className="text-sm font-bold font-mono text-[var(--nm-text-heading)] flex items-center gap-2">
                   {isComplete ? 'Generation Complete' : pipelineState.phaseName}
                   {!isComplete && (
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-800/60">
+                    <span 
+                      className="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--nm-bg)] text-[var(--nm-accent)]"
+                      style={{ boxShadow: 'var(--nm-pressed-sm)' }}
+                    >
                       PHASE {pipelineState.currentPhase || '—'}/5
                     </span>
                   )}
                 </h2>
-                <p className="text-xs text-slate-400 font-mono mt-0.5 truncate max-w-sm">
-                  Topic: <span className="text-slate-200">"{input.subject}"</span>
+                <p className="text-xs text-[var(--nm-text-muted)] font-mono mt-0.5 truncate max-w-sm">
+                  Topic: <span className="text-[var(--nm-text-heading)]">"{input.subject}"</span>
                 </p>
               </div>
             </div>
 
             <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-1.5 text-xs font-mono text-slate-400 bg-slate-900/80 border border-slate-800 px-3 py-1.5 rounded-xl">
-                <Clock className="w-3.5 h-3.5 text-cyan-400" />
-                <span className="text-cyan-300 font-bold">{formatTime(elapsed)}</span>
+              <div 
+                className="flex items-center space-x-1.5 text-xs font-mono bg-[var(--nm-bg)] px-3 py-1.5 rounded-xl"
+                style={{ boxShadow: 'var(--nm-pressed-sm)' }}
+              >
+                <Clock className="w-3.5 h-3.5 text-[var(--nm-accent)]" />
+                <span className="text-[var(--nm-accent)] font-bold">{formatTime(elapsed)}</span>
               </div>
-              <div className="flex items-center space-x-1.5 text-xs font-mono bg-slate-900/80 border border-slate-800 px-3 py-1.5 rounded-xl">
-                <Cpu className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-                <span className="text-emerald-400">
+              <div 
+                className="flex items-center space-x-1.5 text-xs font-mono bg-[var(--nm-bg)] px-3 py-1.5 rounded-xl"
+                style={{ boxShadow: 'var(--nm-pressed-sm)' }}
+              >
+                <Cpu className="w-3.5 h-3.5 text-[var(--nm-accent)] animate-pulse" />
+                <span className="text-[var(--nm-accent-green)]">
                   {isComplete ? 'DONE' : 'PROCESSING'}
                 </span>
               </div>
@@ -160,12 +175,12 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
               <motion.div
                 key={pipelineState.phaseName}
                 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-                animate={{ opacity: 0.15, y: 0, filter: 'blur(0px)' }}
+                animate={{ opacity: 0.08, y: 0, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
                 transition={{ duration: 0.6 }}
                 className="text-center select-none"
               >
-                <p className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-mono uppercase tracking-wider text-white/10">
+                <p className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-mono uppercase tracking-wider text-[var(--nm-text-heading)]">
                   {pipelineState.phaseName}
                 </p>
               </motion.div>
@@ -181,12 +196,15 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
           className="space-y-4 pointer-events-auto"
         >
           {/* 5-Phase Progress Bar */}
-          <div className="bg-slate-950/70 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-4 shadow-2xl">
+          <div 
+            className="bg-[var(--nm-bg)] rounded-2xl p-4"
+            style={{ boxShadow: 'var(--nm-raised)' }}
+          >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+              <span className="text-[10px] font-mono text-[var(--nm-text-muted)] uppercase tracking-widest">
                 Pipeline Progress
               </span>
-              <span className="text-[10px] font-mono text-cyan-400">
+              <span className="text-[10px] font-mono text-[var(--nm-accent)]">
                 {Math.round(progress * 100)}%
               </span>
             </div>
@@ -202,16 +220,25 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
                     <div
                       className={`h-1.5 rounded-full transition-all duration-700 ${
                         isDone
-                          ? 'bg-gradient-to-r from-cyan-400 to-violet-500 shadow-[0_0_8px_rgba(0,240,255,0.4)]'
+                          ? ''
                           : isActive
-                          ? 'bg-gradient-to-r from-cyan-400/60 to-blue-500/40 animate-pulse'
-                          : 'bg-slate-800'
+                          ? 'bg-[var(--nm-accent)] opacity-50 animate-pulse'
+                          : 'bg-[var(--nm-bg)]'
                       }`}
+                      style={
+                        isDone
+                          ? { background: 'linear-gradient(135deg, var(--nm-accent), var(--nm-accent-blue))' }
+                          : !isActive
+                          ? { boxShadow: 'var(--nm-pressed)' }
+                          : undefined
+                      }
                     />
                     <div className={`flex items-center justify-center mt-2 space-x-1 text-[10px] font-mono ${
-                      isDone ? 'text-cyan-300' : isActive ? 'text-white' : 'text-slate-500'
+                      isDone || isActive ? 'text-[var(--nm-text)]' : 'text-[var(--nm-text-muted)]'
                     }`}>
-                      <Icon className={`w-3 h-3 ${isActive ? 'animate-pulse' : ''}`} />
+                      <Icon className={`w-3 h-3 ${
+                        isDone || isActive ? 'text-[var(--nm-accent)]' : 'text-[var(--nm-text-muted)]'
+                      } ${isActive ? 'animate-pulse' : ''}`} />
                       <span className="hidden sm:inline">{phase.label}</span>
                     </div>
                   </div>
@@ -223,22 +250,28 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
           {/* Bottom Grid: Parsed Content + Event Log */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
             {/* Left: Parsed AI Output (3 cols) */}
-            <div className="lg:col-span-3 bg-slate-950/70 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-4 shadow-2xl max-h-[220px] overflow-hidden">
-              <div className="flex items-center justify-between mb-3">
+            <div 
+              className="lg:col-span-3 bg-[var(--nm-bg)] rounded-2xl p-4 max-h-[240px] overflow-hidden flex flex-col"
+              style={{ boxShadow: 'var(--nm-raised)' }}
+            >
+              <div className="flex items-center justify-between mb-3 shrink-0">
                 <div className="flex items-center space-x-2">
-                  <Brain className="w-3.5 h-3.5 text-violet-400" />
-                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+                  <Brain className="w-3.5 h-3.5 text-[var(--nm-accent)]" />
+                  <span className="text-[10px] font-mono text-[var(--nm-text-muted)] uppercase tracking-widest">
                     AI Output
                   </span>
                 </div>
                 {pipelineState.storyTitle && (
-                  <span className="text-[10px] font-mono text-cyan-400 truncate max-w-[200px]">
+                  <span className="text-[10px] font-mono text-[var(--nm-accent)] truncate max-w-[200px]">
                     "{pipelineState.storyTitle}"
                   </span>
                 )}
               </div>
 
-              <div className="space-y-1.5 overflow-y-auto max-h-[160px] pr-1 scrollbar-thin scrollbar-thumb-slate-800">
+              <div 
+                className="flex-1 space-y-1.5 overflow-y-auto pr-2 scrollbar-thin rounded-xl p-3"
+                style={{ boxShadow: 'var(--nm-pressed-sm)' }}
+              >
                 {pipelineState.sentences.length > 0 ? (
                   pipelineState.sentences.map((sentence, idx) => (
                     <motion.div
@@ -248,31 +281,32 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
                       transition={{ duration: 0.3 }}
                       className="flex items-start gap-2 text-xs"
                     >
-                      <span className="text-cyan-400/60 font-mono text-[10px] mt-0.5 shrink-0">
+                      <span className="text-[var(--nm-accent)] opacity-50 font-mono text-[10px] mt-0.5 shrink-0">
                         {String(idx + 1).padStart(2, '0')}
                       </span>
-                      <span className="text-slate-300 leading-relaxed">
+                      <span className="text-[var(--nm-text)] leading-relaxed">
                         {sentence.length > 90 ? sentence.slice(0, 90) + '...' : sentence}
                       </span>
                     </motion.div>
                   ))
                 ) : (
-                  <div className="flex items-center space-x-2 text-slate-500 text-xs font-mono py-4">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400/50" />
+                  <div className="flex items-center space-x-2 text-[var(--nm-text-muted)] text-xs font-mono py-2">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--nm-accent)]" />
                     <span>Waiting for AI script generation...</span>
                   </div>
                 )}
 
                 {/* Image progress */}
                 {pipelineState.imageProgress.total > 0 && (
-                  <div className="mt-2 pt-2 border-t border-slate-800/60">
-                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1">
+                  <div className="mt-3 pt-3 border-t border-[var(--nm-bg-dark)]">
+                    <div className="flex items-center justify-between text-[10px] font-mono text-[var(--nm-text-muted)] mb-1.5">
                       <span>Scene Images</span>
-                      <span className="text-cyan-400">{pipelineState.imageProgress.done}/{pipelineState.imageProgress.total}</span>
+                      <span className="text-[var(--nm-accent)]">{pipelineState.imageProgress.done}/{pipelineState.imageProgress.total}</span>
                     </div>
-                    <div className="h-1 bg-slate-800 rounded-full overflow-hidden">
+                    <div className="h-1.5 rounded-full overflow-hidden bg-[var(--nm-bg)]" style={{ boxShadow: 'var(--nm-pressed)' }}>
                       <motion.div
-                        className="h-full bg-gradient-to-r from-cyan-400 to-violet-500 rounded-full"
+                        className="h-full rounded-full"
+                        style={{ background: 'linear-gradient(135deg, var(--nm-accent), var(--nm-accent-blue))' }}
                         initial={{ width: '0%' }}
                         animate={{ width: `${(pipelineState.imageProgress.done / pipelineState.imageProgress.total) * 100}%` }}
                         transition={{ duration: 0.5 }}
@@ -283,17 +317,17 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
 
                 {/* Score */}
                 {pipelineState.scoreGrade && (
-                  <div className="mt-2 pt-2 border-t border-slate-800/60 flex items-center gap-3">
-                    <span className="text-[10px] font-mono text-slate-400">Quality Grade:</span>
+                  <div className="mt-3 pt-3 border-t border-[var(--nm-bg-dark)] flex items-center gap-3">
+                    <span className="text-[10px] font-mono text-[var(--nm-text-muted)]">Quality Grade:</span>
                     <span className={`text-sm font-bold font-mono ${
-                      pipelineState.scoreGrade?.startsWith('A') ? 'text-emerald-400' :
-                      pipelineState.scoreGrade?.startsWith('B') ? 'text-cyan-400' :
-                      'text-amber-400'
+                      pipelineState.scoreGrade?.startsWith('A') ? 'text-[var(--nm-accent-green)]' :
+                      pipelineState.scoreGrade?.startsWith('B') ? 'text-[var(--nm-accent)]' :
+                      'text-[var(--nm-accent-light)]'
                     }`}>
                       {pipelineState.scoreGrade}
                     </span>
                     {pipelineState.scoreTotal !== null && (
-                      <span className="text-[10px] font-mono text-slate-500">{pipelineState.scoreTotal}/100</span>
+                      <span className="text-[10px] font-mono text-[var(--nm-text-muted)] opacity-70">{pipelineState.scoreTotal}/100</span>
                     )}
                   </div>
                 )}
@@ -301,23 +335,27 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
             </div>
 
             {/* Right: Event Ticker (2 cols) */}
-            <div className="lg:col-span-2 bg-slate-950/70 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-4 shadow-2xl max-h-[220px] overflow-hidden">
-              <div className="flex items-center justify-between mb-3">
+            <div 
+              className="lg:col-span-2 bg-[var(--nm-bg)] rounded-2xl p-4 max-h-[240px] overflow-hidden flex flex-col"
+              style={{ boxShadow: 'var(--nm-raised)' }}
+            >
+              <div className="flex items-center justify-between mb-3 shrink-0">
                 <div className="flex items-center space-x-2">
-                  <Activity className="w-3.5 h-3.5 text-cyan-400" />
-                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+                  <Activity className="w-3.5 h-3.5 text-[var(--nm-accent)]" />
+                  <span className="text-[10px] font-mono text-[var(--nm-text-muted)] uppercase tracking-widest">
                     Live Events
                   </span>
                 </div>
-                <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                <span className="flex items-center gap-1.5 text-[10px] font-mono text-[var(--nm-accent-green)]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--nm-accent-green)] animate-ping" />
                   {logs.length} lines
                 </span>
               </div>
 
               <div
                 ref={eventsPanelRef}
-                className="space-y-1 overflow-y-auto max-h-[160px] pr-1 scrollbar-thin scrollbar-thumb-slate-800"
+                className="flex-1 space-y-1.5 overflow-y-auto pr-2 scrollbar-thin rounded-xl p-3"
+                style={{ boxShadow: 'var(--nm-pressed-sm)' }}
               >
                 {pipelineState.recentEvents.length > 0 ? (
                   pipelineState.recentEvents.map((event, idx) => (
@@ -326,14 +364,14 @@ export const ProcessingExperience: React.FC<ProcessingExperienceProps> = ({
                       initial={{ opacity: 0, y: 5 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="text-[11px] font-mono text-slate-400 leading-relaxed truncate"
+                      className="text-[11px] font-mono text-[var(--nm-text-muted)] leading-relaxed truncate"
                     >
                       {event}
                     </motion.div>
                   ))
                 ) : (
-                  <div className="flex items-center space-x-2 text-slate-500 text-xs font-mono py-4">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-cyan-400/50" />
+                  <div className="flex items-center space-x-2 text-[var(--nm-text-muted)] text-xs font-mono py-2">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-[var(--nm-accent)]" />
                     <span>Waiting for pipeline events...</span>
                   </div>
                 )}

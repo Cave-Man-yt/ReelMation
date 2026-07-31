@@ -54,7 +54,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#050B16] text-slate-100 font-sans flex flex-col justify-between selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
+    <div className="relative min-h-screen bg-[var(--nm-bg)] text-[var(--nm-text)] font-sans flex flex-col justify-between overflow-x-hidden">
       {/* Global Ambient Depth Living Background */}
       <AmbientLivingBackground />
 

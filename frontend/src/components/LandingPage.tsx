@@ -37,11 +37,10 @@ const SECTIONS = [
   { id: 'shorts', label: 'Sample Shorts' }
 ];
 
-// High-Sensitivity 3D Tilt Card Helper Component with Cursor Tracking Spotlight
+// High-Sensitivity 3D Tilt Card Helper Component
 const TiltCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => {
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
-  const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -50,10 +49,6 @@ const TiltCard: React.FC<{ children: React.ReactNode; className?: string }> = ({
     const y = e.clientY - rect.top - rect.height / 2;
     setRotateX(-y / 6);
     setRotateY(x / 6);
-
-    const spotlightX = ((e.clientX - rect.left) / rect.width) * 100;
-    const spotlightY = ((e.clientY - rect.top) / rect.height) * 100;
-    setSpotlightPos({ x: spotlightX, y: spotlightY });
   };
 
   return (
@@ -67,17 +62,9 @@ const TiltCard: React.FC<{ children: React.ReactNode; className?: string }> = ({
       }}
       animate={{ rotateX, rotateY, scale: isHovered ? 1.02 : 1 }}
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-      style={{ perspective: 1000 }}
-      className={`relative overflow-hidden ${className}`}
+      style={{ perspective: 1000, boxShadow: isHovered ? 'var(--nm-raised-lg)' : 'var(--nm-raised)' }}
+      className={`relative overflow-hidden rounded-2xl bg-[var(--nm-bg)] ${className}`}
     >
-      {isHovered && (
-        <div
-          className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-10 rounded-2xl"
-          style={{
-            background: `radial-gradient(350px circle at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(0, 240, 255, 0.18), transparent 80%)`,
-          }}
-        />
-      )}
       {children}
     </motion.div>
   );
@@ -134,10 +121,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#050B16] text-slate-100 overflow-x-hidden font-sans">
+    <div className="relative min-h-screen overflow-x-hidden font-sans">
       {/* Top Fixed Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 origin-left z-50 shadow-[0_0_12px_rgba(0,240,255,0.8)]"
+        className="fixed top-0 left-0 right-0 h-1 bg-[var(--nm-accent)] origin-left z-50"
         style={{ scaleX }}
       />
 
@@ -155,9 +142,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <HeroParticleField />
         </motion.div>
 
-        {/* Ambient Glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[650px] h-[380px] bg-gradient-to-r from-cyan-500/15 via-blue-600/10 to-violet-600/15 blur-[130px] pointer-events-none rounded-full" />
-
         <motion.div
           style={{ y: heroContentY }}
           className="relative z-10 max-w-5xl mx-auto text-center space-y-7"
@@ -167,21 +151,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-cyan-500/40 text-cyan-300 font-mono text-xs shadow-lg shadow-cyan-500/10 backdrop-blur-md"
+            className="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full font-mono text-xs bg-[var(--nm-bg)]"
+            style={{ boxShadow: 'var(--nm-pressed-sm)' }}
           >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            <span>AI-Powered Educational Reel Generator</span>
+            <Sparkles className="w-3.5 h-3.5 text-[var(--nm-accent)] nm-animate-pulse" />
+            <span className="text-[var(--nm-accent)]">AI-Powered Educational Reel Generator</span>
           </motion.div>
 
           {/* Main Kinetic Title */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight font-mono text-white leading-none">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight font-mono text-[var(--nm-text-heading)] leading-none">
             {"Generate Viral Educational Shorts with AI".split(" ").map((word, i) => (
               <motion.span
                 key={i}
                 initial={{ opacity: 0, y: 25, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className={word === "Viral" || word === "AI" ? "text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-400 pr-2.5 inline-block" : "pr-2.5 inline-block"}
+                className={word === "Viral" || word === "AI" ? "text-[var(--nm-accent)] pr-2.5 inline-block" : "pr-2.5 inline-block"}
               >
                 {word}
               </motion.span>
@@ -189,7 +174,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           </h1>
 
           {/* Subheading */}
-          <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-sans leading-relaxed">
+          <p className="text-[var(--nm-text-muted)] text-sm sm:text-base max-w-2xl mx-auto font-sans leading-relaxed">
             Reelmation uses Gemini AI for scripting, ComfyUI for image generation, Edge-TTS for voiceover, and Remotion for final video rendering — all automated.
           </p>
 
@@ -199,7 +184,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.96 }}
               onClick={() => onNavigate('studio')}
-              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 text-white font-mono text-sm font-semibold shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 cursor-pointer flex items-center space-x-2.5"
+              className="nm-btn px-8 py-3.5 rounded-2xl font-mono text-sm font-semibold flex items-center space-x-2.5 text-[var(--nm-accent)] bg-[var(--nm-bg)]"
             >
               <span>Launch Studio</span>
               <ArrowRight className="w-4 h-4" />
@@ -208,21 +193,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
           {/* Real-Time Telemetry Chips */}
           <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto font-mono text-xs">
-            <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 text-left">
-              <p className="text-slate-500 text-[10px]">RESOLUTION</p>
-              <p className="text-slate-200 font-bold text-sm">1080x1920</p>
+            <div className="p-3 rounded-xl nm-card text-left">
+              <p className="text-[var(--nm-text-muted)] text-[10px]">RESOLUTION</p>
+              <p className="text-[var(--nm-text-heading)] font-bold text-sm">1080x1920</p>
             </div>
-            <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 text-left">
-              <p className="text-slate-500 text-[10px]">FPS</p>
-              <p className="text-cyan-400 font-bold text-sm">30</p>
+            <div className="p-3 rounded-xl nm-card text-left">
+              <p className="text-[var(--nm-text-muted)] text-[10px]">FPS</p>
+              <p className="text-[var(--nm-text-heading)] font-bold text-sm">30</p>
             </div>
-            <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 text-left">
-              <p className="text-slate-500 text-[10px]">ENGINE</p>
-              <p className="text-violet-400 font-bold text-sm">Gemini + ComfyUI</p>
+            <div className="p-3 rounded-xl nm-card text-left">
+              <p className="text-[var(--nm-text-muted)] text-[10px]">ENGINE</p>
+              <p className="text-[var(--nm-text-heading)] font-bold text-sm">Gemini + ComfyUI</p>
             </div>
-            <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 text-left">
-              <p className="text-slate-500 text-[10px]">RENDER</p>
-              <p className="text-emerald-400 font-bold text-sm">Remotion</p>
+            <div className="p-3 rounded-xl nm-card text-left">
+              <p className="text-[var(--nm-text-muted)] text-[10px]">RENDER</p>
+              <p className="text-[var(--nm-text-heading)] font-bold text-sm">Remotion</p>
             </div>
           </div>
 
@@ -234,14 +219,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             onClick={() => scrollToSection('pipeline')}
             className="pt-6 flex flex-col items-center space-y-2 cursor-pointer group"
           >
-            <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest group-hover:text-cyan-300 flex items-center gap-1.5">
-              <MousePointer className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <span className="text-[10px] font-mono text-[var(--nm-accent)] uppercase tracking-widest flex items-center gap-1.5">
+              <MousePointer className="w-3.5 h-3.5 text-[var(--nm-accent)] nm-animate-pulse" />
               SCROLL DOWN TO EXPLORE PIPELINE
             </span>
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              className="p-2.5 rounded-full bg-slate-900/90 border border-slate-700/80 text-cyan-400 group-hover:border-cyan-400 shadow-[0_0_15px_rgba(0,240,255,0.2)] transition-all"
+              className="p-2.5 rounded-full text-[var(--nm-accent)] bg-[var(--nm-bg)] transition-all"
+              style={{ boxShadow: 'var(--nm-raised)' }}
             >
               <ChevronDown className="w-4 h-4" />
             </motion.div>
@@ -253,7 +239,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       <section
         ref={pipelineRef}
         id="pipeline"
-        className="py-24 px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto border-t border-slate-800/60 relative z-10"
+        className="py-24 px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto relative z-10"
       >
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -263,13 +249,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           className="space-y-10"
         >
           <div className="text-center max-w-3xl mx-auto space-y-2">
-            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">
+            <span className="text-xs font-mono text-[var(--nm-text-muted)] uppercase tracking-widest">
               Autonomous Pipeline Architecture
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold font-mono text-white">
+            <h2 className="text-3xl sm:text-4xl font-bold font-mono text-[var(--nm-text-heading)]">
               The 5-Step Process
             </h2>
-            <p className="text-slate-400 text-sm">
+            <p className="text-[var(--nm-text-muted)] text-sm">
               Reelmation orchestrates a complex AI pipeline to generate fully-produced videos.
             </p>
           </div>
@@ -280,7 +266,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <motion.path
                 d="M 10 5 L 990 5"
                 fill="none"
-                stroke="url(#pipelineGradient)"
+                stroke="var(--nm-shadow-dark, #a3b1c6)"
+                strokeOpacity="0.4"
                 strokeWidth="2.5"
                 strokeDasharray="1000"
                 initial={{ strokeDashoffset: 1000 }}
@@ -288,14 +275,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 viewport={{ once: true }}
                 transition={{ duration: 1.8, ease: 'easeInOut' }}
               />
-              <defs>
-                <linearGradient id="pipelineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#00f0ff" />
-                  <stop offset="30%" stopColor="#3b82f6" />
-                  <stop offset="60%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#10b981" />
-                </linearGradient>
-              </defs>
             </svg>
           </div>
 
@@ -310,25 +289,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 <button
                   key={step.id}
                   onClick={() => setActivePipelineStep(idx)}
-                  className={`p-3.5 rounded-xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 relative overflow-hidden ${
+                  className={`p-3.5 rounded-xl text-left transition-all duration-300 cursor-pointer flex flex-col justify-between h-32 relative overflow-hidden bg-[var(--nm-bg)] ${
                     isActive
-                      ? 'bg-cyan-950/80 border-cyan-400 shadow-lg shadow-cyan-500/25 text-white scale-105 z-10'
-                      : isCompleted
-                      ? 'bg-slate-900/80 border-cyan-800/60 text-slate-200'
-                      : 'bg-slate-900/40 border-slate-800/80 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                      ? 'scale-105 z-10'
+                      : ''
                   }`}
+                  style={{
+                    boxShadow: isActive ? 'var(--nm-pressed)' : 'var(--nm-raised-sm)'
+                  }}
                 >
                   <div className="flex items-center justify-between w-full">
-                    <span className="text-[10px] font-mono text-slate-400">0{idx + 1}</span>
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-cyan-400 animate-bounce' : isCompleted ? 'text-cyan-300' : 'text-slate-500'}`} />
+                    <span className="text-[10px] font-mono text-[var(--nm-text-muted)]">0{idx + 1}</span>
+                    <Icon className={`w-4 h-4 ${isActive ? 'text-[var(--nm-accent)] animate-bounce' : 'text-[var(--nm-text-muted)]'}`} />
                   </div>
                   <div>
-                    <h4 className="text-xs font-mono font-bold leading-tight text-white">
+                    <h4 className={`text-xs font-mono font-bold leading-tight ${isActive ? 'text-[var(--nm-text-heading)]' : 'text-[var(--nm-text)]'}`}>
                       {step.title}
                     </h4>
-                    <div className="w-full bg-slate-800 h-1 rounded-full mt-2 overflow-hidden">
+                    <div className="w-full nm-progress-track h-1 rounded-full mt-2 overflow-hidden">
                       <div
-                        className={`h-full transition-all duration-300 ${isActive || isCompleted ? 'bg-gradient-to-r from-cyan-400 to-blue-500' : 'bg-slate-700'}`}
+                        className={`h-full transition-all duration-300 nm-progress-fill ${isActive || isCompleted ? 'bg-[var(--nm-accent)]' : 'bg-transparent'}`}
                         style={{ width: isActive || isCompleted ? '100%' : '25%' }}
                       />
                     </div>
@@ -339,48 +319,54 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           </div>
 
           {/* Pipeline Inspector Glass Card */}
-          <TiltCard className="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
+          <TiltCard className="p-6 sm:p-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
               <div className="lg:col-span-2 space-y-3">
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded bg-slate-900 border border-slate-800 text-xs font-mono text-cyan-400">
+                <div 
+                  className="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-mono text-[var(--nm-accent)]"
+                  style={{ boxShadow: 'var(--nm-pressed-sm)' }}
+                >
                   <span>PHASE 0{activePipelineStep + 1}</span>
                   <span>•</span>
                   <span>{PIPELINE_STEPS[activePipelineStep].title}</span>
                 </div>
 
-                <h3 className="text-2xl font-bold font-mono text-white">
+                <h3 className="text-2xl font-bold font-mono text-[var(--nm-text-heading)]">
                   {PIPELINE_STEPS[activePipelineStep].title}
                 </h3>
 
-                <p className="text-slate-300 text-sm leading-relaxed font-sans">
+                <p className="text-[var(--nm-text-muted)] text-sm leading-relaxed font-sans">
                   {PIPELINE_STEPS[activePipelineStep].desc}
                 </p>
 
-                <div className="pt-2 font-mono text-xs text-slate-300 space-y-1.5">
+                <div className="pt-2 font-mono text-xs text-[var(--nm-text-muted)] space-y-1.5">
                   <div className="flex items-center space-x-2">
-                    <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                    <CheckCircle2 className="w-4 h-4 text-[var(--nm-accent-green)]" />
                     <span>Automated by Python Backend</span>
                   </div>
                 </div>
               </div>
 
-              <div className="p-5 rounded-xl bg-slate-900/90 border border-slate-800 font-mono text-xs space-y-3">
-                <div className="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-2">
+              <div 
+                className="p-5 rounded-xl font-mono text-xs space-y-3 bg-[var(--nm-bg)]"
+                style={{ boxShadow: 'var(--nm-pressed)' }}
+              >
+                <div className="flex justify-between items-center text-[var(--nm-text)] border-b border-[var(--nm-shadow-light)] pb-2">
                   <span>PIPELINE TELEMETRY</span>
-                  <span className="text-emerald-400 flex items-center gap-1 text-[11px]">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="text-[var(--nm-accent-green)] flex items-center gap-1 text-[11px]">
+                    <span className="w-2 h-2 rounded-full bg-[var(--nm-accent-green)] animate-ping" />
                     READY
                   </span>
                 </div>
-                <div className="space-y-1 text-slate-300 text-[11px]">
-                  <p><span className="text-slate-500">LLM:</span> Gemini</p>
-                  <p><span className="text-slate-500">Audio:</span> Edge-TTS</p>
-                  <p><span className="text-slate-500">Image:</span> ComfyUI / SD</p>
-                  <p><span className="text-slate-500">Render:</span> Remotion</p>
+                <div className="space-y-1 text-[var(--nm-text-muted)] text-[11px]">
+                  <p><span className="text-[var(--nm-text)]">LLM:</span> Gemini</p>
+                  <p><span className="text-[var(--nm-text)]">Audio:</span> Edge-TTS</p>
+                  <p><span className="text-[var(--nm-text)]">Image:</span> ComfyUI / SD</p>
+                  <p><span className="text-[var(--nm-text)]">Render:</span> Remotion</p>
                 </div>
                 <button
                   onClick={() => onNavigate('studio')}
-                  className="w-full mt-2 py-2.5 rounded-lg bg-cyan-950/80 border border-cyan-700/80 text-cyan-300 hover:bg-cyan-900 font-semibold transition-colors cursor-pointer text-center block"
+                  className="nm-btn w-full mt-2 py-2.5 rounded-lg text-[var(--nm-accent)] font-semibold transition-colors cursor-pointer text-center block"
                 >
                   Launch Studio →
                 </button>
@@ -394,7 +380,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       <section
         ref={shortsRef}
         id="shorts"
-        className="py-24 px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto border-t border-slate-800/60 relative z-10"
+        className="py-24 px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto relative z-10"
       >
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -405,16 +391,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         >
           <div className="flex flex-col md:flex-row md:items-end justify-between">
             <div>
-              <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">
+              <span className="text-xs font-mono text-[var(--nm-text-muted)] uppercase tracking-widest">
                 Preset Topics
               </span>
-              <h2 className="text-3xl font-bold font-mono text-white mt-1">
+              <h2 className="text-3xl font-bold font-mono text-[var(--nm-text-heading)] mt-1">
                 Sample Educational Presets
               </h2>
             </div>
             <button
               onClick={() => onNavigate('studio')}
-              className="mt-4 md:mt-0 text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center space-x-1 cursor-pointer"
+              className="mt-4 md:mt-0 text-xs font-mono text-[var(--nm-accent)] flex items-center space-x-1 cursor-pointer"
             >
               <span>Create Custom</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -425,28 +411,31 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             {SAMPLE_PRESETS.map((preset) => (
               <TiltCard
                 key={preset.id}
-                className="h-full bg-slate-900/60 border border-slate-800/80 hover:border-cyan-500/50 rounded-2xl p-5 transition-all duration-300 flex flex-col justify-between shadow-lg"
+                className="h-full p-5 flex flex-col justify-between"
               >
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center text-xs font-mono text-slate-400">
-                    <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 text-[10px]">
+                  <div className="flex justify-between items-center text-xs font-mono">
+                    <span 
+                      className="px-2 py-0.5 rounded-full text-[var(--nm-accent)] text-[10px]"
+                      style={{ boxShadow: 'var(--nm-pressed-sm)' }}
+                    >
                       {preset.category}
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold font-mono text-white">
+                  <h3 className="text-base font-bold font-mono text-[var(--nm-text-heading)]">
                     {preset.title}
                   </h3>
 
-                  <p className="text-xs text-slate-300 line-clamp-3 font-sans">
+                  <p className="text-xs text-[var(--nm-text-muted)] line-clamp-3 font-sans">
                     {preset.subject}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-4 border-t border-slate-800/80 flex items-center justify-between">
+                <div className="pt-6 mt-4 flex items-center justify-between">
                   <button
                     onClick={() => onNavigate('studio', preset.subject)}
-                    className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-cyan-950 hover:border-cyan-600 border border-slate-700 text-cyan-300 transition-colors cursor-pointer text-xs font-mono flex items-center justify-center gap-2"
+                    className="nm-btn w-full py-2.5 rounded-xl text-[var(--nm-accent)] transition-colors cursor-pointer text-xs font-mono flex items-center justify-center gap-2"
                   >
                     <span>Create in Studio</span>
                     <ArrowRight className="w-4 h-4" />

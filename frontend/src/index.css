@@ -1,1 +1,348 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NEOMORPHISM DESIGN SYSTEM — ReelMation
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Surface Colors ─────────────────────────────────────────────────── */
+  --nm-bg: #e0e5ec;
+  --nm-bg-alt: #f0f0f3;
+  --nm-bg-dark: #d1d9e6;
+
+  /* ── Text Colors ────────────────────────────────────────────────────── */
+  --nm-text: #44476a;
+  --nm-text-muted: #8e91a4;
+  --nm-text-heading: #2d2f45;
+  --nm-text-light: #b0b3c5;
+
+  /* ── Accent Colors ──────────────────────────────────────────────────── */
+  --nm-accent: #7c5cbf;
+  --nm-accent-blue: #6e8efb;
+  --nm-accent-light: #a78bfa;
+  --nm-accent-green: #6dbe8b;
+  --nm-accent-pink: #d97bba;
+
+  /* ── Shadow Colors ──────────────────────────────────────────────────── */
+  --nm-shadow-light: #ffffff;
+  --nm-shadow-dark: #a3b1c6;
+
+  /* ── Shadow Presets ─────────────────────────────────────────────────── */
+  --nm-raised: 8px 8px 16px var(--nm-shadow-dark), -8px -8px 16px var(--nm-shadow-light);
+  --nm-raised-sm: 4px 4px 8px var(--nm-shadow-dark), -4px -4px 8px var(--nm-shadow-light);
+  --nm-raised-lg: 12px 12px 24px var(--nm-shadow-dark), -12px -12px 24px var(--nm-shadow-light);
+  --nm-pressed: inset 4px 4px 8px var(--nm-shadow-dark), inset -4px -4px 8px var(--nm-shadow-light);
+  --nm-pressed-sm: inset 2px 2px 5px var(--nm-shadow-dark), inset -2px -2px 5px var(--nm-shadow-light);
+  --nm-pressed-lg: inset 6px 6px 12px var(--nm-shadow-dark), inset -6px -6px 12px var(--nm-shadow-light);
+  --nm-flat: 0 0 0 transparent;
+}
+
+/* ── Base Styles ──────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(124, 92, 191, 0.2);
+  color: var(--nm-text-heading);
+}
+
+/* ── Scrollbar Styling ────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--nm-bg);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--nm-shadow-dark);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nm-text-muted);
+}
+
+/* ── Utility Classes ──────────────────────────────────────────────────── */
+.nm-raised {
+  box-shadow: var(--nm-raised);
+  background: var(--nm-bg);
+  border-radius: 16px;
+}
+
+.nm-raised-sm {
+  box-shadow: var(--nm-raised-sm);
+  background: var(--nm-bg);
+  border-radius: 12px;
+}
+
+.nm-raised-lg {
+  box-shadow: var(--nm-raised-lg);
+  background: var(--nm-bg);
+  border-radius: 20px;
+}
+
+.nm-pressed {
+  box-shadow: var(--nm-pressed);
+  background: var(--nm-bg);
+  border-radius: 16px;
+}
+
+.nm-pressed-sm {
+  box-shadow: var(--nm-pressed-sm);
+  background: var(--nm-bg);
+  border-radius: 12px;
+}
+
+/* ── Component: Card ──────────────────────────────────────────────────── */
+.nm-card {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised);
+  border-radius: 20px;
+  padding: 24px;
+  border: none;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.nm-card:hover {
+  box-shadow: 10px 10px 20px var(--nm-shadow-dark), -10px -10px 20px var(--nm-shadow-light);
+  transform: translateY(-2px);
+}
+
+/* ── Component: Button ────────────────────────────────────────────────── */
+.nm-btn {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  color: var(--nm-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+  outline: none;
+}
+
+.nm-btn:hover {
+  box-shadow: 6px 6px 12px var(--nm-shadow-dark), -6px -6px 12px var(--nm-shadow-light);
+  transform: translateY(-1px);
+}
+
+.nm-btn:active,
+.nm-btn.active {
+  box-shadow: var(--nm-pressed-sm);
+  transform: translateY(0);
+}
+
+.nm-btn-primary {
+  color: var(--nm-accent);
+  font-weight: 700;
+}
+
+.nm-btn-primary:hover {
+  color: var(--nm-accent-blue);
+}
+
+/* ── Component: Icon Button ───────────────────────────────────────────── */
+.nm-icon-btn {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  color: var(--nm-text-muted);
+}
+
+.nm-icon-btn:hover {
+  color: var(--nm-accent);
+}
+
+.nm-icon-btn:active,
+.nm-icon-btn.active {
+  box-shadow: var(--nm-pressed-sm);
+  color: var(--nm-accent);
+}
+
+/* ── Component: Input / Textarea ──────────────────────────────────────── */
+.nm-input {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-pressed);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: var(--nm-text-heading);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  outline: none;
+  width: 100%;
+  transition: box-shadow 0.3s ease;
+  resize: none;
+}
+
+.nm-input::placeholder {
+  color: var(--nm-text-light);
+}
+
+.nm-input:focus {
+  box-shadow: var(--nm-pressed-lg), 0 0 0 3px rgba(124, 92, 191, 0.15);
+}
+
+/* ── Component: Pill / Chip ───────────────────────────────────────────── */
+.nm-pill {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+  border: none;
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--nm-text-muted);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.nm-pill:hover {
+  color: var(--nm-accent);
+}
+
+.nm-pill.active,
+.nm-pill:active {
+  box-shadow: var(--nm-pressed-sm);
+  color: var(--nm-accent);
+}
+
+/* ── Component: Toggle ────────────────────────────────────────────────── */
+.nm-toggle-track {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-pressed-sm);
+  border-radius: 50px;
+  width: 48px;
+  height: 26px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.nm-toggle-track.active {
+  background: linear-gradient(135deg, var(--nm-accent), var(--nm-accent-blue));
+}
+
+.nm-toggle-thumb {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s ease;
+}
+
+.nm-toggle-track.active .nm-toggle-thumb {
+  transform: translateX(22px);
+}
+
+/* ── Component: Progress Bar ──────────────────────────────────────────── */
+.nm-progress-track {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-pressed-sm);
+  border-radius: 50px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.nm-progress-fill {
+  height: 100%;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--nm-accent), var(--nm-accent-blue));
+  transition: width 0.5s ease;
+}
+
+/* ── Component: Tab ───────────────────────────────────────────────────── */
+.nm-tab {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--nm-text-muted);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.nm-tab:hover {
+  color: var(--nm-text);
+}
+
+.nm-tab.active {
+  box-shadow: var(--nm-pressed-sm);
+  color: var(--nm-accent);
+}
+
+/* ── Range Input Styling ──────────────────────────────────────────────── */
+input[type="range"].nm-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--nm-bg);
+  box-shadow: var(--nm-pressed-sm);
+  border-radius: 50px;
+  outline: none;
+}
+
+input[type="range"].nm-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--nm-bg);
+  box-shadow: var(--nm-raised-sm);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+input[type="range"].nm-range::-webkit-slider-thumb:active {
+  box-shadow: var(--nm-pressed-sm);
+}
+
+/* ── Animations ───────────────────────────────────────────────────────── */
+@keyframes nm-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes nm-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.nm-animate-pulse {
+  animation: nm-pulse 2s ease-in-out infinite;
+}
+
+.nm-animate-float {
+  animation: nm-float 3s ease-in-out infinite;
+}

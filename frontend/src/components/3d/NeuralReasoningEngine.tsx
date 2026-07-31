@@ -27,7 +27,7 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x050b16, 0.008);
+    scene.fog = new THREE.FogExp2(0xe0e5ec, 0.008);
 
     const camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 1000);
     camera.position.set(0, 15, 95);
@@ -40,18 +40,18 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
     container.appendChild(renderer.domElement);
 
     // Lights
-    const ambientLight = new THREE.AmbientLight(0x0f172a, 1.8);
+    const ambientLight = new THREE.AmbientLight(0xe0e5ec, 0.6);
     scene.add(ambientLight);
 
-    const blueLight = new THREE.PointLight(0x00f0ff, 3, 120);
+    const blueLight = new THREE.PointLight(0x7c5cbf, 1.5, 120);
     blueLight.position.set(-25, 20, 20);
     scene.add(blueLight);
 
-    const violetLight = new THREE.PointLight(0x8b5cf6, 3, 120);
+    const violetLight = new THREE.PointLight(0x6e8efb, 1.5, 120);
     violetLight.position.set(25, -15, 20);
     scene.add(violetLight);
 
-    const coreLight = new THREE.PointLight(0x38bdf8, 4, 100);
+    const coreLight = new THREE.PointLight(0xa78bfa, 2, 100);
     coreLight.position.set(0, 0, 0);
     scene.add(coreLight);
 
@@ -75,11 +75,11 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
     ];
 
     const clusterColors = [
-      new THREE.Color('#38BDF8'), // Sky Blue
-      new THREE.Color('#A855F7'), // Purple
-      new THREE.Color('#00F0FF'), // Electric Cyan
-      new THREE.Color('#3B82F6'), // Cobalt Blue
-      new THREE.Color('#10B981'), // Emerald
+      new THREE.Color('#7c5cbf'), // Muted Purple
+      new THREE.Color('#6e8efb'), // Soft Blue
+      new THREE.Color('#a78bfa'), // Lavender
+      new THREE.Color('#d97bba'), // Dusty Rose
+      new THREE.Color('#6dbe8b'), // Soft Green
     ];
 
     const nodeGroup = new THREE.Group();
@@ -106,9 +106,9 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
       const mat = new THREE.MeshStandardMaterial({
         color: color,
         emissive: color,
-        emissiveIntensity: 0.6,
-        roughness: 0.2,
-        metalness: 0.8,
+        emissiveIntensity: 0.3,
+        roughness: 0.5,
+        metalness: 0.3,
       });
 
       const mesh = new THREE.Mesh(sphereGeo, mat);
@@ -166,8 +166,8 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
     const edgeMaterial = new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.22,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.15,
+      blending: THREE.NormalBlending,
     });
 
     const edgeLines = new THREE.LineSegments(edgeGeometry, edgeMaterial);
@@ -178,7 +178,7 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
     const signalGroup = new THREE.Group();
     const signalGeo = new THREE.SphereGeometry(0.6, 8, 8);
     const signalMat = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+      color: 0x7c5cbf,
       transparent: true,
       opacity: 0.9,
     });
@@ -260,8 +260,8 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
         if (isActivePathNode) {
           const pulse = Math.sin(elapsedTime * 6 + n.id) * 0.4 + 1.2;
           n.mesh.scale.set(n.baseScale * pulse, n.baseScale * pulse, n.baseScale * pulse);
-          mat.emissive.setHex(0x00f0ff);
-          mat.emissiveIntensity = 1.8;
+          mat.emissive.setHex(0x7c5cbf);
+          mat.emissiveIntensity = 1.0;
         } else {
           n.mesh.scale.set(n.baseScale, n.baseScale, n.baseScale);
           mat.emissive.copy(n.baseColor);
@@ -303,38 +303,41 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
   }, [reasoningPaths, activeStepIndex, selectedPathId]);
 
   return (
-    <div className="relative w-full h-full min-h-[480px] bg-[#050B16] rounded-xl border border-slate-800/80 overflow-hidden flex flex-col justify-between p-4">
+    <div className="relative w-full h-full min-h-[480px] bg-[var(--nm-bg)] rounded-xl overflow-hidden flex flex-col justify-between p-4">
       {/* 3D Canvas Container */}
       <div ref={containerRef} className="absolute inset-0 z-0" />
 
       {/* Top HUD Overlay */}
-      <div className="relative z-10 flex items-center justify-between bg-slate-950/70 backdrop-blur-md px-4 py-2.5 rounded-lg border border-slate-800/80">
+      <div 
+        className="relative z-10 flex items-center justify-between bg-[var(--nm-bg)] px-4 py-2.5 rounded-lg"
+        style={{ boxShadow: 'var(--nm-raised-sm)' }}
+      >
         <div className="flex items-center space-x-3">
-          <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
-          <span className="text-xs font-mono font-medium tracking-wider text-cyan-300 uppercase">
+          <div className="w-2.5 h-2.5 rounded-full bg-[var(--nm-accent)] animate-ping" />
+          <span className="text-xs font-mono font-medium tracking-wider text-[var(--nm-text-heading)] uppercase">
             3D Neural Reasoning Matrix
           </span>
         </div>
 
-        <div className="flex items-center space-x-4 text-[11px] font-mono text-slate-400">
+        <div className="flex items-center space-x-4 text-[11px] font-mono text-[var(--nm-text-muted)]">
           <div>
-            NODES: <span className="text-slate-200">100 ACTIVE</span>
+            NODES: <span className="text-[var(--nm-text-heading)]">100 ACTIVE</span>
           </div>
           <div className="hidden sm:block">
-            CANDIDATES: <span className="text-cyan-400">{reasoningPaths.length || 10} EVALUATED</span>
+            CANDIDATES: <span className="text-[var(--nm-accent)]">{reasoningPaths.length || 10} EVALUATED</span>
           </div>
         </div>
       </div>
 
       {/* Bottom Candidate Reasoning Paths Selector */}
       <div className="relative z-10 mt-auto pt-4">
-        <div className="bg-slate-950/80 backdrop-blur-md border border-slate-800/90 rounded-xl p-3">
+        <div className="nm-card rounded-xl p-3 bg-[var(--nm-bg)]">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+            <span className="text-[11px] font-mono text-[var(--nm-text-muted)] uppercase tracking-wider">
               Candidate Reasoning Paths (10-12 Explored)
             </span>
-            <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span className="text-[10px] font-mono text-[var(--nm-accent-green)] flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--nm-accent-green)]"></span>
               Optimal Path Selected
             </span>
           </div>
@@ -350,10 +353,10 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
                   onClick={() => onSelectPath && onSelectPath(path.id)}
                   onMouseEnter={() => setHoveredPath(path.id)}
                   onMouseLeave={() => setHoveredPath(null)}
-                  className={`text-left px-2.5 py-1.5 rounded-lg border text-[11px] font-mono transition-all duration-200 cursor-pointer ${
+                  className={`text-left px-2.5 py-1.5 rounded-lg text-[11px] font-mono transition-all duration-200 cursor-pointer ${
                     isOptimal || isSelected
-                      ? 'bg-cyan-950/60 border-cyan-500/80 text-cyan-200 shadow-[0_0_12px_rgba(0,240,255,0.2)]'
-                      : 'bg-slate-900/40 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                      ? 'nm-pressed text-[var(--nm-accent)]'
+                      : 'nm-raised-sm text-[var(--nm-text-muted)] hover:text-[var(--nm-text)]'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -362,13 +365,13 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
                     </span>
                     <span
                       className={`text-[10px] font-bold ${
-                        isOptimal ? 'text-emerald-400' : 'text-cyan-400/80'
+                        isOptimal ? 'text-[var(--nm-accent-green)]' : 'text-[var(--nm-accent)]'
                       }`}
                     >
                       {path.score}%
                     </span>
                   </div>
-                  <div className="truncate text-[10px] text-slate-300 mt-0.5">
+                  <div className="truncate text-[10px] opacity-80 mt-0.5">
                     {path.title}
                   </div>
                 </button>

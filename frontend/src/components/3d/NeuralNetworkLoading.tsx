@@ -86,7 +86,7 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
 
     // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#050B16');
+    scene.background = new THREE.Color('#e0e5ec');
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
@@ -104,30 +104,30 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
     container.appendChild(renderer.domElement);
 
     // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 0.15));
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
 
-    const leftLight = new THREE.PointLight(0x00F0FF, 2, 120);
+    const leftLight = new THREE.PointLight(0x7c5cbf, 1.2, 120);
     leftLight.position.set(-55, 10, 25);
     scene.add(leftLight);
 
-    const rightLight = new THREE.PointLight(0x8B5CF6, 2, 120);
+    const rightLight = new THREE.PointLight(0x6e8efb, 1.2, 120);
     rightLight.position.set(55, -10, 25);
     scene.add(rightLight);
 
-    const centerLight = new THREE.PointLight(0x3B82F6, 1.2, 80);
+    const centerLight = new THREE.PointLight(0xa78bfa, 0.8, 80);
     centerLight.position.set(0, 0, 15);
     scene.add(centerLight);
 
     // ── Network Architecture ────────────────────────────────────────────
     const layerCounts = [6, 12, 10, 8, 10, 12, 20];
     const layerColors = [
-      new THREE.Color('#00F0FF'),
-      new THREE.Color('#0CE8E0'),
-      new THREE.Color('#3B82F6'),
-      new THREE.Color('#6366F1'),
-      new THREE.Color('#8B5CF6'),
-      new THREE.Color('#A855F7'),
-      new THREE.Color('#D946EF'),
+      new THREE.Color('#7c5cbf'),
+      new THREE.Color('#8b7fc7'),
+      new THREE.Color('#6e8efb'),
+      new THREE.Color('#a78bfa'),
+      new THREE.Color('#d97bba'),
+      new THREE.Color('#c084cf'),
+      new THREE.Color('#6dbe8b'),
     ];
 
     const horizontalSpacing = 16;
@@ -155,9 +155,9 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
         const material = new THREE.MeshStandardMaterial({
           color: color.clone(),
           emissive: color.clone(),
-          emissiveIntensity: 0.6,
-          roughness: 0.3,
-          metalness: 0.7,
+          emissiveIntensity: 0.3,
+          roughness: 0.5,
+          metalness: 0.3,
         });
 
         const mesh = new THREE.Mesh(nodeGeometry, material);
@@ -174,7 +174,7 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
           color: color.clone(),
           transparent: true,
           opacity: 0,
-          blending: THREE.AdditiveBlending,
+          blending: THREE.NormalBlending,
           side: THREE.DoubleSide,
           depthWrite: false,
         });
@@ -189,7 +189,7 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
           baseScale: 1,
           phase: Math.random() * Math.PI * 2,
           glowIntensity: 0,
-          baseEmissiveIntensity: 0.6,
+          baseEmissiveIntensity: 0.3,
         };
         layerNodes.push(nodeData);
         allNodeMeshes.push(mesh);
@@ -252,7 +252,7 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
 
     const connectionsMaterial = new THREE.LineBasicMaterial({
       vertexColors: true,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       transparent: true,
       depthWrite: false,
     });
@@ -275,8 +275,8 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
 
     const createPulseMeshes = (): { headMesh: THREE.Mesh; trailMeshes: THREE.Mesh[] } => {
       const headMat = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
-        blending: THREE.AdditiveBlending,
+        color: 0x7c5cbf,
+        blending: THREE.NormalBlending,
         transparent: true,
         opacity: 0.95,
         depthWrite: false,
@@ -289,8 +289,8 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
       for (let t = 0; t < TRAIL_LENGTH; t++) {
         const trailFade = 1 - (t + 1) / (TRAIL_LENGTH + 1);
         const trailMat = new THREE.MeshBasicMaterial({
-          color: new THREE.Color('#00F0FF'),
-          blending: THREE.AdditiveBlending,
+          color: new THREE.Color('#7c5cbf'),
+          blending: THREE.NormalBlending,
           transparent: true,
           opacity: trailFade * 0.6,
           depthWrite: false,
@@ -512,7 +512,7 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
         // Color the head: white at leading edge blending to layer color
         const headMat = pulse.headMesh.material as THREE.MeshBasicMaterial;
         const layerBlendColor = layerColors[pulse.srcLayer].clone().lerp(layerColors[pulse.dstLayer], pulse.progress);
-        tmpColor.copy(layerBlendColor).lerp(new THREE.Color(0xffffff), 0.7);
+        tmpColor.copy(layerBlendColor).lerp(new THREE.Color(0x7c5cbf), 0.7);
         headMat.color.copy(tmpColor);
         headMat.opacity = 0.85 + Math.sin(elapsed * 12 + pulse.progress * 5) * 0.15;
 
@@ -556,21 +556,21 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
             if (isPathNode) {
               const scale = 1 + completionT * 1.2 + Math.sin(elapsed * 6) * 0.08;
               node.mesh.scale.set(scale, scale, scale);
-              mat.color.lerpColors(layerColors[layerIdx], new THREE.Color(0xffffff), completionT * 0.8);
-              mat.emissive.lerpColors(layerColors[layerIdx], new THREE.Color(0x00FFFF), completionT);
-              mat.emissiveIntensity = 0.6 + completionT * 3;
+              mat.color.lerpColors(layerColors[layerIdx], new THREE.Color(0x2d2f45), completionT * 0.8);
+              mat.emissive.lerpColors(layerColors[layerIdx], new THREE.Color(0x7c5cbf), completionT);
+              mat.emissiveIntensity = 0.3 + completionT * 3;
 
               // Glow ring on path nodes during completion
               const ring = glowRings[ringIdx];
               const ringMat = ring.material as THREE.MeshBasicMaterial;
               ringMat.opacity = completionT * 0.5;
-              ringMat.color.set(0x00FFFF);
+              ringMat.color.set(0x7c5cbf);
               const ringScale = 1 + completionT * 1.5;
               ring.scale.set(ringScale, ringScale, ringScale);
             } else {
               mat.transparent = true;
               mat.opacity = 1 - completionT * 0.85;
-              mat.emissiveIntensity = 0.6 * (1 - completionT);
+              mat.emissiveIntensity = 0.3 * (1 - completionT);
               node.mesh.scale.set(1, 1, 1);
 
               const ring = glowRings[ringIdx];
@@ -588,7 +588,7 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
 
             // Briefly brighten the node color when data arrives
             if (node.glowIntensity > 0.1) {
-              tmpColor.copy(layerColors[layerIdx]).lerp(new THREE.Color(0xffffff), node.glowIntensity * 0.6);
+              tmpColor.copy(layerColors[layerIdx]).lerp(new THREE.Color(0x2d2f45), node.glowIntensity * 0.6);
               mat.emissive.copy(tmpColor);
             } else {
               mat.emissive.copy(layerColors[layerIdx]);
@@ -624,8 +624,8 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
           if (meta.isPath) {
             opS = THREE.MathUtils.lerp(baseOpS, 1.0, completionT);
             opE = THREE.MathUtils.lerp(baseOpE, 1.0, completionT);
-            cS = meta.startColor.clone().lerp(new THREE.Color(0xffffff), completionT * 0.7);
-            cE = meta.endColor.clone().lerp(new THREE.Color(0x00FFFF), completionT * 0.7);
+            cS = meta.startColor.clone().lerp(new THREE.Color(0x2d2f45), completionT * 0.7);
+            cE = meta.endColor.clone().lerp(new THREE.Color(0x7c5cbf), completionT * 0.7);
           } else {
             opS = THREE.MathUtils.lerp(baseOpS, 0.008, completionT);
             opE = THREE.MathUtils.lerp(baseOpE, 0.008, completionT);
@@ -644,8 +644,8 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
           const bS = meta.startColor.clone();
           const bE = meta.endColor.clone();
           if (boost > 0.05) {
-            bS.lerp(new THREE.Color(0xffffff), boost * 0.4);
-            bE.lerp(new THREE.Color(0x00FFFF), boost * 0.3);
+            bS.lerp(new THREE.Color(0x2d2f45), boost * 0.4);
+            bE.lerp(new THREE.Color(0x7c5cbf), boost * 0.3);
           }
 
           colorAttr.setXYZ(i * 2, bS.r * opS, bS.g * opS, bS.b * opS);
@@ -699,7 +699,7 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
 
   return (
     <>
-      <div ref={containerRef} className="absolute inset-0 z-0 bg-[#050B16]" />
+      <div ref={containerRef} className="absolute inset-0 z-0 bg-[var(--nm-bg)]" />
       {showPathwayText && (
         <div
           className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
@@ -712,9 +712,9 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
             }
           `}</style>
           <div
-            className="text-white font-mono uppercase tracking-[0.35em] text-2xl md:text-4xl font-bold"
+            className="text-[var(--nm-text-heading)] font-mono uppercase tracking-[0.35em] text-2xl md:text-4xl font-bold"
             style={{
-              textShadow: '0 0 20px rgba(0, 240, 255, 0.9), 0 0 40px rgba(0, 240, 255, 0.5), 0 0 80px rgba(139, 92, 246, 0.3)',
+              textShadow: '0 2px 12px rgba(124, 92, 191, 0.4), 0 4px 24px rgba(110, 142, 251, 0.2)',
             }}
           >
             Pathway Selected
