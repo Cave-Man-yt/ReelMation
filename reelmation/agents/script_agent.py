@@ -113,62 +113,75 @@ class ScriptAgent(GeminiClient):
 
         kb_section = f"Knowledge Base/Notes to include:\n{knowledgeBase}\n\n" if knowledgeBase else ""
 
-        phase1_prompt = (
-            f"Write an informative, educational social media reel narration about: {topic}.\n\n"
-            f"{kb_section}"
-            "JSON Format:\n"
-            "{\n"
-            '  "title": "catchy title",\n'
-            '  "sentences": ["sentence 1", ...]\n'
-            "}\n\n"
-            "Rules:\n"
-            f"- EXACTLY {num_sentences} sentences in the array.\n"
-            "- Each sentence: 8-12 words, ASCII only, no line breaks, no quotes, no stage directions.\n"
-            f"- Act 1 (1-{num_sentences // 3}): Hook the audience, introduce the core concept, and explain why it is important.\n"
-            f"- Act 2 ({num_sentences // 3 + 1}-{2 * num_sentences // 3}): Break down the core scientific or factual mechanism, process, or steps clearly.\n"
-            f"- Act 3 ({2 * num_sentences // 3 + 1}-{num_sentences}): Summarize the key takeaways and real-world significance.\n"
-            "- Sentence 1: Start with you, stop, imagine, this, did you know, or every to create an immediate curiosity gap.\n"
-            "- Write to be spoken aloud; make every sentence factually informative, clear, and engaging.\n"
-            "- Do NOT use dramatic stories or fictional plotlines. Stick to science and facts.\n"
-        )
+        sentences = []
+        title = "Reelmation Topic"
+        
+        # We split generation into 3 acts to avoid server-side timeouts on large models
+        act_size = max(3, num_sentences // 3)
+        
+        for act in [1, 2, 3]:
+            print(f"[ScriptAgent] Phase 1: Generating Act {act}...")
+            
+            act_sents = act_size
+            if act == 3:
+                act_sents = num_sentences - len(sentences) # give remainder to act 3
+                
+            prev_context = ""
+            if sentences:
+                prev_context = "Previous sentences so far:\n" + "\n".join(f"- {s}" for s in sentences) + "\n\n"
+            
+            act_instructions = {
+                1: "Act 1: Hook the audience, introduce the core concept, and explain why it is important.",
+                2: "Act 2: Break down the core scientific or factual mechanism, process, or steps clearly.",
+                3: "Act 3: Summarize the key takeaways and real-world significance."
+            }
+            
+            phase1_prompt = (
+                f"Write Act {act} of an informative social media reel about: {topic}.\n\n"
+                f"{kb_section}"
+                f"{prev_context}"
+                f"You are writing Act {act}. {act_instructions[act]}\n\n"
+                "JSON Format:\n"
+                "{\n"
+                '  "title": "catchy title (only required for Act 1, optional otherwise)",\n'
+                '  "sentences": ["sentence 1", ...]\n'
+                "}\n\n"
+                "Rules:\n"
+                f"- EXACTLY {act_sents} sentences in the array.\n"
+                "- Each sentence: 8-12 words, ASCII only, no line breaks.\n"
+                "- Write to be spoken aloud. Stick to science and facts.\n"
+            )
 
+            script_data = None
+            for attempt in range(max_retries):
+                try:
+                    raw = self.ask_once(phase1_prompt)
+                    _log(f"Phase 1 Act {act} attempt {attempt+1} — raw response", raw)
 
-        script_data = None
-        for attempt in range(max_retries):
-            try:
-                raw = self.ask_once(phase1_prompt)
-                _log(f"Phase 1 attempt {attempt+1} — raw response ({len(raw)} chars)", raw)
+                    cleaned = self._clean_and_repair(raw)
+                    data = json.loads(cleaned)
 
-                cleaned = self._clean_and_repair(raw)
-                _log(f"Phase 1 attempt {attempt+1} — after repair ({len(cleaned)} chars)", cleaned)
+                    if "sentences" not in data or not isinstance(data["sentences"], list):
+                        raise ValueError("Missing 'sentences' array")
 
-                data = json.loads(cleaned)
+                    if len(data["sentences"]) != act_sents:
+                        print(f"Warning: Expected {act_sents} sentences, got {len(data['sentences'])}")
 
-                # Validate
-                if "sentences" not in data or not isinstance(data["sentences"], list):
-                    raise ValueError("Missing or invalid 'sentences' array")
+                    if act == 1 and "title" in data:
+                        title = data["title"]
+                        
+                    sentences.extend(data["sentences"])
+                    script_data = data
+                    break
 
-                sentences = data["sentences"]
-                if len(sentences) < 8:
-                    raise ValueError(f"Only {len(sentences)} sentences, need >= 8")
+                except (json.JSONDecodeError, ValueError) as e:
+                    _log(f"Phase 1 Act {act} attempt {attempt+1} FAILED: {e}")
+                    print(f"[ScriptAgent] Phase 1 Act {act} attempt {attempt+1}/{max_retries} failed: {e}")
+                    if attempt >= max_retries - 1:
+                        raise RuntimeError(f"Phase 1 Act {act} failed: {e}")
 
-                # Ensure sentences are strings
-                for i, s in enumerate(sentences):
-                    if not isinstance(s, str) or not s.strip():
-                        raise ValueError(f"Sentence {i} is not a valid string")
-
-                script_data = data
-                print(f"[ScriptAgent] Phase 1 OK: {len(sentences)} sentences generated")
-                break
-
-            except (json.JSONDecodeError, ValueError) as e:
-                _log(f"Phase 1 attempt {attempt+1} FAILED: {e}")
-                print(f"[ScriptAgent] Phase 1 attempt {attempt+1}/{max_retries} failed: {e}")
-                if attempt >= max_retries - 1:
-                    raise RuntimeError(
-                        f"Phase 1 failed after {max_retries} attempts: {e}\n"
-                        f"Check {log_file} for raw LLM outputs."
-                    )
+        script_data = {"title": title, "sentences": sentences}
+        print(f"[ScriptAgent] Phase 1 OK: {len(sentences)} sentences generated in total")
 
         sentences = script_data["sentences"]
 

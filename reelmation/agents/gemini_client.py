@@ -136,7 +136,7 @@ class GeminiClient:
         raise RuntimeError("Max retries exceeded")
 
     def ask(self, message: str) -> str:
-        modified_message = message + "\n\nIMPORTANT: Keep your internal reasoning/thinking extremely brief (under 50 words) so that you do not exceed the response token limit. Start generating the output immediately."
+        modified_message = message + "\n\nCRITICAL: Do NOT use any internal reasoning or thinking blocks. You MUST output the JSON response immediately and directly to avoid hitting the token limit. Do NOT output any conversational text."
         payload = {"userMessage": modified_message, "project": self.project, "tierId": self.tier_id}
         if self._history:
             payload["history"] = self._history
@@ -156,7 +156,7 @@ class GeminiClient:
                 {"author": self.AUTHOR_SYSTEM, "content": "Understood. I will follow these instructions precisely."},
             ]
             
-        modified_message = message + "\n\nIMPORTANT: Keep your internal reasoning/thinking extremely brief (under 50 words) so that you do not exceed the response token limit. Start generating the output immediately."
+        modified_message = message + "\n\nCRITICAL: Do NOT use any internal reasoning or thinking blocks. You MUST output the JSON response immediately and directly to avoid hitting the token limit. Do NOT output any conversational text."
         payload = {"userMessage": modified_message, "project": self.project, "tierId": self.tier_id}
         if history:
             payload["history"] = history
