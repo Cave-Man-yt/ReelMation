@@ -3,76 +3,76 @@
   "brollImages": [
     {
       "url": "images/scene_001.png",
-      "durationInFrames": 89,
+      "durationInFrames": 91,
       "act": 1
     },
     {
       "url": "images/scene_002.png",
-      "durationInFrames": 142,
+      "durationInFrames": 129,
       "act": 1
     },
     {
       "url": "images/scene_003.png",
-      "durationInFrames": 120,
+      "durationInFrames": 132,
       "act": 1
     },
     {
       "url": "images/scene_004.png",
-      "durationInFrames": 123,
+      "durationInFrames": 115,
       "act": 1
     },
     {
       "url": "images/scene_005.png",
-      "durationInFrames": 123,
+      "durationInFrames": 112,
       "act": 2
     },
     {
       "url": "images/scene_006.png",
-      "durationInFrames": 118,
+      "durationInFrames": 104,
       "act": 2
     },
     {
       "url": "images/scene_007.png",
-      "durationInFrames": 130,
+      "durationInFrames": 112,
       "act": 2
     },
     {
       "url": "images/scene_008.png",
-      "durationInFrames": 137,
+      "durationInFrames": 111,
       "act": 2
     },
     {
       "url": "images/scene_009.png",
-      "durationInFrames": 135,
+      "durationInFrames": 143,
       "act": 3
     },
     {
       "url": "images/scene_010.png",
-      "durationInFrames": 135,
+      "durationInFrames": 128,
       "act": 3
     },
     {
       "url": "images/scene_011.png",
-      "durationInFrames": 139,
+      "durationInFrames": 129,
       "act": 3
     },
     {
       "url": "images/scene_012.png",
-      "durationInFrames": 113,
+      "durationInFrames": 135,
       "act": 3
     }
   ],
   "subtitles": [
     {
-      "text": "Ever wonder what happens when light hits matter?",
+      "text": "Ever wonder how life on Earth truly begins?",
       "startFrame": 2,
-      "endFrame": 67,
+      "endFrame": 69,
       "act": 1,
       "words": [
         {
           "text": "Ever",
           "startFrame": 2,
-          "endFrame": 11
+          "endFrame": 10
         },
         {
           "text": "wonder",
@@ -80,605 +80,630 @@
           "endFrame": 19
         },
         {
-          "text": "what",
+          "text": "how",
           "startFrame": 20,
-          "endFrame": 24
+          "endFrame": 23
         },
         {
-          "text": "happens",
-          "startFrame": 25,
+          "text": "life",
+          "startFrame": 24,
+          "endFrame": 32
+        },
+        {
+          "text": "on",
+          "startFrame": 32,
           "endFrame": 36
         },
         {
-          "text": "when",
-          "startFrame": 37,
+          "text": "Earth",
+          "startFrame": 36,
           "endFrame": 42
         },
         {
-          "text": "light",
-          "startFrame": 43,
-          "endFrame": 48
+          "text": "truly",
+          "startFrame": 42,
+          "endFrame": 51
         },
         {
-          "text": "hits",
-          "startFrame": 48,
-          "endFrame": 55
-        },
-        {
-          "text": "matter",
-          "startFrame": 56,
-          "endFrame": 67
+          "text": "begins",
+          "startFrame": 52,
+          "endFrame": 69
         }
       ]
     },
     {
-      "text": "In 1928, C.V. Raman discovered something extraordinary.",
-      "startFrame": 91,
-      "endFrame": 232,
+      "text": "It's through photosynthesis, nature's incredible food-making process.",
+      "startFrame": 93,
+      "endFrame": 198,
       "act": 1,
       "words": [
         {
-          "text": "In 1928",
-          "startFrame": 91,
-          "endFrame": 124
+          "text": "It's",
+          "startFrame": 93,
+          "endFrame": 99
         },
         {
-          "text": "CV",
-          "startFrame": 131,
-          "endFrame": 141
+          "text": "through",
+          "startFrame": 100,
+          "endFrame": 105
         },
         {
-          "text": "Raman",
-          "startFrame": 142,
-          "endFrame": 152
+          "text": "photosynthesis",
+          "startFrame": 106,
+          "endFrame": 130
         },
         {
-          "text": "discovered",
-          "startFrame": 153,
-          "endFrame": 166
+          "text": "nature's",
+          "startFrame": 135,
+          "endFrame": 146
         },
         {
-          "text": "something",
-          "startFrame": 167,
-          "endFrame": 177
+          "text": "incredible",
+          "startFrame": 147,
+          "endFrame": 163
         },
         {
-          "text": "extraordinary",
-          "startFrame": 177,
-          "endFrame": 201
+          "text": "food-making",
+          "startFrame": 164,
+          "endFrame": 180
         },
         {
-          "text": "Light",
-          "startFrame": 225,
-          "endFrame": 232
+          "text": "process",
+          "startFrame": 181,
+          "endFrame": 198
         }
       ]
     },
     {
-      "text": "Light changes color and energy, revealing molecular secrets.",
-      "startFrame": 233,
-      "endFrame": 352,
+      "text": "Green plants convert sunlight, water, and carbon dioxide into food.",
+      "startFrame": 222,
+      "endFrame": 329,
       "act": 1,
       "words": [
         {
-          "text": "changes",
-          "startFrame": 233,
-          "endFrame": 245
+          "text": "Green",
+          "startFrame": 222,
+          "endFrame": 231
         },
         {
-          "text": "color",
-          "startFrame": 245,
-          "endFrame": 255
+          "text": "plants",
+          "startFrame": 231,
+          "endFrame": 239
+        },
+        {
+          "text": "convert",
+          "startFrame": 240,
+          "endFrame": 250
+        },
+        {
+          "text": "sunlight",
+          "startFrame": 251,
+          "endFrame": 264
+        },
+        {
+          "text": "water",
+          "startFrame": 268,
+          "endFrame": 278
         },
         {
           "text": "and",
-          "startFrame": 255,
-          "endFrame": 258
+          "startFrame": 283,
+          "endFrame": 286
         },
         {
-          "text": "energy",
-          "startFrame": 258,
-          "endFrame": 270
+          "text": "carbon",
+          "startFrame": 287,
+          "endFrame": 296
         },
         {
-          "text": "revealing",
-          "startFrame": 276,
-          "endFrame": 288
+          "text": "dioxide",
+          "startFrame": 297,
+          "endFrame": 312
         },
         {
-          "text": "molecular",
-          "startFrame": 289,
-          "endFrame": 304
+          "text": "into",
+          "startFrame": 313,
+          "endFrame": 318
         },
         {
-          "text": "secrets",
-          "startFrame": 305,
-          "endFrame": 321
-        },
-        {
-          "text": "This",
-          "startFrame": 345,
-          "endFrame": 352
+          "text": "food",
+          "startFrame": 319,
+          "endFrame": 329
         }
       ]
     },
     {
-      "text": "This 'Raman Effect' revolutionized material science and medicine.",
-      "startFrame": 353,
-      "endFrame": 476,
+      "text": "This vital process also releases the oxygen we all breathe.",
+      "startFrame": 354,
+      "endFrame": 445,
       "act": 1,
       "words": [
         {
-          "text": "Raman",
-          "startFrame": 353,
-          "endFrame": 362
-        },
-        {
-          "text": "Effect",
-          "startFrame": 363,
-          "endFrame": 373
-        },
-        {
-          "text": "revolutionized",
-          "startFrame": 375,
-          "endFrame": 397
-        },
-        {
-          "text": "material",
-          "startFrame": 398,
-          "endFrame": 413
-        },
-        {
-          "text": "science",
-          "startFrame": 413,
-          "endFrame": 426
-        },
-        {
-          "text": "and",
-          "startFrame": 427,
-          "endFrame": 430
-        },
-        {
-          "text": "medicine",
-          "startFrame": 431,
-          "endFrame": 444
-        },
-        {
-          "text": "Light",
-          "startFrame": 469,
-          "endFrame": 476
-        }
-      ]
-    },
-    {
-      "text": "Light photons interact with molecules, gaining or losing energy.",
-      "startFrame": 476,
-      "endFrame": 598,
-      "act": 2,
-      "words": [
-        {
-          "text": "photons",
-          "startFrame": 476,
-          "endFrame": 490
-        },
-        {
-          "text": "interact",
-          "startFrame": 490,
-          "endFrame": 503
-        },
-        {
-          "text": "with",
-          "startFrame": 504,
-          "endFrame": 507
-        },
-        {
-          "text": "molecules",
-          "startFrame": 508,
-          "endFrame": 525
-        },
-        {
-          "text": "gaining",
-          "startFrame": 530,
-          "endFrame": 540
-        },
-        {
-          "text": "or",
-          "startFrame": 541,
-          "endFrame": 544
-        },
-        {
-          "text": "losing",
-          "startFrame": 545,
-          "endFrame": 554
-        },
-        {
-          "text": "energy",
-          "startFrame": 555,
-          "endFrame": 568
-        },
-        {
           "text": "This",
-          "startFrame": 592,
-          "endFrame": 598
-        }
-      ]
-    },
-    {
-      "text": "This energy shift changes the light's wavelength, thus its color.",
-      "startFrame": 599,
-      "endFrame": 716,
-      "act": 2,
-      "words": [
-        {
-          "text": "energy",
-          "startFrame": 599,
-          "endFrame": 609
+          "startFrame": 354,
+          "endFrame": 360
         },
         {
-          "text": "shift",
-          "startFrame": 609,
-          "endFrame": 617
+          "text": "vital",
+          "startFrame": 361,
+          "endFrame": 370
         },
         {
-          "text": "changes",
-          "startFrame": 618,
-          "endFrame": 628
+          "text": "process",
+          "startFrame": 371,
+          "endFrame": 383
+        },
+        {
+          "text": "also",
+          "startFrame": 384,
+          "endFrame": 392
+        },
+        {
+          "text": "releases",
+          "startFrame": 393,
+          "endFrame": 405
         },
         {
           "text": "the",
-          "startFrame": 629,
-          "endFrame": 632
+          "startFrame": 406,
+          "endFrame": 409
         },
         {
-          "text": "light's",
-          "startFrame": 633,
-          "endFrame": 640
+          "text": "oxygen",
+          "startFrame": 409,
+          "endFrame": 423
         },
         {
-          "text": "wavelength",
-          "startFrame": 640,
-          "endFrame": 654
+          "text": "we",
+          "startFrame": 423,
+          "endFrame": 427
         },
         {
-          "text": "thus",
-          "startFrame": 659,
-          "endFrame": 664
+          "text": "all",
+          "startFrame": 427,
+          "endFrame": 432
         },
         {
-          "text": "its",
-          "startFrame": 664,
-          "endFrame": 668
-        },
-        {
-          "text": "color",
-          "startFrame": 669,
-          "endFrame": 681
-        },
-        {
-          "text": "CV",
-          "startFrame": 705,
-          "endFrame": 716
+          "text": "breathe",
+          "startFrame": 432,
+          "endFrame": 445
         }
       ]
     },
     {
-      "text": "C.V. Raman observed this subtle shift, a groundbreaking scientific insight.",
-      "startFrame": 717,
-      "endFrame": 847,
+      "text": "Chlorophyll, the green pigment, captures sunlight's energy.",
+      "startFrame": 469,
+      "endFrame": 558,
       "act": 2,
       "words": [
         {
-          "text": "Raman",
-          "startFrame": 717,
-          "endFrame": 726
+          "text": "Chlorophyll",
+          "startFrame": 469,
+          "endFrame": 487
         },
         {
-          "text": "observed",
-          "startFrame": 726,
-          "endFrame": 737
+          "text": "the",
+          "startFrame": 490,
+          "endFrame": 493
         },
         {
-          "text": "this",
-          "startFrame": 737,
-          "endFrame": 741
+          "text": "green",
+          "startFrame": 494,
+          "endFrame": 501
         },
         {
-          "text": "subtle",
-          "startFrame": 742,
-          "endFrame": 750
+          "text": "pigment",
+          "startFrame": 502,
+          "endFrame": 513
         },
         {
-          "text": "shift",
-          "startFrame": 750,
-          "endFrame": 760
+          "text": "captures",
+          "startFrame": 518,
+          "endFrame": 530
         },
         {
-          "text": "a",
-          "startFrame": 765,
-          "endFrame": 767
+          "text": "sunlight's",
+          "startFrame": 531,
+          "endFrame": 543
         },
         {
-          "text": "groundbreaking",
-          "startFrame": 768,
-          "endFrame": 787
-        },
-        {
-          "text": "scientific",
-          "startFrame": 787,
-          "endFrame": 804
-        },
-        {
-          "text": "insight",
-          "startFrame": 804,
-          "endFrame": 818
-        },
-        {
-          "text": "It",
-          "startFrame": 842,
-          "endFrame": 847
+          "text": "energy",
+          "startFrame": 544,
+          "endFrame": 558
         }
       ]
     },
     {
-      "text": "It reveals unique molecular vibrations, like a chemical fingerprint.",
-      "startFrame": 847,
-      "endFrame": 983,
+      "text": "Water and carbon dioxide are absorbed by the plant.",
+      "startFrame": 581,
+      "endFrame": 661,
       "act": 2,
       "words": [
         {
-          "text": "reveals",
-          "startFrame": 847,
-          "endFrame": 859
-        },
-        {
-          "text": "unique",
-          "startFrame": 860,
-          "endFrame": 870
-        },
-        {
-          "text": "molecular",
-          "startFrame": 870,
-          "endFrame": 885
-        },
-        {
-          "text": "vibrations",
-          "startFrame": 886,
-          "endFrame": 905
-        },
-        {
-          "text": "like",
-          "startFrame": 910,
-          "endFrame": 914
-        },
-        {
-          "text": "a",
-          "startFrame": 915,
-          "endFrame": 916
-        },
-        {
-          "text": "chemical",
-          "startFrame": 917,
-          "endFrame": 928
-        },
-        {
-          "text": "fingerprint",
-          "startFrame": 929,
-          "endFrame": 948
-        },
-        {
-          "text": "Raman's",
-          "startFrame": 971,
-          "endFrame": 983
-        }
-      ]
-    },
-    {
-      "text": "Raman's discovery unlocked a powerful tool for scientific analysis.",
-      "startFrame": 984,
-      "endFrame": 1114,
-      "act": 3,
-      "words": [
-        {
-          "text": "discovery",
-          "startFrame": 984,
-          "endFrame": 998
-        },
-        {
-          "text": "unlocked",
-          "startFrame": 999,
-          "endFrame": 1011
-        },
-        {
-          "text": "a",
-          "startFrame": 1012,
-          "endFrame": 1014
-        },
-        {
-          "text": "powerful",
-          "startFrame": 1014,
-          "endFrame": 1027
-        },
-        {
-          "text": "tool",
-          "startFrame": 1028,
-          "endFrame": 1036
-        },
-        {
-          "text": "for",
-          "startFrame": 1037,
-          "endFrame": 1041
-        },
-        {
-          "text": "scientific",
-          "startFrame": 1042,
-          "endFrame": 1059
-        },
-        {
-          "text": "analysis",
-          "startFrame": 1059,
-          "endFrame": 1079
-        },
-        {
-          "text": "Today",
-          "startFrame": 1103,
-          "endFrame": 1114
-        }
-      ]
-    },
-    {
-      "text": "Today, it identifies materials, detects diseases, and ensures safety.",
-      "startFrame": 1119,
-      "endFrame": 1253,
-      "act": 3,
-      "words": [
-        {
-          "text": "it",
-          "startFrame": 1119,
-          "endFrame": 1122
-        },
-        {
-          "text": "identifies",
-          "startFrame": 1123,
-          "endFrame": 1140
-        },
-        {
-          "text": "materials",
-          "startFrame": 1141,
-          "endFrame": 1158
-        },
-        {
-          "text": "detects",
-          "startFrame": 1163,
-          "endFrame": 1174
-        },
-        {
-          "text": "diseases",
-          "startFrame": 1174,
-          "endFrame": 1189
+          "text": "Water",
+          "startFrame": 581,
+          "endFrame": 593
         },
         {
           "text": "and",
-          "startFrame": 1194,
-          "endFrame": 1198
+          "startFrame": 593,
+          "endFrame": 596
         },
         {
-          "text": "ensures",
-          "startFrame": 1199,
-          "endFrame": 1209
+          "text": "carbon",
+          "startFrame": 597,
+          "endFrame": 607
         },
         {
-          "text": "safety",
-          "startFrame": 1210,
-          "endFrame": 1223
-        },
-        {
-          "text": "From",
-          "startFrame": 1247,
-          "endFrame": 1253
-        }
-      ]
-    },
-    {
-      "text": "From pharmaceuticals to forensics, its applications are incredibly vast.",
-      "startFrame": 1254,
-      "endFrame": 1393,
-      "act": 3,
-      "words": [
-        {
-          "text": "pharmaceuticals",
-          "startFrame": 1254,
-          "endFrame": 1276
-        },
-        {
-          "text": "to",
-          "startFrame": 1277,
-          "endFrame": 1279
-        },
-        {
-          "text": "forensics",
-          "startFrame": 1280,
-          "endFrame": 1296
-        },
-        {
-          "text": "its",
-          "startFrame": 1302,
-          "endFrame": 1307
-        },
-        {
-          "text": "applications",
-          "startFrame": 1308,
-          "endFrame": 1328
+          "text": "dioxide",
+          "startFrame": 607,
+          "endFrame": 625
         },
         {
           "text": "are",
-          "startFrame": 1328,
-          "endFrame": 1331
+          "startFrame": 625,
+          "endFrame": 628
         },
         {
-          "text": "incredibly",
-          "startFrame": 1332,
-          "endFrame": 1348
+          "text": "absorbed",
+          "startFrame": 629,
+          "endFrame": 641
         },
         {
-          "text": "vast",
-          "startFrame": 1348,
-          "endFrame": 1361
+          "text": "by",
+          "startFrame": 641,
+          "endFrame": 645
         },
         {
-          "text": "This",
-          "startFrame": 1386,
-          "endFrame": 1393
+          "text": "the",
+          "startFrame": 646,
+          "endFrame": 649
+        },
+        {
+          "text": "plant",
+          "startFrame": 649,
+          "endFrame": 661
         }
       ]
     },
     {
-      "text": "This effect continues to advance our understanding of matter.",
-      "startFrame": 1393,
-      "endFrame": 1476,
+      "text": "This energy transforms them into glucose, the plant's food.",
+      "startFrame": 685,
+      "endFrame": 773,
+      "act": 2,
+      "words": [
+        {
+          "text": "This",
+          "startFrame": 685,
+          "endFrame": 692
+        },
+        {
+          "text": "energy",
+          "startFrame": 693,
+          "endFrame": 702
+        },
+        {
+          "text": "transforms",
+          "startFrame": 703,
+          "endFrame": 720
+        },
+        {
+          "text": "them",
+          "startFrame": 720,
+          "endFrame": 724
+        },
+        {
+          "text": "into",
+          "startFrame": 725,
+          "endFrame": 730
+        },
+        {
+          "text": "glucose",
+          "startFrame": 730,
+          "endFrame": 745
+        },
+        {
+          "text": "the",
+          "startFrame": 749,
+          "endFrame": 752
+        },
+        {
+          "text": "plant's",
+          "startFrame": 753,
+          "endFrame": 761
+        },
+        {
+          "text": "food",
+          "startFrame": 762,
+          "endFrame": 773
+        }
+      ]
+    },
+    {
+      "text": "Oxygen is released as a vital byproduct for all life.",
+      "startFrame": 797,
+      "endFrame": 884,
+      "act": 2,
+      "words": [
+        {
+          "text": "Oxygen",
+          "startFrame": 797,
+          "endFrame": 813
+        },
+        {
+          "text": "is",
+          "startFrame": 813,
+          "endFrame": 817
+        },
+        {
+          "text": "released",
+          "startFrame": 817,
+          "endFrame": 829
+        },
+        {
+          "text": "as",
+          "startFrame": 829,
+          "endFrame": 833
+        },
+        {
+          "text": "a",
+          "startFrame": 833,
+          "endFrame": 835
+        },
+        {
+          "text": "vital",
+          "startFrame": 836,
+          "endFrame": 845
+        },
+        {
+          "text": "byproduct",
+          "startFrame": 846,
+          "endFrame": 862
+        },
+        {
+          "text": "for",
+          "startFrame": 862,
+          "endFrame": 867
+        },
+        {
+          "text": "all",
+          "startFrame": 868,
+          "endFrame": 872
+        },
+        {
+          "text": "life",
+          "startFrame": 873,
+          "endFrame": 884
+        }
+      ]
+    },
+    {
+      "text": "Photosynthesis converts light energy into essential chemical energy for life.",
+      "startFrame": 908,
+      "endFrame": 1026,
       "act": 3,
       "words": [
         {
-          "text": "effect",
-          "startFrame": 1393,
-          "endFrame": 1404
+          "text": "Photosynthesis",
+          "startFrame": 908,
+          "endFrame": 932
         },
         {
-          "text": "continues",
-          "startFrame": 1404,
-          "endFrame": 1420
+          "text": "converts",
+          "startFrame": 933,
+          "endFrame": 946
         },
         {
-          "text": "to",
-          "startFrame": 1421,
-          "endFrame": 1424
+          "text": "light",
+          "startFrame": 947,
+          "endFrame": 953
         },
         {
-          "text": "advance",
-          "startFrame": 1425,
-          "endFrame": 1437
+          "text": "energy",
+          "startFrame": 954,
+          "endFrame": 965
         },
         {
-          "text": "our",
-          "startFrame": 1437,
-          "endFrame": 1442
+          "text": "into",
+          "startFrame": 966,
+          "endFrame": 972
         },
         {
-          "text": "understanding",
-          "startFrame": 1442,
-          "endFrame": 1460
+          "text": "essential",
+          "startFrame": 973,
+          "endFrame": 986
         },
         {
-          "text": "of",
-          "startFrame": 1461,
-          "endFrame": 1463
+          "text": "chemical",
+          "startFrame": 987,
+          "endFrame": 999
         },
         {
-          "text": "matter",
-          "startFrame": 1464,
-          "endFrame": 1476
+          "text": "energy",
+          "startFrame": 999,
+          "endFrame": 1009
+        },
+        {
+          "text": "for",
+          "startFrame": 1010,
+          "endFrame": 1014
+        },
+        {
+          "text": "life",
+          "startFrame": 1015,
+          "endFrame": 1026
+        }
+      ]
+    },
+    {
+      "text": "Plants produce glucose, their food, from carbon dioxide and water.",
+      "startFrame": 1051,
+      "endFrame": 1154,
+      "act": 3,
+      "words": [
+        {
+          "text": "Plants",
+          "startFrame": 1051,
+          "endFrame": 1059
+        },
+        {
+          "text": "produce",
+          "startFrame": 1060,
+          "endFrame": 1070
+        },
+        {
+          "text": "glucose",
+          "startFrame": 1070,
+          "endFrame": 1085
+        },
+        {
+          "text": "their",
+          "startFrame": 1089,
+          "endFrame": 1094
+        },
+        {
+          "text": "food",
+          "startFrame": 1095,
+          "endFrame": 1104
+        },
+        {
+          "text": "from",
+          "startFrame": 1108,
+          "endFrame": 1113
+        },
+        {
+          "text": "carbon",
+          "startFrame": 1114,
+          "endFrame": 1123
+        },
+        {
+          "text": "dioxide",
+          "startFrame": 1124,
+          "endFrame": 1140
+        },
+        {
+          "text": "and",
+          "startFrame": 1140,
+          "endFrame": 1143
+        },
+        {
+          "text": "water",
+          "startFrame": 1144,
+          "endFrame": 1154
+        }
+      ]
+    },
+    {
+      "text": "This process also releases the oxygen vital for animal respiration.",
+      "startFrame": 1179,
+      "endFrame": 1284,
+      "act": 3,
+      "words": [
+        {
+          "text": "This",
+          "startFrame": 1179,
+          "endFrame": 1185
+        },
+        {
+          "text": "process",
+          "startFrame": 1186,
+          "endFrame": 1198
+        },
+        {
+          "text": "also",
+          "startFrame": 1199,
+          "endFrame": 1207
+        },
+        {
+          "text": "releases",
+          "startFrame": 1208,
+          "endFrame": 1220
+        },
+        {
+          "text": "the",
+          "startFrame": 1221,
+          "endFrame": 1224
+        },
+        {
+          "text": "oxygen",
+          "startFrame": 1224,
+          "endFrame": 1238
+        },
+        {
+          "text": "vital",
+          "startFrame": 1239,
+          "endFrame": 1248
+        },
+        {
+          "text": "for",
+          "startFrame": 1249,
+          "endFrame": 1254
+        },
+        {
+          "text": "animal",
+          "startFrame": 1254,
+          "endFrame": 1263
+        },
+        {
+          "text": "respiration",
+          "startFrame": 1264,
+          "endFrame": 1284
+        }
+      ]
+    },
+    {
+      "text": "Photosynthesis sustains nearly all life on Earth, truly remarkable.",
+      "startFrame": 1308,
+      "endFrame": 1413,
+      "act": 3,
+      "words": [
+        {
+          "text": "Photosynthesis",
+          "startFrame": 1308,
+          "endFrame": 1330
+        },
+        {
+          "text": "sustains",
+          "startFrame": 1331,
+          "endFrame": 1344
+        },
+        {
+          "text": "nearly",
+          "startFrame": 1345,
+          "endFrame": 1353
+        },
+        {
+          "text": "all",
+          "startFrame": 1354,
+          "endFrame": 1360
+        },
+        {
+          "text": "life",
+          "startFrame": 1361,
+          "endFrame": 1367
+        },
+        {
+          "text": "on",
+          "startFrame": 1368,
+          "endFrame": 1371
+        },
+        {
+          "text": "Earth",
+          "startFrame": 1372,
+          "endFrame": 1379
+        },
+        {
+          "text": "truly",
+          "startFrame": 1384,
+          "endFrame": 1393
+        },
+        {
+          "text": "remarkable",
+          "startFrame": 1394,
+          "endFrame": 1413
         }
       ]
     }
   ],
-  "totalFrames": 1506
+  "totalFrames": 1443
 }
