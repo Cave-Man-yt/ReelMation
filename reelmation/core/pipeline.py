@@ -44,6 +44,7 @@ class ReelPipeline:
         use_cache: bool = True,
         from_script: Optional[str] = None,
         optimize_hook: bool = True,
+        knowledge_base: str = "",
     ) -> str:
         """Run the full generation pipeline and return the path to the rendered MP4."""
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -58,7 +59,7 @@ class ReelPipeline:
             topic=topic, style=style, num_sentences=num_sentences,
             persona_file=persona_file, use_cache=use_cache,
             from_script=from_script, optimize_hook=optimize_hook,
-            log_file=log_file,
+            log_file=log_file, knowledge_base=knowledge_base,
         )
         self._print_script_summary(script)
 
@@ -129,7 +130,7 @@ class ReelPipeline:
     # ── Script Generation ──────────────────────────────────────────────────
 
     def _get_script(self, topic, style, num_sentences, persona_file,
-                    use_cache, from_script, optimize_hook, log_file):
+                    use_cache, from_script, optimize_hook, log_file, knowledge_base=""):
         """Load script from file/cache or generate fresh via LLM."""
         # Load from existing file
         if from_script:
@@ -165,6 +166,7 @@ class ReelPipeline:
         script = agent.generate_reel_script(
             topic=topic, style=style, num_sentences=num_sentences,
             optimize_hook=optimize_hook, log_file=log_file,
+            knowledgeBase=knowledge_base,
         )
 
         self._save_cached_script(topic, style, num_sentences, script)

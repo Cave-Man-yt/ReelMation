@@ -24,7 +24,7 @@ app.get('/api/health', (req, res) => {
 
 // Real-Time Streaming Generation Endpoint (Server-Sent Events)
 app.post('/api/generate-short-stream', async (req, res) => {
-  const { subject, format = '9:16', voiceStyle = 'energetic', visualStyle = '3d_schematic' } = req.body;
+  const { subject, format = '9:16', voiceStyle = 'energetic', visualStyle = '3d_schematic', knowledgeBase } = req.body;
 
   if (!subject) {
     return res.status(400).json({ error: 'Subject is required' });
@@ -42,13 +42,21 @@ app.post('/api/generate-short-stream', async (req, res) => {
   const rootDir = path.join(process.cwd(), '..');
   console.log(`\n============================================================`);
   console.log(`🎬 REELMATION API: Starting Python Pipeline for "${subject}"`);
+  if (knowledgeBase) {
+    console.log(`🧠 Including Knowledge Base: ${knowledgeBase.substring(0, 50)}...`);
+  }
   console.log(`============================================================\n`);
 
   const startTime = Date.now();
   let stdoutAcc = '';
 
+  const pythonArgs = ['main.py', subject, '--no-cache'];
+  if (knowledgeBase) {
+    pythonArgs.push('--knowledge', knowledgeBase);
+  }
+
   // Spawn python process unbuffered
-  const pythonProc = spawn('./venv/bin/python', ['main.py', subject, '--no-cache'], {
+  const pythonProc = spawn('./venv/bin/python', pythonArgs, {
     cwd: rootDir,
     env: { ...process.env, PYTHONUNBUFFERED: '1' }
   });

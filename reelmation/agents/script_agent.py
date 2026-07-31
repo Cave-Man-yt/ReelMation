@@ -63,6 +63,7 @@ class ScriptAgent(GeminiClient):
         max_retries: int = 5,
         log_file: str = "llm_debug.log",
         optimize_hook: bool = True,
+        knowledgeBase: str = "",
     ) -> dict:
         """
         Generate a structured reel script as JSON with paired sentences
@@ -83,6 +84,7 @@ class ScriptAgent(GeminiClient):
             num_sentences: Target number of sentences (controls reel length).
             max_retries: How many times to retry on parse failure.
             log_file: Path to debug log file.
+            knowledgeBase: Optional custom notes to guide the script.
 
         Returns:
             Parsed dict with keys: title, characters, environments,
@@ -109,8 +111,11 @@ class ScriptAgent(GeminiClient):
         # ── Phase 1: Generate narration sentences ──────────────────────
         print("[ScriptAgent] Phase 1: Generating narration sentences...")
 
+        kb_section = f"Knowledge Base/Notes to include:\n{knowledgeBase}\n\n" if knowledgeBase else ""
+
         phase1_prompt = (
             f"Write an informative, educational social media reel narration about: {topic}.\n\n"
+            f"{kb_section}"
             "JSON Format:\n"
             "{\n"
             '  "title": "catchy title",\n'

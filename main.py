@@ -52,6 +52,7 @@ Examples:
     parser.add_argument("--no-cache", action="store_true", help="Force regeneration of script (ignore cache)")
     parser.add_argument("--from-script", help="Skip LLM entirely -- load script from a previous reel_script.json")
     parser.add_argument("--no-hook-optimize", action="store_true", help="Skip hook optimization (keep original first sentence)")
+    parser.add_argument("--knowledge", help="Optional knowledge base or notes to guide the AI script generation")
     parser.add_argument("--reuse", help="Reuse an existing run directory (reuses script and images)")
 
     args = parser.parse_args()
@@ -94,6 +95,7 @@ Examples:
             use_cache=not args.no_cache,
             from_script=args.from_script,
             optimize_hook=not args.no_hook_optimize,
+            knowledge_base=args.knowledge or "",
         )
 
         total_time = time.time() - overall_start
