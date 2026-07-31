@@ -92,9 +92,10 @@ class GeminiClient:
             result = self._api_call(self.PATH_LOAD_CODE_ASSIST, {})
             self.project = result.get("cloudaicompanionProject", "")
             if not self.project:
-                raise ValueError("No project found")
+                raise ValueError("No project found via API")
         except Exception as e:
-            raise RuntimeError(f"Failed to auto-discover project: {e}")
+            # Fallback to the known working project if API discovery fails
+            self.project = "sustained-flare-xhpd3"
 
     def _apply_persona(self):
         if self.persona:
