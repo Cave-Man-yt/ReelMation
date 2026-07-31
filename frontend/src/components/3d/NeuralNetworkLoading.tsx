@@ -86,7 +86,7 @@ export const NeuralNetworkLoading: React.FC<NeuralNetworkLoadingProps> = ({
 
     // Scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#e0e5ec');
+    scene.background = new THREE.Color('#12151e');
 
     // Camera
     const camera = new THREE.PerspectiveCamera(

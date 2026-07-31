@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 
 export const AmbientLivingBackground: React.FC = () => {
@@ -14,10 +14,10 @@ export const AmbientLivingBackground: React.FC = () => {
       {/* Layer 1: Ambient Glowing Radial Flares */}
       <motion.div
         style={{ y: yLayer1, rotate: rotateGlow }}
-        className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] rounded-full blur-[140px] opacity-70"
+        className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] rounded-full blur-[140px] opacity-40"
         animate={{
-          scale: [1, 1.05, 1],
-          opacity: [0.6, 0.8, 0.6],
+          scale: [1, 1.08, 1],
+          opacity: [0.35, 0.55, 0.35],
         }}
         transition={{
           duration: 10,
@@ -25,15 +25,15 @@ export const AmbientLivingBackground: React.FC = () => {
           ease: "easeInOut",
         }}
       >
-        <div className="w-full h-full rounded-full bg-gradient-to-br from-[#f5f5fa] to-transparent" />
+        <div className="w-full h-full rounded-full bg-gradient-to-br from-[#7c3aed] to-transparent" />
       </motion.div>
 
       <motion.div
         style={{ y: yLayer2 }}
-        className="absolute bottom-[-10%] right-[15%] w-[700px] h-[700px] rounded-full blur-[160px] opacity-70"
+        className="absolute bottom-[-10%] right-[15%] w-[700px] h-[700px] rounded-full blur-[160px] opacity-40"
         animate={{
-          scale: [1, 1.05, 1],
-          opacity: [0.6, 0.8, 0.6],
+          scale: [1, 1.08, 1],
+          opacity: [0.35, 0.55, 0.35],
         }}
         transition={{
           duration: 12,
@@ -42,7 +42,7 @@ export const AmbientLivingBackground: React.FC = () => {
           delay: 1,
         }}
       >
-        <div className="w-full h-full rounded-full bg-gradient-to-tr from-[#d5dbe5] to-transparent" />
+        <div className="w-full h-full rounded-full bg-gradient-to-tr from-[#2563eb] to-transparent" />
       </motion.div>
     </div>
   );

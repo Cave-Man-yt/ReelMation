@@ -27,7 +27,7 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0xe0e5ec, 0.008);
+    scene.fog = new THREE.FogExp2(0x12151e, 0.008);
 
     const camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 1000);
     camera.position.set(0, 15, 95);
@@ -40,7 +40,7 @@ export const NeuralReasoningEngine: React.FC<NeuralReasoningEngineProps> = ({
     container.appendChild(renderer.domElement);
 
     // Lights
-    const ambientLight = new THREE.AmbientLight(0xe0e5ec, 0.6);
+    const ambientLight = new THREE.AmbientLight(0x12151e, 0.6);
     scene.add(ambientLight);
 
     const blueLight = new THREE.PointLight(0x7c5cbf, 1.5, 120);

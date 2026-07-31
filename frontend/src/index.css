@@ -2,48 +2,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 /* ═══════════════════════════════════════════════════════════════════════
-   NEOMORPHISM DESIGN SYSTEM — ReelMation (v2 — Black Shadows + Contrast)
+   DARK NEOMORPHISM DESIGN SYSTEM — ReelMation (Dark Mode — White to Black)
    ═══════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── Surface Colors ─────────────────────────────────────────────────── */
-  --nm-bg: #dde1e7;
-  --nm-bg-alt: #eef1f5;
-  --nm-bg-dark: #c8ccd3;
+  /* ── Dark Surface Colors ─────────────────────────────────────────────── */
+  --nm-bg: #12151e;
+  --nm-bg-alt: #1a1e2b;
+  --nm-bg-dark: #0a0c13;
 
   /* ── Text Colors ────────────────────────────────────────────────────── */
-  --nm-text: #31344b;
-  --nm-text-muted: #6b7084;
-  --nm-text-heading: #1a1c2e;
-  --nm-text-light: #9498ab;
+  --nm-text: #cbd5e1;
+  --nm-text-muted: #64748b;
+  --nm-text-heading: #f8fafc;
+  --nm-text-light: #475569;
 
-  /* ── Accent Colors — Rich Indigo/Violet Palette ─────────────────────── */
-  --nm-accent: #6c3baa;
-  --nm-accent-hover: #5a2d96;
-  --nm-accent-blue: #4a6cf7;
-  --nm-accent-light: #9b7fdb;
-  --nm-accent-green: #3da565;
-  --nm-accent-pink: #c74b8f;
-  --nm-accent-surface: rgba(108, 59, 170, 0.08);
-  --nm-accent-gradient: linear-gradient(135deg, #6c3baa, #4a6cf7);
+  /* ── Accent Colors — Electric Neon Violet / Indigo / Blue ───────────── */
+  --nm-accent: #a78bfa;
+  --nm-accent-hover: #c084fc;
+  --nm-accent-blue: #38bdf8;
+  --nm-accent-light: #c084fc;
+  --nm-accent-green: #34d399;
+  --nm-accent-pink: #f472b6;
+  --nm-accent-surface: rgba(167, 139, 250, 0.12);
+  --nm-accent-gradient: linear-gradient(135deg, #7c3aed, #2563eb);
 
-  /* ── Shadow Colors — TRUE BLACK shadows ─────────────────────────────── */
-  --nm-shadow-light: rgba(255, 255, 255, 0.85);
-  --nm-shadow-dark: rgba(0, 0, 0, 0.25);
+  /* ── Shadow Colors — Dark Neorphism (Top-left specular, Bottom-right drop shadow) ── */
+  --nm-shadow-light: rgba(255, 255, 255, 0.06);
+  --nm-shadow-dark: rgba(0, 0, 0, 0.75);
 
-  /* ── Shadow Presets ─────────────────────────────────────────────────── */
-  --nm-raised: 6px 6px 14px rgba(0,0,0,0.2), -6px -6px 14px rgba(255,255,255,0.8);
-  --nm-raised-sm: 3px 3px 8px rgba(0,0,0,0.18), -3px -3px 8px rgba(255,255,255,0.75);
-  --nm-raised-lg: 10px 10px 22px rgba(0,0,0,0.22), -10px -10px 22px rgba(255,255,255,0.85);
-  --nm-pressed: inset 3px 3px 7px rgba(0,0,0,0.2), inset -3px -3px 7px rgba(255,255,255,0.75);
-  --nm-pressed-sm: inset 2px 2px 5px rgba(0,0,0,0.18), inset -2px -2px 5px rgba(255,255,255,0.7);
-  --nm-pressed-lg: inset 5px 5px 12px rgba(0,0,0,0.22), inset -5px -5px 12px rgba(255,255,255,0.8);
+  /* ── Shadow Presets — Crisp extruded & indented dark soft-UI ────────── */
+  --nm-raised: 7px 7px 18px rgba(0,0,0,0.75), -6px -6px 16px rgba(255,255,255,0.05);
+  --nm-raised-sm: 4px 4px 10px rgba(0,0,0,0.7), -3px -3px 8px rgba(255,255,255,0.05);
+  --nm-raised-lg: 12px 12px 28px rgba(0,0,0,0.85), -10px -10px 24px rgba(255,255,255,0.06);
+  --nm-pressed: inset 4px 4px 10px rgba(0,0,0,0.8), inset -4px -4px 10px rgba(255,255,255,0.05);
+  --nm-pressed-sm: inset 2px 2px 6px rgba(0,0,0,0.75), inset -2px -2px 6px rgba(255,255,255,0.04);
+  --nm-pressed-lg: inset 6px 6px 14px rgba(0,0,0,0.85), inset -6px -6px 14px rgba(255,255,255,0.06);
   --nm-flat: 0 0 0 transparent;
 }
 
 /* ── Base Styles ──────────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
+  background-color: var(--nm-bg);
 }
 
 body {
@@ -55,8 +56,8 @@ body {
 }
 
 ::selection {
-  background: rgba(108, 59, 170, 0.25);
-  color: var(--nm-text-heading);
+  background: rgba(167, 139, 250, 0.3);
+  color: #ffffff;
 }
 
 /* ── Scrollbar Styling ────────────────────────────────────────────────── */
@@ -71,12 +72,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #999;
+  background: #334155;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #777;
+  background: #475569;
 }
 
 /* ── Utility Classes ──────────────────────────────────────────────────── */
@@ -121,11 +122,11 @@ body {
 }
 
 .nm-card:hover {
-  box-shadow: 8px 8px 18px rgba(0,0,0,0.24), -8px -8px 18px rgba(255,255,255,0.85);
+  box-shadow: 9px 9px 22px rgba(0,0,0,0.85), -7px -7px 18px rgba(255,255,255,0.06);
   transform: translateY(-2px);
 }
 
-/* ── Component: Button (Base — Raised Neomorphic) ─────────────────────── */
+/* ── Component: Button (Base — Raised Dark Neomorphic) ────────────────── */
 .nm-btn {
   background: var(--nm-bg);
   box-shadow: var(--nm-raised-sm);
@@ -135,13 +136,14 @@ body {
   color: var(--nm-text);
   font-weight: 600;
   cursor: pointer;
-  transition: box-shadow 0.2s ease, transform 0.15s ease, background 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.15s ease, background 0.2s ease, color 0.2s ease;
   outline: none;
 }
 
 .nm-btn:hover {
-  box-shadow: 5px 5px 12px rgba(0,0,0,0.22), -5px -5px 12px rgba(255,255,255,0.8);
+  box-shadow: 6px 6px 14px rgba(0,0,0,0.8), -4px -4px 10px rgba(255,255,255,0.06);
   transform: translateY(-1px);
+  color: var(--nm-text-heading);
 }
 
 .nm-btn:active,
@@ -150,27 +152,27 @@ body {
   transform: translateY(0);
 }
 
-/* ── Component: Primary Button — FILLED accent with shadow ────────────── */
+/* ── Component: Primary Button — FILLED Electric Accent Gradient ───────── */
 .nm-btn-primary {
   background: var(--nm-accent-gradient);
   color: #fff;
   font-weight: 700;
-  box-shadow: 4px 4px 12px rgba(108,59,170,0.35), -3px -3px 8px rgba(255,255,255,0.5);
+  box-shadow: 5px 5px 16px rgba(124,58,237,0.45), -4px -4px 12px rgba(255,255,255,0.08);
   letter-spacing: 0.02em;
 }
 
 .nm-btn-primary:hover {
-  box-shadow: 6px 6px 16px rgba(108,59,170,0.4), -4px -4px 10px rgba(255,255,255,0.6);
+  box-shadow: 7px 7px 20px rgba(124,58,237,0.55), -5px -5px 14px rgba(255,255,255,0.1);
   transform: translateY(-2px);
-  background: linear-gradient(135deg, #5a2d96, #3d5ce0);
+  background: linear-gradient(135deg, #6d28d9, #1d4ed8);
 }
 
 .nm-btn-primary:active {
-  box-shadow: inset 3px 3px 8px rgba(0,0,0,0.3), inset -2px -2px 6px rgba(255,255,255,0.15);
+  box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5), inset -2px -2px 6px rgba(255,255,255,0.2);
   transform: translateY(0);
 }
 
-/* ── Component: Secondary Button — Subtle tinted surface ──────────────── */
+/* ── Component: Secondary Button — Dark Elevated Surface ──────────────── */
 .nm-btn-secondary {
   background: var(--nm-bg-alt);
   color: var(--nm-accent);
@@ -179,9 +181,9 @@ body {
 }
 
 .nm-btn-secondary:hover {
-  background: rgba(108, 59, 170, 0.08);
+  background: rgba(167, 139, 250, 0.15);
   color: var(--nm-accent-hover);
-  box-shadow: 5px 5px 12px rgba(0,0,0,0.2), -5px -5px 12px rgba(255,255,255,0.75);
+  box-shadow: 6px 6px 14px rgba(0,0,0,0.8), -4px -4px 10px rgba(255,255,255,0.06);
 }
 
 .nm-btn-secondary:active {
@@ -206,7 +208,7 @@ body {
 
 .nm-icon-btn:hover {
   color: var(--nm-accent);
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.2), -4px -4px 10px rgba(255,255,255,0.75);
+  box-shadow: 5px 5px 12px rgba(0,0,0,0.8), -4px -4px 10px rgba(255,255,255,0.06);
 }
 
 .nm-icon-btn:active,
@@ -236,7 +238,7 @@ body {
 }
 
 .nm-input:focus {
-  box-shadow: var(--nm-pressed-lg), 0 0 0 3px rgba(108, 59, 170, 0.18);
+  box-shadow: var(--nm-pressed-lg), 0 0 0 3px rgba(167, 139, 250, 0.25);
 }
 
 /* ── Component: Pill / Chip ───────────────────────────────────────────── */
@@ -327,7 +329,7 @@ body {
 }
 
 .nm-tab:hover {
-  color: var(--nm-text);
+  color: var(--nm-text-heading);
   background: var(--nm-accent-surface);
 }
 
