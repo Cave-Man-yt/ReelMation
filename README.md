@@ -1,6 +1,6 @@
 # 🎬 Reelmation
 
-**AI-Powered Educational Reel Generator** — Fully automated pipeline that transforms any topic into a professional short-form video ready for YouTube Shorts, Instagram Reels, and TikTok.
+**AI-Powered Educational Reel Generator** — Fully automated pipeline that transforms any topic into a professional short-form video ready for YouTube Shorts, Instagram Reels, and TikTok, wrapped in a sleek **Dark Neomorphism (Dark Soft-UI)** web interface.
 
 > Built for hackathon by [Cave-Man-yt](https://github.com/Cave-Man-yt)
 
@@ -16,13 +16,13 @@ Give it a topic like _"Explain Photosynthesis"_ and Reelmation will:
 4. **Build a manifest** — Aligns audio, images, and animated captions frame-by-frame
 5. **Render the video** — Remotion outputs a final 1080×1920 MP4 at 30fps
 
-All in one command. No manual editing. No templates.
+All in one command or via an interactive Dark Neomorphic web workspace. No manual editing. No templates.
 
 ---
 
 ## 🎥 Demo
 
-```
+```bash
 ./venv/bin/python main.py "How black holes bend light"
 ```
 
@@ -51,7 +51,7 @@ All in one command. No manual editing. No templates.
 
 ```
 ┌───────────────────────────────────────────────┐
-│           React Web UI (localhost:3000)        │
+│        Dark Neomorphic Web UI (localhost:3000)│
 │  Topic input → Live terminal logs → Video     │
 └─────────────────┬─────────────────────────────┘
                   │ SSE stream (real-time stdout)
@@ -82,7 +82,8 @@ All in one command. No manual editing. No templates.
 | **Video Rendering** | Remotion (React-based video renderer) |
 | **Web Frontend** | React + TypeScript + Vite + Motion |
 | **Web Server** | Express + Server-Sent Events (SSE) |
-| **Styling** | Tailwind-free vanilla CSS, dark cyberpunk theme |
+| **UI Aesthetics** | **Dark Neomorphism (Dark Soft-UI)** — Custom CSS design system, dark obsidian canvas (`#12151e`), specular highlight & pitch black dual shadows, electric purple/indigo gradient CTAs, Google Fonts (Inter) |
+| **3D Renderers** | Three.js particle fields & neural network visualization synced to dark theme |
 
 ---
 
@@ -174,12 +175,12 @@ output/explain_photosynthesis_20260730_194252/
 
 ## 🌐 Web UI Features
 
-- **Topic Studio** — Enter any educational topic and hit generate
-- **Live Terminal** — Watch the actual Python pipeline stdout in real-time
-- **Video Player** — Play and download the generated MP4 directly
-- **Scene Breakdown** — View each scene's narration, image prompt, and timing
-
-The web app streams real Python logs via Server-Sent Events — what you see in the browser is the exact same output as running `main.py` in your terminal.
+- **Dark Neomorphic Design System** — Deep obsidian surfaces (`#12151e`), soft-UI dual box shadows (top-left specular highlight + bottom-right drop shadow), tactile extruded/indented states, vibrant electric violet/blue gradient CTAs.
+- **Topic Studio** — Enter any educational topic, customize parameters, select quick presets, and initiate generation.
+- **Live Terminal** — Watch actual Python pipeline stdout in real-time via Server-Sent Events.
+- **3D Neural Engine Visualizer** — Three.js particle fields and network layers recolored to match the dark soft-UI aesthetic.
+- **Video Player** — Play, inspect, and download the final MP4 reel directly from the browser.
+- **Scene Breakdown** — Inspect narration text, AI visual prompts, and frame timing.
 
 ---
 

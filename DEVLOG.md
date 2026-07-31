@@ -11,7 +11,8 @@
 
 It takes a topic (e.g. "Explain Photosynthesis"), generates a narrated script via Gemini AI,
 creates scene images via ComfyUI (local Stable Diffusion), synthesizes voiceover with Edge-TTS,
-and renders the final 1080×1920 30fps MP4 video via Remotion — all fully automated.
+and renders the final 1080×1920 30fps MP4 video via Remotion — all fully automated and accessible
+via a CLI or an interactive **Dark Neomorphic** web workspace.
 
 ---
 
@@ -21,6 +22,7 @@ and renders the final 1080×1920 30fps MP4 video via Remotion — all fully auto
 ┌─────────────────────────────────────────────────────────┐
 │                    WEB FRONTEND (React)                  │
 │  frontend/  — Vite + React + TypeScript + motion/react  │
+│  Dark Neomorphism UI System (CSS Variables + Tokens)     │
 │  Runs on http://localhost:3000                           │
 │  Calls POST /api/generate-short-stream (SSE)            │
 │  Receives real-time stdout log lines from Python         │
@@ -81,30 +83,23 @@ and renders the final 1080×1920 30fps MP4 video via Remotion — all fully auto
 | `reelmation/media/image_engine.py` | `ImageEngine` — ComfyUI WebSocket T2I client |
 | `reelmation/core/remotion_builder.py` | `RemotionBuilder` — converts manifest to Remotion props |
 
-### React Frontend
+### React Frontend & UI Design System
 | File | Purpose |
 |------|---------|
+| `frontend/src/index.css` | **Dark Neomorphism Design Tokens**: Surface colors (`#12151e`), dual soft-UI box shadows, primary gradient buttons, utility classes |
 | `frontend/server.ts` | Express + Vite server. SSE endpoint `/api/generate-short-stream` |
 | `frontend/src/App.tsx` | Root component. Manages view state + SSE log streaming |
 | `frontend/src/services/aiService.ts` | `generateVideoShortStream()` — SSE client reader |
-| `frontend/src/components/LandingPage.tsx` | Landing page with real pipeline steps |
-| `frontend/src/components/VideoStudio.tsx` | Topic input form (subject, voice, format) |
-| `frontend/src/components/ProcessingExperience.tsx` | Live terminal showing real Python stdout |
-| `frontend/src/components/ResultExportPage.tsx` | Video player + scene breakdown + download |
-| `frontend/src/components/Header.tsx` | Nav header (v1.0, PIPELINE READY status) |
-| `frontend/src/components/Footer.tsx` | Tech stack footer |
-| `frontend/src/data/presets.ts` | Sample topic presets (no demo data) |
-
-### Output Structure (per run)
-```
-output/<topic_slug>_<YYYYMMDD_HHMMSS>/
-├── reel_script.json        # Gemini script output
-├── voiceover.mp3           # Edge-TTS audio
-├── scene_001.png ... NNN   # ComfyUI generated images
-├── reel_manifest.json      # Full manifest (frames, words, scores)
-├── reel.mp4                # Final rendered video
-└── llm_debug.log           # LLM request/response debug log
-```
+| `frontend/src/components/LandingPage.tsx` | Landing page with hero, pipeline breakdown, preset cards |
+| `frontend/src/components/VideoStudio.tsx` | Studio form with topic input, format switches, primary gradient CTA |
+| `frontend/src/components/ProcessingExperience.tsx` | Live terminal HUD displaying real Python stdout |
+| `frontend/src/components/ResultExportPage.tsx` | Video player, scene breakdown, retention score cards, MP4 download |
+| `frontend/src/components/Header.tsx` | Nav header (v1.0 badge, PIPELINE READY indicator, NEW VIDEO CTA) |
+| `frontend/src/components/Footer.tsx` | Dark soft-UI footer with tech stack credentials |
+| `frontend/src/components/AmbientLivingBackground.tsx` | Parallax background with dark glowing violet & blue flares |
+| `frontend/src/components/3d/HeroParticleField.tsx` | Three.js particle canvas with dark line material tint |
+| `frontend/src/components/3d/NeuralNetworkLoading.tsx` | Three.js 7-layer neural network with `#12151e` dark scene background |
+| `frontend/src/components/3d/NeuralReasoningEngine.tsx` | Three.js reasoning engine with dark fog (`0x12151e`) |
 
 ---
 
@@ -119,6 +114,36 @@ output/<topic_slug>_<YYYYMMDD_HHMMSS>/
 | `519bece` | `fix: add self-healing loopback check for ComfyUI server address` |
 | `2c72012` | `feat: integrate full React frontend with Python backend pipeline and remove all boilerplate fallback code` |
 | `b47195f` | `feat: implement real-time Python stdout terminal output & SSE log streaming to web app` |
+| `49d5867` | `feat: complete neomorphism UI overhaul` — initial light soft-UI design system migration |
+| `1b7b645` | `fix(ui): upgrade neomorphism shadow contrast & button hierarchy` — true black alpha shadows + gradient CTAs |
+| `28d6499` | `feat: dark theme neomorphism overhaul (white to dark obsidian black)` — switch to `#12151e` dark canvas, high-contrast slate text, dark 3D backgrounds |
+| `e9ff560` | `chore: commit remotion assets and props updates` — synced latest rendered reel assets and props |
+
+---
+
+## 🎨 Dark Neomorphism UI Architecture
+
+The frontend uses a custom, Tailwind-compatible **Dark Neomorphism** design system implemented in `frontend/src/index.css`:
+
+1. **Surface Palette**:
+   - Primary surface: `#12151e` (Dark Obsidian Slate)
+   - Elevated panel: `#1a1e2b`
+   - Sunken region: `#0a0c13`
+
+2. **Soft-UI Dual Box-Shadows**:
+   - **Top-Left Specular Glow**: `rgba(255, 255, 255, 0.05)`
+   - **Bottom-Right Drop Shadow**: `rgba(0, 0, 0, 0.75)`
+   - Extruded (`.nm-raised`, `.nm-raised-sm`, `.nm-raised-lg`) & Indented (`.nm-pressed`, `.nm-pressed-sm`, `.nm-pressed-lg`) utility classes.
+
+3. **CTA Button Hierarchy**:
+   - **Primary CTAs** (`.nm-btn-primary`): Filled gradient `linear-gradient(135deg, #7c3aed, #2563eb)`, bold white text, elevated purple drop shadow with tactile press state.
+   - **Secondary CTAs** (`.nm-btn-secondary`): Tinted surface `var(--nm-bg-alt)` with accent hover background (`rgba(167, 139, 250, 0.12)`).
+
+4. **Typography**:
+   - Font family: Inter (via Google Fonts).
+   - Headings: `#f8fafc` (Slate 50).
+   - Body text: `#cbd5e1` (Slate 300).
+   - Secondary text: `#64748b` (Slate 500).
 
 ---
 
@@ -146,39 +171,6 @@ output/<topic_slug>_<YYYYMMDD_HHMMSS>/
 - Key options: `--sentences N`, `--voice VOICE`, `--skip-images`, `--no-cache`, `--reuse DIR`
 - This is the primary demo mode for hackathon judge presentations
 
-### ScriptAgent Minimum Sentences
-- The ScriptAgent requires **minimum 8 sentences** (hard-coded validation)
-- Default is 12 sentences. Passing `--sentences 4` will fail with retry loops
-- The frontend currently uses the default (12 sentences)
-
-### What Was Removed (boilerplate from original frontend template)
-- `DEMO_PREGENERATED_SHORTS` — hardcoded fake quantum computing demo data
-- `NeuralReasoningEngine` — fake 3D visualization component (still exists in code but unused)
-- `DEFAULT_REASONING_PATHS` — fake AI reasoning path scores
-- ROI Calculator section — fake time-savings math
-- Fallback logic in App.tsx, aiService.ts, server.ts — all removed
-- All fake telemetry stats (98.6% Hook Score, 8.2s generation, etc.)
-
 ---
 
-## Known Issues / TODOs
-
-1. **`remotion/public/` gets stale assets** — Scene images and props.json from previous runs
-   remain in `remotion/public/`. The pipeline overwrites them each run, but leftover files
-   from runs with more scenes may persist.
-
-2. **Frontend processing page shows live logs but has no progress bar** — Could parse
-   STEP N/5 patterns from stdout to show percentage progress.
-
-3. **NeuralReasoningEngine.tsx still exists** — The 3D component file exists but is not
-   imported anywhere. Can be deleted for cleanup.
-
-4. **No error recovery in frontend** — If pipeline crashes mid-way, user must click
-   "Generate" again. No retry or resume functionality.
-
-5. **Video playback** — ResultExportPage.tsx has a `<video>` tag that plays the generated
-   MP4 from `/reels/<run_dir>/reel.mp4`. Ensure the static file server path is correct.
-
----
-
-*Last updated: 2026-07-30T20:15:00+05:30*
+*Last updated: 2026-07-31T12:08:51+05:30*
