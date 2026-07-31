@@ -3,70 +3,70 @@
   "brollImages": [
     {
       "url": "images/scene_001.png",
-      "durationInFrames": 91,
+      "durationInFrames": 90,
       "act": 1
     },
     {
       "url": "images/scene_002.png",
-      "durationInFrames": 129,
+      "durationInFrames": 109,
       "act": 1
     },
     {
       "url": "images/scene_003.png",
-      "durationInFrames": 132,
+      "durationInFrames": 119,
       "act": 1
     },
     {
       "url": "images/scene_004.png",
-      "durationInFrames": 115,
+      "durationInFrames": 109,
       "act": 1
     },
     {
       "url": "images/scene_005.png",
-      "durationInFrames": 112,
+      "durationInFrames": 122,
       "act": 2
     },
     {
       "url": "images/scene_006.png",
-      "durationInFrames": 104,
+      "durationInFrames": 95,
       "act": 2
     },
     {
       "url": "images/scene_007.png",
-      "durationInFrames": 112,
+      "durationInFrames": 107,
       "act": 2
     },
     {
       "url": "images/scene_008.png",
-      "durationInFrames": 111,
+      "durationInFrames": 127,
       "act": 2
     },
     {
       "url": "images/scene_009.png",
-      "durationInFrames": 143,
+      "durationInFrames": 119,
       "act": 3
     },
     {
       "url": "images/scene_010.png",
-      "durationInFrames": 128,
+      "durationInFrames": 118,
       "act": 3
     },
     {
       "url": "images/scene_011.png",
-      "durationInFrames": 129,
+      "durationInFrames": 140,
       "act": 3
     },
     {
       "url": "images/scene_012.png",
-      "durationInFrames": 135,
+      "durationInFrames": 125,
       "act": 3
     }
   ],
   "subtitles": [
     {
-      "text": "Ever wonder how life on Earth truly begins?",
+      "text": "Ever wonder how life on Earth truly thrives?",
       "startFrame": 2,
-      "endFrame": 69,
+      "endFrame": 68,
       "act": 1,
       "words": [
         {
@@ -105,605 +105,595 @@
           "endFrame": 51
         },
         {
-          "text": "begins",
-          "startFrame": 52,
-          "endFrame": 69
+          "text": "thrives",
+          "startFrame": 51,
+          "endFrame": 68
         }
       ]
     },
     {
-      "text": "It's through photosynthesis, nature's incredible food-making process.",
-      "startFrame": 93,
-      "endFrame": 198,
+      "text": "It's all thanks to an amazing process: photosynthesis.",
+      "startFrame": 92,
+      "endFrame": 177,
       "act": 1,
       "words": [
         {
           "text": "It's",
-          "startFrame": 93,
-          "endFrame": 99
+          "startFrame": 92,
+          "endFrame": 98
         },
         {
-          "text": "through",
-          "startFrame": 100,
-          "endFrame": 105
+          "text": "all",
+          "startFrame": 98,
+          "endFrame": 103
         },
         {
-          "text": "photosynthesis",
-          "startFrame": 106,
-          "endFrame": 130
+          "text": "thanks",
+          "startFrame": 103,
+          "endFrame": 111
         },
         {
-          "text": "nature's",
-          "startFrame": 135,
-          "endFrame": 146
+          "text": "to",
+          "startFrame": 112,
+          "endFrame": 115
         },
         {
-          "text": "incredible",
-          "startFrame": 147,
-          "endFrame": 163
+          "text": "an",
+          "startFrame": 116,
+          "endFrame": 118
         },
         {
-          "text": "food-making",
-          "startFrame": 164,
-          "endFrame": 180
+          "text": "amazing",
+          "startFrame": 119,
+          "endFrame": 131
         },
         {
           "text": "process",
-          "startFrame": 181,
-          "endFrame": 198
+          "startFrame": 131,
+          "endFrame": 146
+        },
+        {
+          "text": "photosynthesis",
+          "startFrame": 151,
+          "endFrame": 177
         }
       ]
     },
     {
-      "text": "Green plants convert sunlight, water, and carbon dioxide into food.",
-      "startFrame": 222,
-      "endFrame": 329,
+      "text": "Plants use sunlight, water, and carbon dioxide to make food.",
+      "startFrame": 201,
+      "endFrame": 296,
       "act": 1,
       "words": [
         {
-          "text": "Green",
-          "startFrame": 222,
-          "endFrame": 231
+          "text": "Plants",
+          "startFrame": 201,
+          "endFrame": 210
         },
         {
-          "text": "plants",
-          "startFrame": 231,
-          "endFrame": 239
-        },
-        {
-          "text": "convert",
-          "startFrame": 240,
-          "endFrame": 250
+          "text": "use",
+          "startFrame": 211,
+          "endFrame": 216
         },
         {
           "text": "sunlight",
-          "startFrame": 251,
-          "endFrame": 264
+          "startFrame": 216,
+          "endFrame": 229
         },
         {
           "text": "water",
-          "startFrame": 268,
-          "endFrame": 278
+          "startFrame": 233,
+          "endFrame": 242
         },
         {
           "text": "and",
-          "startFrame": 283,
-          "endFrame": 286
+          "startFrame": 247,
+          "endFrame": 250
         },
         {
           "text": "carbon",
-          "startFrame": 287,
-          "endFrame": 296
+          "startFrame": 250,
+          "endFrame": 260
         },
         {
           "text": "dioxide",
-          "startFrame": 297,
-          "endFrame": 312
+          "startFrame": 260,
+          "endFrame": 277
         },
         {
-          "text": "into",
-          "startFrame": 313,
-          "endFrame": 318
+          "text": "to",
+          "startFrame": 277,
+          "endFrame": 280
+        },
+        {
+          "text": "make",
+          "startFrame": 280,
+          "endFrame": 285
         },
         {
           "text": "food",
-          "startFrame": 319,
-          "endFrame": 329
+          "startFrame": 286,
+          "endFrame": 296
         }
       ]
     },
     {
-      "text": "This vital process also releases the oxygen we all breathe.",
-      "startFrame": 354,
-      "endFrame": 445,
+      "text": "This vital process also releases the oxygen we breathe.",
+      "startFrame": 320,
+      "endFrame": 405,
       "act": 1,
       "words": [
         {
           "text": "This",
-          "startFrame": 354,
-          "endFrame": 360
+          "startFrame": 320,
+          "endFrame": 327
         },
         {
           "text": "vital",
-          "startFrame": 361,
-          "endFrame": 370
+          "startFrame": 327,
+          "endFrame": 337
         },
         {
           "text": "process",
-          "startFrame": 371,
-          "endFrame": 383
+          "startFrame": 338,
+          "endFrame": 350
         },
         {
           "text": "also",
-          "startFrame": 384,
-          "endFrame": 392
+          "startFrame": 351,
+          "endFrame": 359
         },
         {
           "text": "releases",
-          "startFrame": 393,
-          "endFrame": 405
+          "startFrame": 360,
+          "endFrame": 372
         },
         {
           "text": "the",
-          "startFrame": 406,
-          "endFrame": 409
+          "startFrame": 372,
+          "endFrame": 375
         },
         {
           "text": "oxygen",
-          "startFrame": 409,
-          "endFrame": 423
+          "startFrame": 376,
+          "endFrame": 389
         },
         {
           "text": "we",
-          "startFrame": 423,
-          "endFrame": 427
-        },
-        {
-          "text": "all",
-          "startFrame": 427,
-          "endFrame": 432
+          "startFrame": 390,
+          "endFrame": 394
         },
         {
           "text": "breathe",
-          "startFrame": 432,
-          "endFrame": 445
+          "startFrame": 394,
+          "endFrame": 405
         }
       ]
     },
     {
-      "text": "Chlorophyll, the green pigment, captures sunlight's energy.",
-      "startFrame": 469,
-      "endFrame": 558,
+      "text": "Inside leaves, chlorophyll captures sunlight's powerful energy.",
+      "startFrame": 429,
+      "endFrame": 527,
       "act": 2,
       "words": [
         {
-          "text": "Chlorophyll",
-          "startFrame": 469,
-          "endFrame": 487
+          "text": "Inside",
+          "startFrame": 429,
+          "endFrame": 443
         },
         {
-          "text": "the",
-          "startFrame": 490,
-          "endFrame": 493
+          "text": "leaves",
+          "startFrame": 443,
+          "endFrame": 453
         },
         {
-          "text": "green",
-          "startFrame": 494,
-          "endFrame": 501
-        },
-        {
-          "text": "pigment",
-          "startFrame": 502,
-          "endFrame": 513
+          "text": "chlorophyll",
+          "startFrame": 459,
+          "endFrame": 473
         },
         {
           "text": "captures",
-          "startFrame": 518,
-          "endFrame": 530
+          "startFrame": 473,
+          "endFrame": 485
         },
         {
           "text": "sunlight's",
-          "startFrame": 531,
-          "endFrame": 543
+          "startFrame": 486,
+          "endFrame": 499
+        },
+        {
+          "text": "powerful",
+          "startFrame": 499,
+          "endFrame": 513
         },
         {
           "text": "energy",
-          "startFrame": 544,
-          "endFrame": 558
+          "startFrame": 513,
+          "endFrame": 527
         }
       ]
     },
     {
-      "text": "Water and carbon dioxide are absorbed by the plant.",
-      "startFrame": 581,
-      "endFrame": 661,
+      "text": "Water from roots and CO2 from air enter.",
+      "startFrame": 551,
+      "endFrame": 622,
       "act": 2,
       "words": [
         {
           "text": "Water",
-          "startFrame": 581,
-          "endFrame": 593
+          "startFrame": 551,
+          "endFrame": 562
+        },
+        {
+          "text": "from",
+          "startFrame": 562,
+          "endFrame": 568
+        },
+        {
+          "text": "roots",
+          "startFrame": 568,
+          "endFrame": 576
         },
         {
           "text": "and",
-          "startFrame": 593,
-          "endFrame": 596
+          "startFrame": 576,
+          "endFrame": 579
         },
         {
-          "text": "carbon",
-          "startFrame": 597,
-          "endFrame": 607
+          "text": "CO2",
+          "startFrame": 580,
+          "endFrame": 599
         },
         {
-          "text": "dioxide",
-          "startFrame": 607,
-          "endFrame": 625
+          "text": "from",
+          "startFrame": 600,
+          "endFrame": 605
         },
         {
-          "text": "are",
-          "startFrame": 625,
-          "endFrame": 628
+          "text": "air",
+          "startFrame": 606,
+          "endFrame": 611
         },
         {
-          "text": "absorbed",
-          "startFrame": 629,
-          "endFrame": 641
-        },
-        {
-          "text": "by",
-          "startFrame": 641,
-          "endFrame": 645
-        },
-        {
-          "text": "the",
-          "startFrame": 646,
-          "endFrame": 649
-        },
-        {
-          "text": "plant",
-          "startFrame": 649,
-          "endFrame": 661
+          "text": "enter",
+          "startFrame": 611,
+          "endFrame": 622
         }
       ]
     },
     {
-      "text": "This energy transforms them into glucose, the plant's food.",
-      "startFrame": 685,
-      "endFrame": 773,
+      "text": "Light energy converts these into glucose, plant's food.",
+      "startFrame": 646,
+      "endFrame": 729,
       "act": 2,
       "words": [
         {
-          "text": "This",
-          "startFrame": 685,
-          "endFrame": 692
+          "text": "Light",
+          "startFrame": 646,
+          "endFrame": 653
         },
         {
           "text": "energy",
-          "startFrame": 693,
-          "endFrame": 702
+          "startFrame": 654,
+          "endFrame": 664
         },
         {
-          "text": "transforms",
-          "startFrame": 703,
-          "endFrame": 720
+          "text": "converts",
+          "startFrame": 665,
+          "endFrame": 678
         },
         {
-          "text": "them",
-          "startFrame": 720,
-          "endFrame": 724
+          "text": "these",
+          "startFrame": 679,
+          "endFrame": 684
         },
         {
           "text": "into",
-          "startFrame": 725,
-          "endFrame": 730
+          "startFrame": 685,
+          "endFrame": 690
         },
         {
           "text": "glucose",
-          "startFrame": 730,
-          "endFrame": 745
-        },
-        {
-          "text": "the",
-          "startFrame": 749,
-          "endFrame": 752
+          "startFrame": 691,
+          "endFrame": 705
         },
         {
           "text": "plant's",
-          "startFrame": 753,
-          "endFrame": 761
+          "startFrame": 709,
+          "endFrame": 718
         },
         {
           "text": "food",
-          "startFrame": 762,
-          "endFrame": 773
+          "startFrame": 718,
+          "endFrame": 729
         }
       ]
     },
     {
-      "text": "Oxygen is released as a vital byproduct for all life.",
-      "startFrame": 797,
-      "endFrame": 884,
+      "text": "Oxygen is released, completing this incredible chemical reaction.",
+      "startFrame": 753,
+      "endFrame": 856,
       "act": 2,
       "words": [
         {
           "text": "Oxygen",
-          "startFrame": 797,
-          "endFrame": 813
+          "startFrame": 753,
+          "endFrame": 768
         },
         {
           "text": "is",
-          "startFrame": 813,
-          "endFrame": 817
+          "startFrame": 769,
+          "endFrame": 772
         },
         {
           "text": "released",
-          "startFrame": 817,
-          "endFrame": 829
+          "startFrame": 772,
+          "endFrame": 786
         },
         {
-          "text": "as",
-          "startFrame": 829,
-          "endFrame": 833
+          "text": "completing",
+          "startFrame": 790,
+          "endFrame": 804
         },
         {
-          "text": "a",
-          "startFrame": 833,
-          "endFrame": 835
+          "text": "this",
+          "startFrame": 805,
+          "endFrame": 810
         },
         {
-          "text": "vital",
-          "startFrame": 836,
-          "endFrame": 845
-        },
-        {
-          "text": "byproduct",
-          "startFrame": 846,
-          "endFrame": 862
-        },
-        {
-          "text": "for",
-          "startFrame": 862,
-          "endFrame": 867
-        },
-        {
-          "text": "all",
-          "startFrame": 868,
-          "endFrame": 872
-        },
-        {
-          "text": "life",
-          "startFrame": 873,
-          "endFrame": 884
-        }
-      ]
-    },
-    {
-      "text": "Photosynthesis converts light energy into essential chemical energy for life.",
-      "startFrame": 908,
-      "endFrame": 1026,
-      "act": 3,
-      "words": [
-        {
-          "text": "Photosynthesis",
-          "startFrame": 908,
-          "endFrame": 932
-        },
-        {
-          "text": "converts",
-          "startFrame": 933,
-          "endFrame": 946
-        },
-        {
-          "text": "light",
-          "startFrame": 947,
-          "endFrame": 953
-        },
-        {
-          "text": "energy",
-          "startFrame": 954,
-          "endFrame": 965
-        },
-        {
-          "text": "into",
-          "startFrame": 966,
-          "endFrame": 972
-        },
-        {
-          "text": "essential",
-          "startFrame": 973,
-          "endFrame": 986
+          "text": "incredible",
+          "startFrame": 810,
+          "endFrame": 826
         },
         {
           "text": "chemical",
-          "startFrame": 987,
-          "endFrame": 999
+          "startFrame": 827,
+          "endFrame": 838
         },
         {
-          "text": "energy",
-          "startFrame": 999,
-          "endFrame": 1009
-        },
-        {
-          "text": "for",
-          "startFrame": 1010,
-          "endFrame": 1014
-        },
-        {
-          "text": "life",
-          "startFrame": 1015,
-          "endFrame": 1026
+          "text": "reaction",
+          "startFrame": 839,
+          "endFrame": 856
         }
       ]
     },
     {
-      "text": "Plants produce glucose, their food, from carbon dioxide and water.",
-      "startFrame": 1051,
-      "endFrame": 1154,
-      "act": 3,
-      "words": [
-        {
-          "text": "Plants",
-          "startFrame": 1051,
-          "endFrame": 1059
-        },
-        {
-          "text": "produce",
-          "startFrame": 1060,
-          "endFrame": 1070
-        },
-        {
-          "text": "glucose",
-          "startFrame": 1070,
-          "endFrame": 1085
-        },
-        {
-          "text": "their",
-          "startFrame": 1089,
-          "endFrame": 1094
-        },
-        {
-          "text": "food",
-          "startFrame": 1095,
-          "endFrame": 1104
-        },
-        {
-          "text": "from",
-          "startFrame": 1108,
-          "endFrame": 1113
-        },
-        {
-          "text": "carbon",
-          "startFrame": 1114,
-          "endFrame": 1123
-        },
-        {
-          "text": "dioxide",
-          "startFrame": 1124,
-          "endFrame": 1140
-        },
-        {
-          "text": "and",
-          "startFrame": 1140,
-          "endFrame": 1143
-        },
-        {
-          "text": "water",
-          "startFrame": 1144,
-          "endFrame": 1154
-        }
-      ]
-    },
-    {
-      "text": "This process also releases the oxygen vital for animal respiration.",
-      "startFrame": 1179,
-      "endFrame": 1284,
+      "text": "This vital process fuels plants and provides the oxygen we need.",
+      "startFrame": 880,
+      "endFrame": 975,
       "act": 3,
       "words": [
         {
           "text": "This",
-          "startFrame": 1179,
-          "endFrame": 1185
-        },
-        {
-          "text": "process",
-          "startFrame": 1186,
-          "endFrame": 1198
-        },
-        {
-          "text": "also",
-          "startFrame": 1199,
-          "endFrame": 1207
-        },
-        {
-          "text": "releases",
-          "startFrame": 1208,
-          "endFrame": 1220
-        },
-        {
-          "text": "the",
-          "startFrame": 1221,
-          "endFrame": 1224
-        },
-        {
-          "text": "oxygen",
-          "startFrame": 1224,
-          "endFrame": 1238
+          "startFrame": 880,
+          "endFrame": 886
         },
         {
           "text": "vital",
-          "startFrame": 1239,
-          "endFrame": 1248
+          "startFrame": 887,
+          "endFrame": 896
         },
         {
-          "text": "for",
-          "startFrame": 1249,
-          "endFrame": 1254
+          "text": "process",
+          "startFrame": 897,
+          "endFrame": 909
         },
         {
-          "text": "animal",
-          "startFrame": 1254,
-          "endFrame": 1263
+          "text": "fuels",
+          "startFrame": 909,
+          "endFrame": 919
         },
         {
-          "text": "respiration",
-          "startFrame": 1264,
-          "endFrame": 1284
+          "text": "plants",
+          "startFrame": 919,
+          "endFrame": 929
+        },
+        {
+          "text": "and",
+          "startFrame": 930,
+          "endFrame": 933
+        },
+        {
+          "text": "provides",
+          "startFrame": 933,
+          "endFrame": 945
+        },
+        {
+          "text": "the",
+          "startFrame": 946,
+          "endFrame": 949
+        },
+        {
+          "text": "oxygen",
+          "startFrame": 949,
+          "endFrame": 962
+        },
+        {
+          "text": "we",
+          "startFrame": 963,
+          "endFrame": 966
+        },
+        {
+          "text": "need",
+          "startFrame": 967,
+          "endFrame": 975
         }
       ]
     },
     {
-      "text": "Photosynthesis sustains nearly all life on Earth, truly remarkable.",
-      "startFrame": 1308,
-      "endFrame": 1413,
+      "text": "Photosynthesis is the fundamental basis for all life on Earth.",
+      "startFrame": 999,
+      "endFrame": 1093,
       "act": 3,
       "words": [
         {
           "text": "Photosynthesis",
-          "startFrame": 1308,
-          "endFrame": 1330
+          "startFrame": 999,
+          "endFrame": 1024
         },
         {
-          "text": "sustains",
-          "startFrame": 1331,
-          "endFrame": 1344
+          "text": "is",
+          "startFrame": 1024,
+          "endFrame": 1028
         },
         {
-          "text": "nearly",
-          "startFrame": 1345,
-          "endFrame": 1353
+          "text": "the",
+          "startFrame": 1028,
+          "endFrame": 1031
+        },
+        {
+          "text": "fundamental",
+          "startFrame": 1032,
+          "endFrame": 1050
+        },
+        {
+          "text": "basis",
+          "startFrame": 1050,
+          "endFrame": 1061
+        },
+        {
+          "text": "for",
+          "startFrame": 1062,
+          "endFrame": 1067
         },
         {
           "text": "all",
-          "startFrame": 1354,
-          "endFrame": 1360
+          "startFrame": 1068,
+          "endFrame": 1072
         },
         {
           "text": "life",
-          "startFrame": 1361,
-          "endFrame": 1367
+          "startFrame": 1073,
+          "endFrame": 1079
         },
         {
           "text": "on",
-          "startFrame": 1368,
-          "endFrame": 1371
+          "startFrame": 1080,
+          "endFrame": 1083
         },
         {
           "text": "Earth",
-          "startFrame": 1372,
-          "endFrame": 1379
+          "startFrame": 1084,
+          "endFrame": 1093
+        }
+      ]
+    },
+    {
+      "text": "It sustains ecosystems, feeding countless organisms, including us humans.",
+      "startFrame": 1117,
+      "endFrame": 1234,
+      "act": 3,
+      "words": [
+        {
+          "text": "It",
+          "startFrame": 1117,
+          "endFrame": 1122
         },
         {
-          "text": "truly",
-          "startFrame": 1384,
-          "endFrame": 1393
+          "text": "sustains",
+          "startFrame": 1123,
+          "endFrame": 1135
         },
         {
-          "text": "remarkable",
-          "startFrame": 1394,
-          "endFrame": 1413
+          "text": "ecosystems",
+          "startFrame": 1136,
+          "endFrame": 1155
+        },
+        {
+          "text": "feeding",
+          "startFrame": 1161,
+          "endFrame": 1169
+        },
+        {
+          "text": "countless",
+          "startFrame": 1170,
+          "endFrame": 1181
+        },
+        {
+          "text": "organisms",
+          "startFrame": 1182,
+          "endFrame": 1199
+        },
+        {
+          "text": "including",
+          "startFrame": 1202,
+          "endFrame": 1215
+        },
+        {
+          "text": "us",
+          "startFrame": 1216,
+          "endFrame": 1219
+        },
+        {
+          "text": "humans",
+          "startFrame": 1220,
+          "endFrame": 1234
+        }
+      ]
+    },
+    {
+      "text": "Without it, our planet would be barren, devoid of complex life.",
+      "startFrame": 1257,
+      "endFrame": 1352,
+      "act": 3,
+      "words": [
+        {
+          "text": "Without",
+          "startFrame": 1257,
+          "endFrame": 1268
+        },
+        {
+          "text": "it",
+          "startFrame": 1268,
+          "endFrame": 1272
+        },
+        {
+          "text": "our",
+          "startFrame": 1278,
+          "endFrame": 1281
+        },
+        {
+          "text": "planet",
+          "startFrame": 1281,
+          "endFrame": 1290
+        },
+        {
+          "text": "would",
+          "startFrame": 1291,
+          "endFrame": 1294
+        },
+        {
+          "text": "be",
+          "startFrame": 1295,
+          "endFrame": 1298
+        },
+        {
+          "text": "barren",
+          "startFrame": 1298,
+          "endFrame": 1308
+        },
+        {
+          "text": "devoid",
+          "startFrame": 1312,
+          "endFrame": 1323
+        },
+        {
+          "text": "of",
+          "startFrame": 1323,
+          "endFrame": 1326
+        },
+        {
+          "text": "complex",
+          "startFrame": 1326,
+          "endFrame": 1340
+        },
+        {
+          "text": "life",
+          "startFrame": 1340,
+          "endFrame": 1352
         }
       ]
     }
   ],
-  "totalFrames": 1443
+  "totalFrames": 1382
 }
