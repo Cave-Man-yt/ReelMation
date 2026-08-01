@@ -2,7 +2,7 @@
 
 **AI-Powered Educational Reel Generator** — Fully automated pipeline that transforms any topic into a professional short-form video ready for YouTube Shorts, Instagram Reels, and TikTok, wrapped in a sleek **Dark Neomorphism (Dark Soft-UI)** web interface.
 
-> Built for hackathon by [Cave-Man-yt](https://github.com/Cave-Man-yt)
+> Built for Hackathon by Nataraj, Arjun, Neelesh
 
 ---
 
@@ -86,12 +86,23 @@ All in one command or via an interactive Dark Neomorphic web workspace. No manua
 |-------|-----------|
 | **AI Scripting** | Gemini AI (Cloud Code Platform API) |
 | **Text-to-Speech** | Edge-TTS with word boundary timestamps |
-| **Image Generation** | ComfyUI + Stable Diffusion (local GPU) |
+| **Image Generation** | ComfyUI + Z-Image Turbo / Qwen3 4B (local GPU) |
 | **Video Rendering** | Remotion (React-based video renderer) |
 | **Web Frontend** | React + TypeScript + Vite + Motion |
 | **Web Server** | Express + Server-Sent Events (SSE) |
 | **UI Aesthetics** | **Dark Neomorphism (Dark Soft-UI)** — Custom CSS design system, dark obsidian canvas (`#12151e`), specular highlight & pitch black dual shadows, electric purple/indigo gradient CTAs, Google Fonts (Inter) |
 | **3D Renderers** | Three.js particle fields & neural network visualization synced to dark theme |
+
+### 🎨 ComfyUI Models
+
+Reelmation utilizes a local ComfyUI workflow (`Z-image-T2I.json`) for scene image generation:
+
+| Layer | Model / File | Specification |
+|-------|--------------|---------------|
+| **Diffusion Model (UNET)** | `z_image_turbo_fp8_e4m3fn.safetensors` | Z-Image Turbo 8-step distillation model |
+| **Text Encoder** | `qwen3_4b_fp8_scaled.safetensors` | Qwen3 4B FP8 CLIP Loader |
+| **VAE** | `ae.safetensors` | SD3 / Lumina VAE |
+| **Sampler / Scheduler** | `KSamplerAdvanced` | `res_multistep` sampler, `simple` scheduler, `AuraFlow` shift 3, 8 steps, CFG 1.0 |
 
 ---
 
@@ -207,7 +218,7 @@ Every generated reel is automatically scored (0–100, grade A+ to F):
 
 ## 📄 License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ---
 
