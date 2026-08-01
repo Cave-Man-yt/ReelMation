@@ -22,6 +22,10 @@ All in one command or via an interactive Dark Neomorphic web workspace. No manua
 
 ## 🎥 Demo
 
+<p align="center">
+  <video src="assets/Timeline3.mov" width="100%" controls></video>
+</p>
+
 ```bash
 ./venv/bin/python main.py "How black holes bend light"
 ```
