@@ -23,7 +23,11 @@ All in one command or via an interactive Dark Neomorphic web workspace. No manua
 ## 🎥 Demo
 
 <p align="center">
-  <video src="assets/Timeline3.mov" width="100%" controls></video>
+  <a href="assets/Timeline3.mov">
+    <img src="assets/demo.gif" alt="Reelmation Demo Video" width="100%" />
+  </a>
+  <br>
+  <sub>🎬 <i>Click GIF to view full resolution video file (<a href="assets/Timeline3.mov">Timeline3.mov</a>)</i></sub>
 </p>
 
 ```bash
